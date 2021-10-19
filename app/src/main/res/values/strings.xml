@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">Rock Paper Scissor Chapter 6 And 7</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Intro Page String Resource -->
+    <string name="text_intro_page_first">Android game that makes you feel like superhero but your power is just SUIT Rock, Paper, Scissors</string>
+    <string name="text_intro_page_second">Be able to play individually against robot. Destroy it!</string>
+    <string name="text_intro_page_third">Invite your friend, family, or everyone to play with you!</string>
+    <string name="text_title_image_intro_page_first">Suiterhero</string>
+    <string name="text_title_image_intro_page_second">Against Robot</string>
+    <string name="text_title_image_intro_page_third">Family Friendly Game</string>
+
 </resources>

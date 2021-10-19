@@ -10,6 +10,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RockPaperScissorChapter6And7">
         <activity
+            android:name=".ui.game.MenuActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ui.intro.IntroActivity"
+            android:windowSoftInputMode="stateUnchanged"
+            android:exported="true" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
