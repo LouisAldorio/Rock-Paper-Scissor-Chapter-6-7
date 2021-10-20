@@ -47,29 +47,28 @@ class IntroFragment : Fragment() {
     private fun setPage() {
         when (type) {
             IntroType.ONE -> {
-//                binding.ivBanner.setImageResource(R.drawable.ic_player_to_player)
                 isInsertName(false)
-                binding.tvInstruction.text = getString(R.string.text_intro_page_first)
+                binding.ivBanner.setImageResource(R.drawable.img_intro_page_1)
                 binding.tvTitleImage.text = getString(R.string.text_title_image_intro_page_first)
+                binding.tvInstruction.text = getString(R.string.text_intro_page_first)
             }
             IntroType.TWO -> {
-//                binding.ivBanner.setImageResource(R.drawable.ic_player_to_com)
                 isInsertName(false)
-                binding.tvInstruction.text = getString(R.string.text_intro_page_second)
+                binding.ivBanner.setImageResource(R.drawable.img_intro_page_2)
                 binding.tvTitleImage.text = getString(R.string.text_title_image_intro_page_second)
+                binding.tvInstruction.text = getString(R.string.text_intro_page_second)
             }
             IntroType.THREE -> {
-//                binding.ivBanner.setImageResource(R.drawable.ic_person)
                 isInsertName(false)
-                binding.tvInstruction.text = getString(R.string.text_intro_page_third)
+                binding.ivBanner.setImageResource(R.drawable.img_intro_page_3)
                 binding.tvTitleImage.text = getString(R.string.text_title_image_intro_page_third)
-
-//                binding.etUsername.setText(UserPreference(requireContext()).username)
+                binding.tvInstruction.text = getString(R.string.text_intro_page_third)
             }
             IntroType.FOUR -> {
+                isInsertName(true)
+                binding.ivInsertPlayerName.setImageResource(R.drawable.img_input_name_page)
                 if (!UserPreference(requireContext()).username.isNullOrBlank())
                     binding.tietPlayerName.setText(UserPreference(requireContext()).username)
-                isInsertName(true)
             }
         }
     }

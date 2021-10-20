@@ -10,5 +10,8 @@
     <string name="text_title_image_intro_page_first">Suiterhero</string>
     <string name="text_title_image_intro_page_second">Against Robot</string>
     <string name="text_title_image_intro_page_third">Family Friendly Game</string>
+    <string name="text_title_insert_player_name"><![CDATA[Welcome,\nSuiterman & Suiterwoman]]></string>
+    <string name="text_hint_insert_player_name">Insert Player Name</string>
+    <string name="text_btn_get_started">Get Started</string>
 
 </resources>
