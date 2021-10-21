@@ -31,12 +31,13 @@ class VideoTutorialDialog : DialogFragment() {
         dialog?.window?.setBackgroundDrawableResource(R.drawable.rounded_corner_shape);
         _binding = DialogFragmentVideoTutorialBinding.inflate(inflater, container, false)
 
+        setUpWebview()
         return binding.root
     }
 
+
     @SuppressLint("SetJavaScriptEnabled")
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    private fun setUpWebview() {
         val webView = binding.wvVideoTutorial
         progressBarHolder = binding.progressBarHolder
 
@@ -58,9 +59,11 @@ class VideoTutorialDialog : DialogFragment() {
                 outAnimation.duration = 200
                 progressBarHolder.animation = outAnimation
                 progressBarHolder.visibility = View.GONE
+
+                webView.visibility = View.VISIBLE
             }
         }
-        webView.loadUrl("https://m.youtube.com/embed/" + "84ur94_rSss" + "?autoplay=1&vq=small")
+        webView.loadUrl("https://m.youtube.com/embed/" + "84ur94_rSss")
     }
 
 
