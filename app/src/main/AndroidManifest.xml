@@ -13,20 +13,24 @@
         android:usesCleartextTraffic="true"
         android:theme="@style/Theme.RockPaperScissorChapter6And7">
         <activity
-            android:name=".ui.game.MenuActivity"
-            android:exported="true" />
-        <activity
-            android:name=".ui.intro.IntroActivity"
-            android:windowSoftInputMode="stateUnchanged"
-            android:exported="true" />
-        <activity
-            android:name=".MainActivity"
+            android:name=".ui.splashscreen.SplashScreenActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.game.MenuActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ui.intro.IntroActivity"
+            android:exported="true"
+            android:windowSoftInputMode="stateUnchanged" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
         </activity>
     </application>
 
