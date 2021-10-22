@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.catnip.rockpaperscissorchapter6and7.R
 import com.catnip.rockpaperscissorchapter6and7.enumeration.IntroType
-import com.catnip.rockpaperscissorchapter6and7.data.preference.UserPreference
+import com.catnip.rockpaperscissorchapter6and7.data.local.preference.UserPreference
 import com.catnip.rockpaperscissorchapter6and7.databinding.FragmentIntroBinding
 import com.catnip.rockpaperscissorchapter6and7.ui.game.MenuActivity
 import com.catnip.rockpaperscissorchapter6and7.ui.intro.IntroActivity

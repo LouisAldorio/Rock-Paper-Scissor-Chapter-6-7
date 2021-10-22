@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RockPaperScissorChapter6And7">
         <activity
+            android:name=".ui.game.mode.GameModeActivity"
+            android:exported="true" />
+        <activity
             android:name=".ui.splashscreen.SplashScreenActivity"
             android:exported="true">
             <intent-filter>
@@ -27,8 +30,7 @@
             android:windowSoftInputMode="stateUnchanged" />
         <activity
             android:name=".MainActivity"
-            android:exported="true">
-        </activity>
+            android:exported="true"></activity>
     </application>
 
 </manifest>

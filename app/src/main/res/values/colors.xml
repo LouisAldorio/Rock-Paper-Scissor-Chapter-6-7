@@ -11,4 +11,7 @@
     <!-- Colour Resource   -->
     <color name="primaryColor">#5C24B4</color>
     <color name="secondaryColor">#FE00EA</color>
+    <color name="ThirdColor">#AC04FC</color>
+    <color name="FourthColor">#FFD700</color>
+    <color name="transparent">#00000000</color>
 </resources>

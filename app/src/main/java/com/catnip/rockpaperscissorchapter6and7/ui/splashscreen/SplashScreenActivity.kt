@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
 import com.catnip.rockpaperscissorchapter6and7.R
+import com.catnip.rockpaperscissorchapter6and7.ui.game.mode.GameModeActivity
 import com.catnip.rockpaperscissorchapter6and7.ui.intro.IntroActivity
 
 class SplashScreenActivity : AppCompatActivity() {
