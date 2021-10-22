@@ -14,14 +14,12 @@ import com.catnip.rockpaperscissorchapter6and7.databinding.DialogFragmentVideoTu
 import com.catnip.rockpaperscissorchapter6and7.utils.ProtectedMediaChromeClient
 import android.widget.FrameLayout
 import android.view.animation.AlphaAnimation
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 
 
 class VideoTutorialDialog : DialogFragment() {
 
-    private lateinit var inAnimation: AlphaAnimation
-    private lateinit var outAnimation: AlphaAnimation
-
-    private lateinit var progressBarHolder: FrameLayout
 
     private var _binding: DialogFragmentVideoTutorialBinding? = null
     private val binding get() = _binding!!
@@ -31,40 +29,23 @@ class VideoTutorialDialog : DialogFragment() {
         dialog?.window?.setBackgroundDrawableResource(R.drawable.rounded_corner_shape);
         _binding = DialogFragmentVideoTutorialBinding.inflate(inflater, container, false)
 
-        setUpWebview()
+        setUpYoutubePlayer()
         return binding.root
     }
 
+    private fun setUpYoutubePlayer() {
+        val youtubePlayerView = binding.youtubePlayerView
+        lifecycle.addObserver(youtubePlayerView)
 
-    @SuppressLint("SetJavaScriptEnabled")
-    private fun setUpWebview() {
-        val webView = binding.wvVideoTutorial
-        progressBarHolder = binding.progressBarHolder
+        youtubePlayerView.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
+            override fun onReady(youTubePlayer: YouTubePlayer) {
+                super.onReady(youTubePlayer)
 
-        inAnimation = AlphaAnimation(0f, 1f)
-        inAnimation.duration = 200
-        progressBarHolder.setAnimation(inAnimation);
-        progressBarHolder.setVisibility(View.VISIBLE);
-
-        webView.settings.javaScriptEnabled = true
-        webView.settings.allowContentAccess = true
-        webView.settings.domStorageEnabled = true
-        webView.webChromeClient = ProtectedMediaChromeClient()
-        webView.webViewClient = object : WebViewClient() {
-
-            override fun onPageFinished(view: WebView?, url: String?) {
-                super.onPageFinished(view, url)
-
-                outAnimation = AlphaAnimation(1f, 0f)
-                outAnimation.duration = 200
-                progressBarHolder.animation = outAnimation
-                progressBarHolder.visibility = View.GONE
-
-                webView.visibility = View.VISIBLE
+                youTubePlayer.loadVideo("84ur94_rSss", 0.0F)
             }
-        }
-        webView.loadUrl("https://m.youtube.com/embed/" + "84ur94_rSss")
+        })
     }
+
 
 
     override fun onDestroyView() {
