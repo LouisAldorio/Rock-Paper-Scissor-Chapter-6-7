@@ -21,4 +21,8 @@
     <string name="text_get_to_know_the_developers_who_developer_the_application">Get to know the developers who developer the application</string>
     <string name="text_how_to_play">How to Play</string>
 
+    <string name="text_title_insert_player_name"><![CDATA[Welcome,\nSuiterman & Suiterwoman]]></string>
+    <string name="text_hint_insert_player_name">Insert Player Name</string>
+    <string name="text_btn_get_started">Get Started</string>
+
 </resources>
