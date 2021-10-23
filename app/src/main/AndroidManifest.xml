@@ -14,6 +14,7 @@
         android:theme="@style/Theme.RockPaperScissorChapter6And7">
         <activity
             android:name=".ui.splashscreen.SplashScreenActivity"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,8 +27,7 @@
             android:exported="true" />
         <activity
             android:name=".ui.intro.IntroActivity"
-            android:exported="true"
-            android:windowSoftInputMode="stateUnchanged" />
+            android:exported="true" />
         <activity
             android:name=".MainActivity"
             android:exported="true">
