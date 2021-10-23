@@ -8,12 +8,14 @@ import com.catnip.rockpaperscissorchapter6and7.base.model.Resource
 import com.catnip.rockpaperscissorchapter6and7.data.local.room.PlayersDatabase
 import com.catnip.rockpaperscissorchapter6and7.data.local.room.datasource.PlayersDataSourceImpl
 import com.catnip.rockpaperscissorchapter6and7.data.model.Player
-import com.catnip.rockpaperscissorchapter6and7.databinding.FragmentPlayerListDialogBinding
+import com.catnip.rockpaperscissorchapter6and7.databinding.FragmentPlayerMenusBinding
 
 class PlayerMenusDialogFragment :
-    BaseDialogFragment<FragmentPlayerListDialogBinding, PlayerMenusContract.Presenter>(
-        FragmentPlayerListDialogBinding::inflate
+    BaseDialogFragment<FragmentPlayerMenusBinding, PlayerMenusContract.Presenter>(
+        FragmentPlayerMenusBinding::inflate
     ), PlayerMenusContract.View {
+
+    private val players: MutableList<String> = mutableListOf()
 
     override fun onResume() {
         super.onResume()
@@ -25,10 +27,20 @@ class PlayerMenusDialogFragment :
     }
 
     override fun setMenusData(data: List<Player>) {
-        val players: MutableList<String> = mutableListOf()
         data.forEach { players.add(it.name) }
-        val adapter = ArrayAdapter(requireContext(), R.layout.list_item, players)
-        (getViewBinding().menu.editText as? AutoCompleteTextView)?.setAdapter(adapter)
+        if (players.isNotEmpty()) {
+            if (players.size > 4)
+                (getViewBinding().menu.editText as? AutoCompleteTextView)?.dropDownHeight = 800
+
+            (getViewBinding().menu.editText as? AutoCompleteTextView)?.setAdapter(
+                ArrayAdapter(
+                    requireContext(),
+                    R.layout.list_item,
+                    players
+                )
+            )
+
+        }
     }
 
     override fun onDataCallback(response: Resource<List<Player>>) {
@@ -42,7 +54,7 @@ class PlayerMenusDialogFragment :
                 showLoading(false)
                 response.data?.let {
                     if (it.isEmpty()) {
-                        showError(true, "ERRORRRRR")
+                        showError(true, "Error")
                         showContent(false)
                     } else {
                         showError(false, null)
@@ -62,7 +74,7 @@ class PlayerMenusDialogFragment :
     override fun setClickListeners() {
         getViewBinding().btnGetStarted.setOnClickListener {
             val playerName = getViewBinding().menu.editText?.text.toString()
-            if (playerName.isNotBlank()) {
+            if (playerName.isNotBlank() && !players.contains(playerName)) {
                 getPresenter().insertPlayer(Player(null, playerName))
                 dialog?.dismiss()
             }
@@ -75,7 +87,6 @@ class PlayerMenusDialogFragment :
     override fun initView() {
         setClickListeners()
         dialog?.setCancelable(false)
-        dialog?.window?.setBackgroundDrawableResource(android.R.color.transparent)
     }
 
     override fun initPresenter() {

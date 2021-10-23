@@ -1,36 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".ui.game.mode.dialog.PlayerMenusDialogFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="320dp"
-        android:layout_height="match_parent"
-        android:layout_marginTop="50dp"
+        android:layout_height="wrap_content"
         android:background="@color/white"
-        android:padding="20dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:padding="20dp">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cv"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:layout_marginTop="50dp"
             app:cardBackgroundColor="@color/ThirdColor"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="8dp"
+                android:src="@drawable/ic_add_player"
+                tools:ignore="ContentDescription" />
+        </androidx.cardview.widget.CardView>
 
         <TextView
             android:id="@+id/tv_select_player"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="50dp"
-            android:text="Select Player 2"
+            android:text="@string/text_enter_player_2"
             android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -38,11 +41,11 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:layout_width="160sp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="8dp"
-            android:text="Select and play versus the player who has added"
+            android:text="@string/text_description_enter_player_2"
             android:textColor="@color/black"
             app:layout_constraintLeft_toRightOf="@id/cv"
             app:layout_constraintTop_toBottomOf="@id/tv_select_player" />
@@ -53,7 +56,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:hint="Enter or Select Player 2 Name"
+            android:hint="@string/text_hint_enter_player_2"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cv">
@@ -61,8 +64,8 @@
             <AutoCompleteTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:dropDownHeight="200dp"
                 android:inputType="text"
+                android:textColor="@color/ThirdColor"
                 tools:ignore="LabelFor" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -73,18 +76,11 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:backgroundTint="@color/primaryColor"
-            android:padding="20dp"
-            android:text="Start Game"
+            android:padding="16dp"
+            android:text="@string/btn_text_start_game"
+            android:textAllCaps="false"
+            android:textSize="20sp"
             app:layout_constraintTop_toBottomOf="@id/menu" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <ImageView
-        android:id="@+id/iv_logo"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginStart="100dp"
-        android:src="@drawable/img_logo"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>
