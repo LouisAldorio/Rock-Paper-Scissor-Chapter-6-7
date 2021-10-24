@@ -1,24 +1,35 @@
 package com.catnip.rockpaperscissorchapter6and7.ui.game
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
+
+import android.content.Intent
+import com.catnip.rockpaperscissorchapter6and7.base.BaseActivity
 import com.catnip.rockpaperscissorchapter6and7.databinding.ActivityMenuBinding
-import com.catnip.rockpaperscissorchapter6and7.ui.dialog.VideoTutorialDialog
+import com.catnip.rockpaperscissorchapter6and7.ui.game.mode.GameModeActivity
+import com.catnip.rockpaperscissorchapter6and7.ui.tutorial.VideoTutorialDialog
 
-class MenuActivity : AppCompatActivity() {
 
-    private lateinit var binding : ActivityMenuBinding
+class MenuActivity : BaseActivity<ActivityMenuBinding, MenuContract.Presenter>(
+    ActivityMenuBinding::inflate
+), MenuContract.View {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
+    override fun initView() {
         supportActionBar?.hide()
+        setClickListeners()
+    }
 
-        binding = ActivityMenuBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    override fun initPresenter() {
+        val presenter = MenuPresenter(this)
+        setPresenter(presenter)
+    }
 
-        binding.cvGameTutorial.setOnClickListener {
+    override fun setClickListeners() {
+        getViewBinding().cvGameTutorial.setOnClickListener {
             VideoTutorialDialog().show(supportFragmentManager, "Video Tutorial")
+        }
+
+        getViewBinding().cvGameMode.setOnClickListener {
+            val intent = Intent(this@MenuActivity, GameModeActivity::class.java)
+            startActivity(intent)
         }
     }
 }
