@@ -2,7 +2,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="450dp"
+    android:layout_height="500dp"
     android:orientation="vertical" >
 
     <TextView
@@ -23,12 +23,13 @@
     <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
         android:id="@+id/youtube_player_view"
         android:layout_width="match_parent"
-        android:layout_height="350dp"
-        android:layout_margin="4dp"
+        android:layout_margin="8dp"
+        android:layout_height="400dp"
         app:layout_constraintTop_toBottomOf="@id/tv_option_menu_title"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:autoPlay="true"
         app:videoId="84ur94_rSss"
         app:showFullScreenButton="true" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
