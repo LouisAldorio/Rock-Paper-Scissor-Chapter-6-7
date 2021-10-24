@@ -1,4 +1,4 @@
-package com.catnip.rockpaperscissorchapter6and7.data.preference
+package com.catnip.rockpaperscissorchapter6and7.data.local.preference
 
 import android.content.Context
 import android.content.SharedPreferences

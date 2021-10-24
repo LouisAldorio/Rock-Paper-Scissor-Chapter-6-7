@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-parcelize'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -48,5 +50,7 @@ dependencies {
     // AndroidX Capable version
     implementation 'com.github.AppIntro:AppIntro:6.1.0'
 
+    implementation "androidx.room:room-ktx:2.3.0"
+    kapt "androidx.room:room-compiler:2.3.0"
     implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:10.0.5'
 }

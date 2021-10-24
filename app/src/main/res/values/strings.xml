@@ -24,5 +24,14 @@
     <string name="text_title_insert_player_name"><![CDATA[Welcome,\nSuiterman & Suiterwoman]]></string>
     <string name="text_hint_insert_player_name">Insert Player Name</string>
     <string name="text_btn_get_started">Get Started</string>
-
+    <string name="text_title_game_mode">Game Mode</string>
+    <string name="text_pvr">PVR</string>
+    <string name="text_pvp">PVP</string>
+    <string name="text_player_name">Name: Player Name Viewer</string>
+    <string name="text_mode_pvr">Mode: Player 1 vs Robot</string>
+    <string name="text_mode_pvp">Mode: Player 1 vs Player 2</string>
+    <string name="text_enter_player_2">Enter Player 2</string>
+    <string name="text_description_enter_player_2">Add a new player 2 or select\nwho was previously added</string>
+    <string name="text_hint_enter_player_2">Enter or Select Player 2 Name</string>
+    <string name="btn_text_start_game">Start Game</string>
 </resources>
