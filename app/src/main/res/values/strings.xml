@@ -34,4 +34,5 @@
     <string name="text_description_enter_player_2">Add a new player 2 or select\nwho was previously added</string>
     <string name="text_hint_enter_player_2">Enter or Select Player 2 Name</string>
     <string name="btn_text_start_game">Start Game</string>
+    <string name="text_format_player_name">Name: %s</string>
 </resources>
