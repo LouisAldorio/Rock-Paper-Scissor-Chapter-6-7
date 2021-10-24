@@ -9,7 +9,7 @@ class IntroActivity : AppIntro2() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setTransformer(AppIntroPageTransformerType.Depth)
+        setTransformer(AppIntroPageTransformerType.SlideOver)
         isSkipButtonEnabled = false
         isButtonsEnabled = false
 

@@ -10,6 +10,17 @@
     <string name="text_title_image_intro_page_first">Suiterhero</string>
     <string name="text_title_image_intro_page_second">Against Robot</string>
     <string name="text_title_image_intro_page_third">Family Friendly Game</string>
+    <string name="text_title_options_menu">Options Menu</string>
+    <string name="text_game_mode">Game Mode</string>
+    <string name="text_play_in_player_1_vs_player_2_mode_or_player_1_vs_robot_mode">Play in player 1 vs player 2 mode or player 1 vs robot mode</string>
+    <string name="text_game_history">Game History</string>
+    <string name="text_look_at_your_previous_played_game_history">Look at your previous played Game History</string>
+    <string name="text_video_tutorial">Video Tutorial</string>
+    <string name="text_to_watch_video_tutorial_about_how_to_play_and_the_rules">To watch video tutorial about how to play and the rules</string>
+    <string name="text_about">About</string>
+    <string name="text_get_to_know_the_developers_who_developer_the_application">Get to know the developers who developer the application</string>
+    <string name="text_how_to_play">How to Play</string>
+
     <string name="text_title_insert_player_name"><![CDATA[Welcome,\nSuiterman & Suiterwoman]]></string>
     <string name="text_hint_insert_player_name">Insert Player Name</string>
     <string name="text_btn_get_started">Get Started</string>
