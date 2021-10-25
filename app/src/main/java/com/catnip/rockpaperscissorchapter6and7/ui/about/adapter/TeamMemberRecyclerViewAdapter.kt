@@ -1,6 +1,5 @@
 package com.catnip.rockpaperscissorchapter6and7.ui.about.adapter
 
-import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
@@ -12,7 +11,7 @@ import com.bumptech.glide.request.transition.Transition
 import com.catnip.rockpaperscissorchapter6and7.data.model.TeamMember
 import com.catnip.rockpaperscissorchapter6and7.databinding.TeamMemberItemBinding
 
-class TeamMemberRecyclerViewAdapter(private val context : Context, private val members : List<TeamMember>) :
+class TeamMemberRecyclerViewAdapter(private val members : List<TeamMember>) :
     RecyclerView.Adapter<TeamMemberRecyclerViewAdapter.TeamMemberViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TeamMemberViewHolder {
@@ -34,7 +33,7 @@ class TeamMemberRecyclerViewAdapter(private val context : Context, private val m
         fun bindView(item : TeamMember) {
             binding.tvTeamName.text = item.name
             binding.tvTeamRole.text = item.role
-            Glide.with(context).asBitmap().load(item.photoURL).into(object : CustomTarget<Bitmap>() {
+            Glide.with(binding.root.context).asBitmap().load(item.photoURL).into(object : CustomTarget<Bitmap>() {
                 override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
                     binding.ivTeamImage.setImageBitmap(resource)
                 }

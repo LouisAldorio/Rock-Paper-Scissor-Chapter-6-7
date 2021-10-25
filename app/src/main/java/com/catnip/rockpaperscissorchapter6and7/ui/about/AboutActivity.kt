@@ -39,7 +39,7 @@ class AboutActivity : BaseActivity<ActivityAboutBinding, AboutContract.Presenter
     }
 
     override fun renderTeamMembers(members : List<TeamMember>) {
-        val adapter = TeamMemberRecyclerViewAdapter(this, members)
+        val adapter = TeamMemberRecyclerViewAdapter(members)
         getViewBinding().rvTeamMembers.adapter = adapter
         getViewBinding().rvTeamMembers.layoutManager = LinearLayoutManager(this)
     }
