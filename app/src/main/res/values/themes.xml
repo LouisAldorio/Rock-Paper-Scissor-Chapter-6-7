@@ -14,10 +14,13 @@
         <!-- Customize your theme here. -->
 
         <item name="android:fontFamily">@font/fredoka_one_regular</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
     </style>
 
     <style name="roundedImageView" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">8dp</item>
     </style>
+
 </resources>
