@@ -87,7 +87,6 @@ class PlayerMenusDialogFragment :
     override fun showError(isErrorEnabled: Boolean, msg: String?) {}
     override fun initView() {
         setClickListeners()
-        dialog?.setCancelable(false)
     }
 
     override fun initPresenter() {
