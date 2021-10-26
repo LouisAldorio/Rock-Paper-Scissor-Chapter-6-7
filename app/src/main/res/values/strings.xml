@@ -39,4 +39,8 @@
 
     <string name="text_suit_game_in_rock_paper_and_scissor">Suit game in rock, paper and scissor</string>
     <string name="text_our_awesome_team">Our Awesome Team</string>
+    <string name="text_player_one">Player One</string>
+    <string name="text_com">COM</string>
+    <string name="text_vs">VS</string>
+    <string name="text_suiterhero">Suiterhero</string>
 </resources>
