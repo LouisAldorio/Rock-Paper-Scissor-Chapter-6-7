@@ -15,7 +15,7 @@ class PlayerMenusDialogFragment :
         FragmentPlayerMenusBinding::inflate
     ), PlayerMenusContract.View {
 
-    private val players: MutableList<String> = mutableListOf()
+    private var players: MutableList<String> = mutableListOf()
 
     override fun onResume() {
         super.onResume()
@@ -27,6 +27,7 @@ class PlayerMenusDialogFragment :
     }
 
     override fun setMenusData(data: List<Player>) {
+        players = mutableListOf()
         data.forEach { players.add(it.name) }
         if (players.isNotEmpty()) {
             if (players.size > 4)

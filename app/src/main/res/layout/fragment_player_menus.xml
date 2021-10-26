@@ -13,6 +13,9 @@
         android:padding="20dp">
 
         <androidx.cardview.widget.CardView
+            app:cardCornerRadius="16dp"
+            android:elevation="8dp"
+            app:cardElevation="10dp"
             android:id="@+id/cv"
             android:layout_width="80dp"
             android:layout_height="80dp"
