@@ -2,21 +2,32 @@ package com.catnip.rockpaperscissorchapter6and7.ui.intro.fragment
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.catnip.rockpaperscissorchapter6and7.R
+import com.catnip.rockpaperscissorchapter6and7.base.model.Resource
 import com.catnip.rockpaperscissorchapter6and7.enumeration.IntroType
 import com.catnip.rockpaperscissorchapter6and7.data.local.preference.UserPreference
+import com.catnip.rockpaperscissorchapter6and7.data.local.room.PlayersDatabase
+import com.catnip.rockpaperscissorchapter6and7.data.local.room.dao.PlayersDao
+import com.catnip.rockpaperscissorchapter6and7.data.model.Player
 import com.catnip.rockpaperscissorchapter6and7.databinding.FragmentIntroBinding
 import com.catnip.rockpaperscissorchapter6and7.ui.game.MenuActivity
 import com.catnip.rockpaperscissorchapter6and7.ui.intro.IntroActivity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import java.lang.Exception
 
 class IntroFragment : Fragment() {
 
     private var type: IntroType = IntroType.ONE
     private lateinit var binding: FragmentIntroBinding
+    private var player: Player? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,8 +78,10 @@ class IntroFragment : Fragment() {
             IntroType.FOUR -> {
                 isInsertName(true)
                 binding.ivInsertPlayerName.setImageResource(R.drawable.img_input_name_page)
-                if (!UserPreference(requireContext()).username.isNullOrBlank())
-                    binding.tietPlayerName.setText(UserPreference(requireContext()).username)
+                UserPreference(requireContext()).player?.let {
+                    binding.tietPlayerName.setText(it.name)
+                    player = it
+                }
             }
         }
     }
@@ -84,8 +97,26 @@ class IntroFragment : Fragment() {
     }
 
     private fun getStarted() {
-        UserPreference(requireContext()).username = binding.tietPlayerName.text.toString()
-        goToMenu()
+        if (binding.tietPlayerName.text.toString().isNotBlank()) {
+            if (player?.name == binding.tietPlayerName.text.toString()) {
+                val coroutineJob = Job()
+                val scope = CoroutineScope(Dispatchers.IO + coroutineJob)
+
+                scope.launch {
+                    val playerId = PlayersDatabase.getInstance(requireContext()).playersDao().insertPlayer(Player(player?.id, binding.tietPlayerName.text.toString()))
+                    UserPreference(requireContext()).player = Player(playerId, binding.tietPlayerName.text.toString())
+                }
+            } else {
+                val coroutineJob = Job()
+                val scope = CoroutineScope(Dispatchers.IO + coroutineJob)
+
+                scope.launch {
+                    val playerId = PlayersDatabase.getInstance(requireContext()).playersDao().insertPlayer(Player(null, binding.tietPlayerName.text.toString()))
+                    UserPreference(requireContext()).player = Player(playerId, binding.tietPlayerName.text.toString())
+                }
+            }
+            goToMenu()
+        }
     }
 
     private fun goToMenu() {

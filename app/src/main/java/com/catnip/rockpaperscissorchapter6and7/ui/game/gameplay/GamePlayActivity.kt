@@ -69,7 +69,7 @@ class GamePlayActivity : BaseActivity<ActivityGamePlayBinding, GamePlayContract.
 
     override fun initListeners() {
 
-        getViewBinding().tvPlayer.text = UserPreference(this).username
+        getViewBinding().tvPlayer.text = UserPreference(this).player?.name
 
         playerElements = arrayOf(
             getViewBinding().ivPlayerRock,
@@ -134,7 +134,7 @@ class GamePlayActivity : BaseActivity<ActivityGamePlayBinding, GamePlayContract.
             }else {
 
                 //replace id with the id got from preference later
-                player = UserPreference(this).username?.let {
+                player = UserPreference(this).player?.name?.let {
                     Player(1, it)
                 }
                 player?.choice = index
@@ -152,7 +152,7 @@ class GamePlayActivity : BaseActivity<ActivityGamePlayBinding, GamePlayContract.
         }else if(gameType == GameType.PLAYER_TO_COM) {
 
             //change id to the id from preference later
-            player = UserPreference(this).username?.let {
+            player = UserPreference(this).player?.name?.let {
                 Player(1, it)
             }
 

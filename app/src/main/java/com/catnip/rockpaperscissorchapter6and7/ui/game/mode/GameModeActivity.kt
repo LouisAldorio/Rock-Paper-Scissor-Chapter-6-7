@@ -24,9 +24,9 @@ class GameModeActivity : BaseActivity<ActivityGameModeBinding, GameModeContract.
 
     private fun setPlayerName() {
         getViewBinding().tvPlayerNamePvp.text =
-            getString(R.string.text_format_player_name, UserPreference(this).username)
+            getString(R.string.text_format_player_name, UserPreference(this).player?.name)
         getViewBinding().tvPlayerNamePvr.text =
-            getString(R.string.text_format_player_name, UserPreference(this).username)
+            getString(R.string.text_format_player_name, UserPreference(this).player?.name)
     }
 
     override fun initPresenter() {

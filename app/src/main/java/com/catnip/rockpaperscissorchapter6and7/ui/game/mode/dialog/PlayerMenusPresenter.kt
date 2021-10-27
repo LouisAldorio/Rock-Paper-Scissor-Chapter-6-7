@@ -37,7 +37,7 @@ class PlayerMenusPresenter(
                     Log.d("insertPlayer", "insertPlayer: $playerId")
                     view.onPlayerIDCallback(
                         Player(
-                        id = playerId.toInt(),
+                        id = playerId,
                         name = player.name
                     ))
                 }
