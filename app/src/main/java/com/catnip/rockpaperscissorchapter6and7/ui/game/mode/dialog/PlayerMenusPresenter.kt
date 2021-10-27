@@ -12,6 +12,7 @@ class PlayerMenusPresenter(
     private val view: PlayerMenusContract.View,
     private val repository: PlayerMenusContract.Repository
 ) : PlayerMenusContract.Presenter, BasePresenterImpl() {
+
     override fun getAllPlayers() {
         view.onDataCallback(Resource.Loading())
         scope.launch {
@@ -34,6 +35,11 @@ class PlayerMenusPresenter(
                 val playerId = repository.insertPlayer(player)
                 scope.launch(Dispatchers.Main) {
                     Log.d("insertPlayer", "insertPlayer: $playerId")
+                    view.onPlayerIDCallback(
+                        Player(
+                        id = playerId.toInt(),
+                        name = player.name
+                    ))
                 }
             } catch (e: Exception) {
                 scope.launch(Dispatchers.Main) {
