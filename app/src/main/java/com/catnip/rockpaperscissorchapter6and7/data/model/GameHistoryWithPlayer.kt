@@ -3,7 +3,7 @@ package com.catnip.rockpaperscissorchapter6and7.data.model
 import androidx.room.Embedded
 import androidx.room.Relation
 
-data class PlayerWithGameHistory(
+data class GameHistoryWithPlayer(
     @Embedded val gameHistory: GameHistory,
     @Relation(
         parentColumn = "player1_id",

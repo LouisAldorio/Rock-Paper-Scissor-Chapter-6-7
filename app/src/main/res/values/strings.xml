@@ -40,4 +40,5 @@
     <string name="text_title_game_history">Game History</string>
     <string name="text_btn_game_result">Game Result</string>
     <string name="text_no_data_available">No Data Available</string>
+    <string name="text_format_player_name_win">%s %s</string>
 </resources>

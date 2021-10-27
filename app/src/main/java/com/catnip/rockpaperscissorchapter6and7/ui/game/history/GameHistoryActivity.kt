@@ -1,9 +1,7 @@
 package com.catnip.rockpaperscissorchapter6and7.ui.game.history
 
-import android.util.Log
 import android.view.View
 import android.widget.*
-import androidx.annotation.MenuRes
 import androidx.appcompat.widget.ListPopupWindow
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.size
@@ -11,11 +9,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.catnip.rockpaperscissorchapter6and7.R
 import com.catnip.rockpaperscissorchapter6and7.base.BaseActivity
 import com.catnip.rockpaperscissorchapter6and7.base.model.Resource
+import com.catnip.rockpaperscissorchapter6and7.data.local.preference.UserPreference
 import com.catnip.rockpaperscissorchapter6and7.data.local.room.PlayersDatabase
 import com.catnip.rockpaperscissorchapter6and7.data.local.room.datasource.GameHistoryDataSourceImpl
 import com.catnip.rockpaperscissorchapter6and7.data.model.GameHistory
-import com.catnip.rockpaperscissorchapter6and7.data.model.PlayerWithGameHistory
+import com.catnip.rockpaperscissorchapter6and7.data.model.GameHistoryWithPlayer
 import com.catnip.rockpaperscissorchapter6and7.databinding.ActivityGameHistoryBinding
+import com.catnip.rockpaperscissorchapter6and7.enumeration.GameResult
 import com.catnip.rockpaperscissorchapter6and7.ui.game.history.adapter.GameHistoryAdapter
 import com.catnip.rockpaperscissorchapter6and7.utils.GameUtil
 
@@ -24,7 +24,7 @@ class GameHistoryActivity : BaseActivity<ActivityGameHistoryBinding, GameHistory
 ), GameHistoryContract.View {
 
     private lateinit var adapter: GameHistoryAdapter
-    private var gameResult: String? = null
+    private var gameResultFilter: String? = null
 
     private lateinit var listPopupWindowButton: Button
     private lateinit var listPopupWindow: ListPopupWindow
@@ -37,9 +37,16 @@ class GameHistoryActivity : BaseActivity<ActivityGameHistoryBinding, GameHistory
         // Set button as the list popup's anchor
         listPopupWindow.anchorView = listPopupWindowButton
 
-        listPopupWindowItem = listOf("WIN", "LOSE", "DRAW")
-        listPopupWindow.setAdapter(ArrayAdapter(this, R.layout.list_popup_window_item, listPopupWindowItem))
+        listPopupWindowItem = listOf(GameResult.WIN.stringValue, "LOSE", "DRAW")
+        listPopupWindow.setAdapter(
+            ArrayAdapter(
+                this,
+                R.layout.list_popup_window_item,
+                listPopupWindowItem
+            )
+        )
     }
+
     override fun initView() {
         supportActionBar?.hide()
 
@@ -62,10 +69,10 @@ class GameHistoryActivity : BaseActivity<ActivityGameHistoryBinding, GameHistory
     }
 
     override fun getData() {
-        getPresenter().getGameHistory(1)
+        getPresenter().getGameHistoryByPlayerId(1)
     }
 
-    override fun setGameHistoryData(data: List<PlayerWithGameHistory>) {
+    override fun setGameHistoryData(data: List<GameHistoryWithPlayer>) {
         adapter.setItems(data)
     }
 
@@ -77,7 +84,69 @@ class GameHistoryActivity : BaseActivity<ActivityGameHistoryBinding, GameHistory
     override fun showContent(isContentVisible: Boolean) {
         getViewBinding().rvHistory.visibility = if (isContentVisible) View.VISIBLE else View.GONE
     }
-    override fun onDataCallback(response: Resource<List<PlayerWithGameHistory>>) {
+
+    private fun filterGameHistory(gameHistoryWithPlayer: List<GameHistoryWithPlayer>): List<GameHistoryWithPlayer> {
+        val gameHistoryWithPlayerFiltered = mutableListOf<GameHistoryWithPlayer>()
+
+        when (gameResultFilter) {
+            GameResult.DRAW.stringValue -> {
+                gameHistoryWithPlayer.forEach {
+                    if (it.player1.name == UserPreference(this).username) {
+                        if (GameUtil.getGameResult(
+                                it.gameHistory.player1Hero,
+                                it.gameHistory.player2Hero
+                            ) == GameResult.DRAW
+                        ) gameHistoryWithPlayerFiltered.add(it)
+                    } else {
+                        if (GameUtil.getGameResult(
+                                it.gameHistory.player2Hero,
+                                it.gameHistory.player1Hero
+                            ) == GameResult.DRAW
+                        ) gameHistoryWithPlayerFiltered.add(it)
+                    }
+                }
+            }
+            GameResult.LOSE.stringValue -> {
+                gameHistoryWithPlayer.forEach {
+                    if (it.player1.name == UserPreference(this).username) {
+                        if (GameUtil.getGameResult(
+                                it.gameHistory.player1Hero,
+                                it.gameHistory.player2Hero
+                            ) == GameResult.LOSE
+                        ) gameHistoryWithPlayerFiltered.add(it)
+                    } else {
+                        if (GameUtil.getGameResult(
+                                it.gameHistory.player2Hero,
+                                it.gameHistory.player1Hero
+                            ) == GameResult.LOSE
+                        ) gameHistoryWithPlayerFiltered.add(it)
+                    }
+                }
+            }
+            GameResult.WIN.stringValue -> {
+                gameHistoryWithPlayer.forEach {
+                    if (it.player1.name == UserPreference(this).username) {
+                        if (GameUtil.getGameResult(
+                                it.gameHistory.player1Hero,
+                                it.gameHistory.player2Hero
+                            ) == GameResult.WIN
+                        ) gameHistoryWithPlayerFiltered.add(it)
+                    } else {
+                        if (GameUtil.getGameResult(
+                                it.gameHistory.player2Hero,
+                                it.gameHistory.player1Hero
+                            ) == GameResult.WIN
+                        ) gameHistoryWithPlayerFiltered.add(it)
+                    }
+                }
+            }
+            else -> gameHistoryWithPlayerFiltered.addAll(gameHistoryWithPlayer)
+        }
+
+        return gameHistoryWithPlayerFiltered
+    }
+
+    override fun onDataCallback(response: Resource<List<GameHistoryWithPlayer>>) {
         when (response) {
             is Resource.Loading -> {
                 showLoading(true)
@@ -87,61 +156,18 @@ class GameHistoryActivity : BaseActivity<ActivityGameHistoryBinding, GameHistory
             is Resource.Success -> {
                 showLoading(false)
                 response.data?.let {
-                    showError(false, null)
-                    showContent(true)
-                    when {
-                        gameResult.isNullOrBlank() -> setGameHistoryData(it)
-                        gameResult == "DRAW" -> {
-                            val draw = mutableListOf<PlayerWithGameHistory>()
-                            it.forEach {
-                                if (GameUtil.getGameResult(
-                                        it.gameHistory.player1Hero,
-                                        it.gameHistory.player2Hero
-                                    ) == com.catnip.rockpaperscissorchapter6and7.enumeration.GameResult.DRAW
-                                ) {
-                                    draw.add(it)
-                                }
-                            }
-                            setGameHistoryData(draw)
-                            if (draw.isEmpty()) {
-                                showError(true, "Error")
-                                showContent(false)
-                            }
-                        }
-                        gameResult == "LOSE" -> {
-                            val lose = mutableListOf<PlayerWithGameHistory>()
-                            it.forEach {
-                                if (GameUtil.getGameResult(
-                                        it.gameHistory.player1Hero,
-                                        it.gameHistory.player2Hero
-                                    ) == com.catnip.rockpaperscissorchapter6and7.enumeration.GameResult.LOSE
-                                ) {
-                                    lose.add(it)
-                                }
-                            }
-                            setGameHistoryData(lose)
-                            if (lose.isEmpty()) {
-                                showError(true, "Error")
-                                showContent(false)
-                            }
-                        }
-                        gameResult == "WIN" -> {
-                            val win = mutableListOf<PlayerWithGameHistory>()
-                            it.forEach {
-                                if (GameUtil.getGameResult(
-                                        it.gameHistory.player1Hero,
-                                        it.gameHistory.player2Hero
-                                    ) == com.catnip.rockpaperscissorchapter6and7.enumeration.GameResult.WIN
-                                ) {
-                                    win.add(it)
-                                }
-                            }
-                            setGameHistoryData(win)
-                            if (win.isEmpty()) {
-                                showError(true, "Error")
-                                showContent(false)
-                            }
-                        }
+                    if (it.isEmpty()) {
+                        showError(true, "Error")
+                        showContent(false)
+                    } else {
+                        showError(false, null)
+                        showContent(true)
+
+                        val filteredGameHistory = filterGameHistory(it)
+                        if (filteredGameHistory.isEmpty()) {
+                            showError(true, "Error")
+                            showContent(false)
+                        } else setGameHistoryData(filteredGameHistory)
                     }
                 }
             }
@@ -157,7 +183,7 @@ class GameHistoryActivity : BaseActivity<ActivityGameHistoryBinding, GameHistory
         // Set list popup's item click listener
         listPopupWindow.setOnItemClickListener { parent: AdapterView<*>?, view: View?, position: Int, id: Long ->
             // Respond to list popup window item click.
-            gameResult = listPopupWindowItem[position]
+            gameResultFilter = listPopupWindowItem[position]
             getData()
 
             // Dismiss popup.
