@@ -9,6 +9,6 @@ import kotlinx.parcelize.Parcelize
 @Entity(tableName = "Players")
 @Parcelize
 data class Player(
-    @PrimaryKey(autoGenerate = true) var id: Int?,
+    @PrimaryKey(autoGenerate = true) var id: Long?,
     @ColumnInfo(name = "name") var name: String
 ) : Parcelable
