@@ -13,6 +13,9 @@
         android:padding="20dp">
 
         <androidx.cardview.widget.CardView
+            app:cardCornerRadius="16dp"
+            android:elevation="8dp"
+            app:cardElevation="10dp"
             android:id="@+id/cv"
             android:layout_width="80dp"
             android:layout_height="80dp"
@@ -47,6 +50,7 @@
             android:layout_marginTop="8dp"
             android:text="@string/text_description_enter_player_2"
             android:textColor="@color/black"
+            android:fontFamily="sans-serif-condensed"
             app:layout_constraintLeft_toRightOf="@id/cv"
             app:layout_constraintTop_toBottomOf="@id/tv_select_player" />
 

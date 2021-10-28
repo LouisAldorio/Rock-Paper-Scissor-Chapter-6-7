@@ -10,6 +10,7 @@ interface PlayerMenusContract {
         fun setMenusData(data: List<Player>)
         fun onDataCallback(response: Resource<List<Player>>)
         fun setClickListeners()
+        fun onPlayerIDCallback(player : Player)
     }
 
     interface Presenter: BaseContract.BasePresenter {

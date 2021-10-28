@@ -15,6 +15,13 @@
         <activity
             android:name=".ui.game.history.GameHistoryActivity"
             android:exported="false" />
+
+            android:name=".ui.game.gameplay.GamePlayActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ui.about.AboutActivity"
+            android:exported="true" />
+
         <activity
             android:name=".ui.game.mode.GameModeActivity"
             android:exported="true" />
