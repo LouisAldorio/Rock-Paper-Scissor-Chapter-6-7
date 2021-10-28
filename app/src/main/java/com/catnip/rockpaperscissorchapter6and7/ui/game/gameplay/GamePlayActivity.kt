@@ -14,9 +14,12 @@ import com.catnip.rockpaperscissorchapter6and7.data.local.room.datasource.GameHi
 import com.catnip.rockpaperscissorchapter6and7.data.local.room.datasource.PlayersDataSourceImpl
 import com.catnip.rockpaperscissorchapter6and7.data.model.Player
 import com.catnip.rockpaperscissorchapter6and7.databinding.ActivityGamePlayBinding
+import com.catnip.rockpaperscissorchapter6and7.enumeration.GameResult
 import com.catnip.rockpaperscissorchapter6and7.enumeration.GameType
+import com.catnip.rockpaperscissorchapter6and7.ui.game.gameplay.dialog.ResultDialogFragment
 import com.catnip.rockpaperscissorchapter6and7.ui.game.mode.dialog.PlayerMenusRepository
 import com.catnip.rockpaperscissorchapter6and7.utils.Constant
+import kotlinx.coroutines.delay
 
 class GamePlayActivity : BaseActivity<ActivityGamePlayBinding, GamePlayContract.Presenter>(
     ActivityGamePlayBinding::inflate
@@ -58,14 +61,23 @@ class GamePlayActivity : BaseActivity<ActivityGamePlayBinding, GamePlayContract.
         if(gameType == GameType.PLAYER_TO_PLAYER) {
             enemy = intent.extras?.get(Constant.PLAYER) as Player
         }
-
-
-        Log.i(GamePlayActivity::class.java.simpleName, gameType.toString())
-        Log.i(GamePlayActivity::class.java.simpleName, enemy.toString())
     }
 
     override fun resetState() {
-        TODO("Not yet implemented")
+
+        player?.choice = -1
+        enemy?.choice = -1
+
+        playerElements.forEach {
+            it.setBackgroundColor(ContextCompat.getColor(this, R.color.primaryColor))
+            it.isClickable = true
+        }
+        enemyElements.forEach {
+            it.setBackgroundColor(ContextCompat.getColor(this, R.color.primaryColor))
+            if(gameType == GameType.PLAYER_TO_PLAYER){
+                it.isClickable = true
+            }
+        }
     }
 
     override fun initListeners() {
@@ -114,8 +126,12 @@ class GamePlayActivity : BaseActivity<ActivityGamePlayBinding, GamePlayContract.
         getViewBinding().llRight.visibility = View.VISIBLE
     }
 
-    override fun showResultDialog() {
+    override fun showResultDialog(gameResult : GameResult) {
+        ResultDialogFragment(gameResult, { resetState() }, {finishToMenu()}).show(supportFragmentManager, null)
+    }
 
+    private fun finishToMenu() {
+        finish()
     }
 
     private fun setFocus(elem : View, index : Int, candidates : Array<ImageView>, isFromEnemy : Boolean) {
@@ -142,10 +158,11 @@ class GamePlayActivity : BaseActivity<ActivityGamePlayBinding, GamePlayContract.
                 getViewBinding().llLeft.visibility = View.INVISIBLE
             }
 
-            if(player?.choice != null && (enemy?.choice != null && enemy?.choice != -1)) {
+            if(player?.choice != -1 && (enemy?.choice != null && enemy?.choice != -1)) {
 
                 enemy?.choice?.let {
                     //do compare
+
                     getPresenter().compare(it, player!!)
                 }
             }
@@ -162,6 +179,7 @@ class GamePlayActivity : BaseActivity<ActivityGamePlayBinding, GamePlayContract.
             //do compare
             val computeChoice = (0..2).random()
             enemyElements[computeChoice].setBackgroundColor(ContextCompat.getColor(this, R.color.ThirdColor))
+
             getPresenter().compare(computeChoice, player!!)
         }
     }
