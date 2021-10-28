@@ -35,6 +35,15 @@
     <string name="text_hint_enter_player_2">Enter or Select Player 2 Name</string>
     <string name="btn_text_start_game">Start Game</string>
 
+    <string name="text_format_player1">Player 1: %s</string>
+    <string name="text_format_player2">Player 2: %s</string>
+    <string name="text_format_power">Power: %s</string>
+    <string name="text_title_game_history">Game History</string>
+    <string name="text_btn_game_result">Game Result</string>
+    <string name="text_no_data_available">No Data Available</string>
+    <string name="text_format_player_name_win">%s %s</string>
+
+
     <string name="text_format_player_name">Name: %s</string>
 
     <string name="text_suit_game_in_rock_paper_and_scissor">Suit game in rock, paper and scissor</string>
@@ -43,4 +52,5 @@
     <string name="text_com">COM</string>
     <string name="text_vs">VS</string>
     <string name="text_suiterhero">Suiterhero</string>
+
 </resources>

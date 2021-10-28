@@ -14,8 +14,14 @@
         <!-- Customize your theme here. -->
 
         <item name="android:fontFamily">@font/fredoka_one_regular</item>
+
+        <!--    Popup Customize    -->
+        <item name="popupMenuBackground">@color/primaryColor</item>
+
+
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowFullscreen">true</item>
+
     </style>
 
     <style name="roundedImageView" parent="">

@@ -11,6 +11,8 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class Player(
     @PrimaryKey(autoGenerate = true) var id: Long?,
+
+
     @ColumnInfo(name = "name") var name: String,
 
 ) : Parcelable {
@@ -18,3 +20,4 @@ data class Player(
     @Ignore
     var choice : Int = -1
 }
+

@@ -5,9 +5,12 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.util.Log
 import com.catnip.rockpaperscissorchapter6and7.R
-import com.catnip.rockpaperscissorchapter6and7.ui.game.mode.GameModeActivity
+import com.catnip.rockpaperscissorchapter6and7.ui.game.MenuActivity
 import com.catnip.rockpaperscissorchapter6and7.ui.intro.IntroActivity
+import java.text.SimpleDateFormat
+import java.util.*
 
 @SuppressLint("CustomSplashScreen")
 class SplashScreenActivity : Activity() {
