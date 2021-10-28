@@ -78,10 +78,7 @@ class IntroFragment : Fragment() {
             IntroType.FOUR -> {
                 isInsertName(true)
                 binding.ivInsertPlayerName.setImageResource(R.drawable.img_input_name_page)
-                UserPreference(requireContext()).player?.let {
-                    binding.tietPlayerName.setText(it.name)
-                    player = it
-                }
+                binding.tietPlayerName.setText(UserPreference(requireContext()).player?.name)
             }
         }
     }
@@ -98,21 +95,19 @@ class IntroFragment : Fragment() {
 
     private fun getStarted() {
         if (binding.tietPlayerName.text.toString().isNotBlank()) {
-            if (player?.name == binding.tietPlayerName.text.toString()) {
-                val coroutineJob = Job()
-                val scope = CoroutineScope(Dispatchers.IO + coroutineJob)
+            val db = PlayersDatabase.getInstance(requireContext())
+            val coroutineJob = Job()
+            val scope = CoroutineScope(Dispatchers.IO + coroutineJob)
+            val username = binding.tietPlayerName.text.toString().trimIndent()
+            var usernameAdded = false
 
-                scope.launch {
-                    val playerId = PlayersDatabase.getInstance(requireContext()).playersDao().insertPlayer(Player(player?.id, binding.tietPlayerName.text.toString()))
-                    UserPreference(requireContext()).player = Player(playerId, binding.tietPlayerName.text.toString())
-                }
-            } else {
-                val coroutineJob = Job()
-                val scope = CoroutineScope(Dispatchers.IO + coroutineJob)
+            scope.launch {
+                val players = db.playersDao().getAllPlayers()
+                players.forEach { if (username.uppercase() == it.name.uppercase()) usernameAdded = true }
 
-                scope.launch {
-                    val playerId = PlayersDatabase.getInstance(requireContext()).playersDao().insertPlayer(Player(null, binding.tietPlayerName.text.toString()))
-                    UserPreference(requireContext()).player = Player(playerId, binding.tietPlayerName.text.toString())
+                if (!usernameAdded) {
+                    val playerId = db.playersDao().insertPlayer(Player(null, username))
+                    UserPreference(requireContext()).player = Player(playerId, username)
                 }
             }
             goToMenu()
