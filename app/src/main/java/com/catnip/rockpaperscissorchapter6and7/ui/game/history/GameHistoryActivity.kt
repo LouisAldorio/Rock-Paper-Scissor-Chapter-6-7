@@ -91,7 +91,7 @@ class GameHistoryActivity : BaseActivity<ActivityGameHistoryBinding, GameHistory
         when (gameResultFilter) {
             GameResult.DRAW.stringValue -> {
                 gameHistoryWithPlayer.forEach {
-                    if (it.player1.name == UserPreference(this).username) {
+                    if (it.player1.name == UserPreference(this).player?.name) {
                         if (GameUtil.getGameResult(
                                 it.gameHistory.player1Hero,
                                 it.gameHistory.player2Hero
@@ -108,7 +108,7 @@ class GameHistoryActivity : BaseActivity<ActivityGameHistoryBinding, GameHistory
             }
             GameResult.LOSE.stringValue -> {
                 gameHistoryWithPlayer.forEach {
-                    if (it.player1.name == UserPreference(this).username) {
+                    if (it.player1.name == UserPreference(this).player?.name) {
                         if (GameUtil.getGameResult(
                                 it.gameHistory.player1Hero,
                                 it.gameHistory.player2Hero
@@ -125,7 +125,7 @@ class GameHistoryActivity : BaseActivity<ActivityGameHistoryBinding, GameHistory
             }
             GameResult.WIN.stringValue -> {
                 gameHistoryWithPlayer.forEach {
-                    if (it.player1.name == UserPreference(this).username) {
+                    if (it.player1.name == UserPreference(this).player?.name) {
                         if (GameUtil.getGameResult(
                                 it.gameHistory.player1Hero,
                                 it.gameHistory.player2Hero

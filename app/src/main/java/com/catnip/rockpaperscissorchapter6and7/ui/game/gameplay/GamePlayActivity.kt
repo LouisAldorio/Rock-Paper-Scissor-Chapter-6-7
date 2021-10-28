@@ -10,6 +10,7 @@ import com.catnip.rockpaperscissorchapter6and7.R
 import com.catnip.rockpaperscissorchapter6and7.base.BaseActivity
 import com.catnip.rockpaperscissorchapter6and7.data.local.preference.UserPreference
 import com.catnip.rockpaperscissorchapter6and7.data.local.room.PlayersDatabase
+import com.catnip.rockpaperscissorchapter6and7.data.local.room.datasource.GameHistoryDataSourceImpl
 import com.catnip.rockpaperscissorchapter6and7.data.local.room.datasource.PlayersDataSourceImpl
 import com.catnip.rockpaperscissorchapter6and7.data.model.Player
 import com.catnip.rockpaperscissorchapter6and7.databinding.ActivityGamePlayBinding
@@ -47,8 +48,8 @@ class GamePlayActivity : BaseActivity<ActivityGamePlayBinding, GamePlayContract.
 
     override fun initPresenter() {
         // sesuaikan , untuk saat ini pakai player dlo, ntar pake history punya
-        val dataSource = PlayersDataSourceImpl(PlayersDatabase.getInstance(this).playersDao())
-        val repository = PlayerMenusRepository(dataSource)
+        val dataSource = GameHistoryDataSourceImpl(PlayersDatabase.getInstance(this).gameHistoryDao())
+        val repository = GamePlayRepository(dataSource)
         setPresenter(GamePlayPresenter(this, repository))
     }
 
@@ -134,8 +135,8 @@ class GamePlayActivity : BaseActivity<ActivityGamePlayBinding, GamePlayContract.
             }else {
 
                 //replace id with the id got from preference later
-                player = UserPreference(this).player?.name?.let {
-                    Player(1, it)
+                player = UserPreference(this).player?.let {
+                    Player(it.id, it.name)
                 }
                 player?.choice = index
                 getViewBinding().llLeft.visibility = View.INVISIBLE
@@ -152,8 +153,8 @@ class GamePlayActivity : BaseActivity<ActivityGamePlayBinding, GamePlayContract.
         }else if(gameType == GameType.PLAYER_TO_COM) {
 
             //change id to the id from preference later
-            player = UserPreference(this).player?.name?.let {
-                Player(1, it)
+            player = UserPreference(this).player?.let {
+                Player(it.id, it.name)
             }
 
             player?.choice = index

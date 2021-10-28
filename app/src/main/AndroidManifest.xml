@@ -15,7 +15,7 @@
         <activity
             android:name=".ui.game.history.GameHistoryActivity"
             android:exported="false" />
-
+        <activity
             android:name=".ui.game.gameplay.GamePlayActivity"
             android:exported="true" />
         <activity

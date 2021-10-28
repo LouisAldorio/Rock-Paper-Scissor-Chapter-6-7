@@ -47,7 +47,7 @@ class GameHistoryAdapter : RecyclerView.Adapter<GameHistoryAdapter.GameHistoryHo
     class GameHistoryHolder(private val binding: CardWinnerItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bindView(item: GameHistoryWithPlayer) {
-            if (item.player1.name == UserPreference(binding.root.context).username) {
+            if (item.player1.name == UserPreference(binding.root.context).player?.name) {
                 binding.tvWinnerPlayerName.text = binding.root.context.getString(
                     R.string.text_format_player_name_win,
                     item.player1.name.uppercase(),

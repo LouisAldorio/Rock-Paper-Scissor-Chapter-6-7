@@ -8,7 +8,7 @@ import com.catnip.rockpaperscissorchapter6and7.ui.game.mode.dialog.PlayerMenusCo
 
 class GamePlayPresenter(
     private val view: GamePlayContract.View,
-    private val repository: PlayerMenusContract.Repository
+    private val repository: GamePlayContract.Repository
 ) : GamePlayContract.Presenter,
     BasePresenterImpl() {
 
