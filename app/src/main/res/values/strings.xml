@@ -52,5 +52,10 @@
     <string name="text_com">COM</string>
     <string name="text_vs">VS</string>
     <string name="text_suiterhero">Suiterhero</string>
+    <string name="text_play_again">Play Again</string>
+    <string name="text_back_to_option_menu">Back To Option Menu</string>
+    <string name="text_you_win">You Win!</string>
+    <string name="text_you_lose">You Lose!</string>
+    <string name="text_draw">Draw!</string>
 
 </resources>
