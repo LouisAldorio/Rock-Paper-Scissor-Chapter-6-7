@@ -20,6 +20,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
+        android:textAllCaps="false"
         android:id="@+id/menu_button1"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
@@ -28,18 +29,32 @@
         android:text="@string/text_btn_game_result"
         android:textSize="12sp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/menu_button2"
+        app:layout_constraintRight_toLeftOf="@id/btn_sort_asc"
         app:layout_constraintTop_toBottomOf="@id/tv_title" />
 
     <Button
-        android:id="@+id/menu_button2"
-        android:layout_width="150dp"
+        android:textAllCaps="false"
+        android:id="@+id/btn_sort_asc"
+        android:layout_width="70dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:backgroundTint="@color/primaryColor"
-        android:text="Sort by Name"
+        android:text="ASC"
         android:textSize="12sp"
         app:layout_constraintLeft_toRightOf="@id/menu_button1"
+        app:layout_constraintRight_toLeftOf="@id/btn_sort_desc"
+        app:layout_constraintTop_toBottomOf="@id/tv_title" />
+
+    <Button
+        android:textAllCaps="false"
+        android:id="@+id/btn_sort_desc"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:backgroundTint="@color/primaryColor"
+        android:text="DESC"
+        android:textSize="12sp"
+        app:layout_constraintLeft_toRightOf="@id/btn_sort_asc"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_title" />
 
@@ -52,7 +67,7 @@
         android:paddingStart="24dp"
         android:paddingRight="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/menu_button2">
+        app:layout_constraintTop_toBottomOf="@id/menu_button1">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_history"
@@ -70,7 +85,7 @@
             android:orientation="vertical"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/menu_button2">
+            app:layout_constraintTop_toBottomOf="@id/menu_button1">
 
             <ImageView
                 android:layout_width="300dp"

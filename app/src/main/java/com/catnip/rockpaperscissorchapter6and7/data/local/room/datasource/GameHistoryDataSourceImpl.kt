@@ -6,7 +6,7 @@ import com.catnip.rockpaperscissorchapter6and7.data.model.GameHistoryWithPlayer
 
 
 class GameHistoryDataSourceImpl(private val dao: GameHistoryDao) : GameHistoryDataSource {
-    override suspend fun getGameHistoryByPlayerId(playerId: Int): List<GameHistoryWithPlayer> {
+    override suspend fun getGameHistoryByPlayerId(playerId: Long?): List<GameHistoryWithPlayer> {
         return dao.getGameHistoryByPlayerId(playerId)
     }
 

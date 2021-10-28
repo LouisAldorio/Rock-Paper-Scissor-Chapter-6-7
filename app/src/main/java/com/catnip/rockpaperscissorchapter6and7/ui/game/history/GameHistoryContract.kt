@@ -15,10 +15,10 @@ interface GameHistoryContract {
     }
 
     interface Presenter: BaseContract.BasePresenter {
-        fun getGameHistoryByPlayerId(playerId: Int)
+        fun getGameHistoryByPlayerId(playerId: Long?)
     }
 
     interface Repository {
-        suspend fun getGameHistoryByPlayerId(playerId: Int): List<GameHistoryWithPlayer>
+        suspend fun getGameHistoryByPlayerId(playerId: Long?): List<GameHistoryWithPlayer>
     }
 }

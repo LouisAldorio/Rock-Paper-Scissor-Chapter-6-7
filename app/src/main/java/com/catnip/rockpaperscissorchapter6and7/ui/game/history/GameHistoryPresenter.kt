@@ -11,7 +11,7 @@ class GameHistoryPresenter(
     private val repository: GameHistoryContract.Repository
 ) : GameHistoryContract.Presenter,
     BasePresenterImpl() {
-    override fun getGameHistoryByPlayerId(playerId: Int) {
+    override fun getGameHistoryByPlayerId(playerId: Long?) {
         view.onDataCallback(Resource.Loading())
         scope.launch {
             try {
