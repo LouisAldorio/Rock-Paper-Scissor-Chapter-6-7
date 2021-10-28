@@ -2,6 +2,8 @@ package com.catnip.rockpaperscissorchapter6and7.data.local.preference
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.catnip.rockpaperscissorchapter6and7.data.model.Player
+import com.google.gson.Gson
 
 class UserPreference(context : Context) {
 
@@ -10,14 +12,15 @@ class UserPreference(context : Context) {
     companion object {
         private const val PREF_NAME = "RockPaperScissor"
         private const val PREF_MODE = Context.MODE_PRIVATE
-        private val PREF_IS_USER_LOGGED_IN = Pair("username", "")
+        private val PREF_IS_USER_LOGGED_IN = Pair("player", null)
+        private val gson = Gson()
     }
 
-    var username : String?
-        get() = preference.getString(PREF_IS_USER_LOGGED_IN.first, PREF_IS_USER_LOGGED_IN.second)
-        set(value) {
+    var player: Player?
+        get() = gson.fromJson(preference.getString(PREF_IS_USER_LOGGED_IN.first, PREF_IS_USER_LOGGED_IN.second), Player::class.java)
+        set(player) {
             preference.edit {
-                it.putString(PREF_IS_USER_LOGGED_IN.first, value)
+                it.putString(PREF_IS_USER_LOGGED_IN.first, gson.toJson(player))
             }
         }
 }

@@ -18,7 +18,7 @@ class PlayerMenusDialogFragment :
         FragmentPlayerMenusBinding::inflate
     ), PlayerMenusContract.View {
 
-    private var players: MutableMap<Int,String> = mutableMapOf()
+    private var players: MutableMap<Long,String> = mutableMapOf()
     private var playerNames : MutableList<String> = mutableListOf()
 
     override fun onResume() {
