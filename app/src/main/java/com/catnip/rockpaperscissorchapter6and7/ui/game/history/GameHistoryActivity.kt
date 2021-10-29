@@ -208,6 +208,7 @@ class GameHistoryActivity : BaseActivity<ActivityGameHistoryBinding, GameHistory
         listPopupWindow.setOnItemClickListener { parent: AdapterView<*>?, view: View?, position: Int, id: Long ->
             // Respond to list popup window item click.
             gameResultFilter = listPopupWindowItem[position]
+            getViewBinding().menuButton1.text = listPopupWindowItem[position]
             getData()
 
             // Dismiss popup.
