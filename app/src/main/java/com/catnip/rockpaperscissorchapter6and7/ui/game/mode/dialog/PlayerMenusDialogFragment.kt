@@ -5,6 +5,7 @@ import android.widget.AutoCompleteTextView
 import com.catnip.rockpaperscissorchapter6and7.R
 import com.catnip.rockpaperscissorchapter6and7.base.BaseDialogFragment
 import com.catnip.rockpaperscissorchapter6and7.base.model.Resource
+import com.catnip.rockpaperscissorchapter6and7.data.local.preference.UserPreference
 import com.catnip.rockpaperscissorchapter6and7.data.local.room.PlayersDatabase
 import com.catnip.rockpaperscissorchapter6and7.data.local.room.datasource.PlayersDataSourceImpl
 import com.catnip.rockpaperscissorchapter6and7.data.model.Player
@@ -35,7 +36,7 @@ class PlayerMenusDialogFragment :
         playerNames = mutableListOf()
         data.forEach {
             it.id?.let { id -> players.put(id, it.name) }
-            playerNames.add(it.name)
+            if (UserPreference(requireContext()).player != it) { playerNames.add(it.name) }
         }
 
         if (players.isNotEmpty()) {
