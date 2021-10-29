@@ -105,6 +105,7 @@ class PlayerMenusDialogFragment :
             GameType.PLAYER_TO_PLAYER,
             player
         )
+        dismiss()
     }
 
     override fun showContent(isContentVisible: Boolean) {}

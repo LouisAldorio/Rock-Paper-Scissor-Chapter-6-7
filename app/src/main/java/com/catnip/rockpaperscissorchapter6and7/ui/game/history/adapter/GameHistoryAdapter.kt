@@ -84,7 +84,7 @@ class GameHistoryAdapter : RecyclerView.Adapter<GameHistoryAdapter.GameHistoryHo
                 binding.root.context.getString(R.string.text_format_player1, item.player1.name)
             binding.tvPlayer1Hero.text = binding.root.context.getString(
                 R.string.text_format_power,
-                HERO[item.gameHistory.player1Hero]
+                HERO[item.gameHistory.player1Hero!!]
             )
             if (item.gameHistory.player2Id == null)
                 binding.tvPlayer2Name.text =
@@ -94,7 +94,7 @@ class GameHistoryAdapter : RecyclerView.Adapter<GameHistoryAdapter.GameHistoryHo
                     binding.root.context.getString(R.string.text_format_player2, item.player2.name)
             binding.tvPlayer2Hero.text = binding.root.context.getString(
                 R.string.text_format_power,
-                HERO[item.gameHistory.player2Hero]
+                HERO[item.gameHistory.player2Hero!!]
             )
             binding.tvDate.text = item.gameHistory.date
         }

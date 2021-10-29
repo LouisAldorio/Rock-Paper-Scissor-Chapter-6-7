@@ -1,21 +1,55 @@
 package com.catnip.rockpaperscissorchapter6and7.ui.game.gameplay.dialog
 
+import android.content.DialogInterface
+import com.catnip.rockpaperscissorchapter6and7.R
 import com.catnip.rockpaperscissorchapter6and7.base.BaseDialogFragment
 import com.catnip.rockpaperscissorchapter6and7.databinding.FragmentResultDialogBinding
+import com.catnip.rockpaperscissorchapter6and7.enumeration.GameResult
 
-class ResultDialogFragment :
+class ResultDialogFragment(
+    private val gameResult: GameResult,
+    private val resetState : () -> Unit,
+    private val finishToMenu : () -> Unit
+) :
     BaseDialogFragment<FragmentResultDialogBinding, ResultDialogContract.Presenter>(
         FragmentResultDialogBinding::inflate
     ), ResultDialogContract.View {
 
 
     override fun initView() {
-        TODO("Not yet implemented")
+        determineWinner()
+        initListeners()
     }
 
     override fun initPresenter() {
-        TODO("Not yet implemented")
+        setPresenter(ResultDialogPresenter(this))
     }
 
+    private fun initListeners() {
+        getViewBinding().btnBackToMenu.setOnClickListener {
+            resetState()
+            dismiss()
+            finishToMenu()
+        }
 
+        getViewBinding().btnPlayAgain.setOnClickListener {
+            resetState()
+            dismiss()
+        }
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        resetState()
+    }
+
+    private fun determineWinner() {
+        if(gameResult.equals(GameResult.WIN)) {
+            getViewBinding().tvGameResult.setText(getString(R.string.text_you_win))
+        }else if (gameResult.equals(GameResult.LOSE)) {
+            getViewBinding().tvGameResult.setText(getString(R.string.text_you_lose))
+        }else {
+            getViewBinding().tvGameResult.setText(getString(R.string.text_draw))
+        }
+    }
 }
