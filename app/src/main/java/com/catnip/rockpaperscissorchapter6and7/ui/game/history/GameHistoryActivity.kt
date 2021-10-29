@@ -25,12 +25,13 @@ class GameHistoryActivity : BaseActivity<ActivityGameHistoryBinding, GameHistory
 
     private lateinit var adapter: GameHistoryAdapter
     private var gameResultFilter: String? = null
+    private var gameResultSortIsAscending: Boolean = true
 
     private lateinit var listPopupWindowButton: Button
     private lateinit var listPopupWindow: ListPopupWindow
     private lateinit var listPopupWindowItem: List<String>
 
-    fun setListPopupWindow() {
+    private fun setListPopupWindow() {
         listPopupWindowButton = getViewBinding().menuButton1
         listPopupWindow = ListPopupWindow(this, null, R.attr.listPopupWindowStyle)
 
@@ -69,7 +70,7 @@ class GameHistoryActivity : BaseActivity<ActivityGameHistoryBinding, GameHistory
     }
 
     override fun getData() {
-        getPresenter().getGameHistoryByPlayerId(1)
+        getPresenter().getGameHistoryByPlayerId(UserPreference(this).player?.id)
     }
 
     override fun setGameHistoryData(data: List<GameHistoryWithPlayer>) {
@@ -83,6 +84,17 @@ class GameHistoryActivity : BaseActivity<ActivityGameHistoryBinding, GameHistory
 
     override fun showContent(isContentVisible: Boolean) {
         getViewBinding().rvHistory.visibility = if (isContentVisible) View.VISIBLE else View.GONE
+    }
+
+    fun sortGameHistory(
+        gameHistoryWithPlayer: List<GameHistoryWithPlayer>,
+        isAscending: Boolean
+    ): List<GameHistoryWithPlayer> {
+        return if (isAscending) {
+            gameHistoryWithPlayer.sortedBy { it.gameHistory.id }
+        } else {
+            gameHistoryWithPlayer.sortedByDescending { it.gameHistory.id }
+        }
     }
 
     private fun filterGameHistory(gameHistoryWithPlayer: List<GameHistoryWithPlayer>): List<GameHistoryWithPlayer> {
@@ -167,7 +179,14 @@ class GameHistoryActivity : BaseActivity<ActivityGameHistoryBinding, GameHistory
                         if (filteredGameHistory.isEmpty()) {
                             showError(true, "Error")
                             showContent(false)
-                        } else setGameHistoryData(filteredGameHistory)
+                        } else {
+                            setGameHistoryData(
+                                sortGameHistory(
+                                    filteredGameHistory,
+                                    gameResultSortIsAscending
+                                )
+                            )
+                        }
                     }
                 }
             }
@@ -192,6 +211,16 @@ class GameHistoryActivity : BaseActivity<ActivityGameHistoryBinding, GameHistory
 
         // Show list popup window on button click.
         listPopupWindowButton.setOnClickListener { v: View? -> listPopupWindow.show() }
+
+        getViewBinding().btnSortAsc.setOnClickListener {
+            gameResultSortIsAscending = true
+            getData()
+        }
+
+        getViewBinding().btnSortDesc.setOnClickListener {
+            gameResultSortIsAscending = false
+            getData()
+        }
     }
 
     override fun initList() {

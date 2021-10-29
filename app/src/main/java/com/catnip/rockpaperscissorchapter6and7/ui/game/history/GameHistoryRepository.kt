@@ -8,7 +8,7 @@ import com.catnip.rockpaperscissorchapter6and7.data.model.GameHistoryWithPlayer
 class GameHistoryRepository(
     private val dataSource: GameHistoryDataSource
 ) : GameHistoryContract.Repository {
-    override suspend fun getGameHistoryByPlayerId(playerId: Int): List<GameHistoryWithPlayer> {
+    override suspend fun getGameHistoryByPlayerId(playerId: Long?): List<GameHistoryWithPlayer> {
         return dataSource.getGameHistoryByPlayerId(playerId)
     }
 }

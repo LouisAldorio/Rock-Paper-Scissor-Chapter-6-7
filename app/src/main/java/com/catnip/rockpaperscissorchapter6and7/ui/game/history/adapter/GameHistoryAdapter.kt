@@ -47,28 +47,38 @@ class GameHistoryAdapter : RecyclerView.Adapter<GameHistoryAdapter.GameHistoryHo
     class GameHistoryHolder(private val binding: CardWinnerItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bindView(item: GameHistoryWithPlayer) {
-            if (item.player1.name == UserPreference(binding.root.context).player?.name) {
-                binding.tvWinnerPlayerName.text = binding.root.context.getString(
-                    R.string.text_format_player_name_win,
-                    item.player1.name.uppercase(),
-                    GameResult.get(
-                        GameUtil.getGameResult(
-                            item.gameHistory.player1Hero,
-                            item.gameHistory.player2Hero
-                        )
-                    ).toString()
-                )
-            } else {
-                binding.tvWinnerPlayerName.text = binding.root.context.getString(
-                    R.string.text_format_player_name_win,
-                    item.player2.name.uppercase(),
-                    GameResult.get(
-                        GameUtil.getGameResult(
-                            item.gameHistory.player2Hero,
-                            item.gameHistory.player1Hero
-                        )
-                    ).toString()
-                )
+            when {
+                GameResult.get(
+                    GameUtil.getGameResult(
+                        item.gameHistory.player1Hero,
+                        item.gameHistory.player2Hero
+                    )
+                ).toString() == GameResult.DRAW.stringValue ->
+                    binding.tvWinnerPlayerName.text = "DRAW"
+                item.player1.name == UserPreference(binding.root.context).player?.name -> {
+                    binding.tvWinnerPlayerName.text = binding.root.context.getString(
+                        R.string.text_format_player_name_win,
+                        item.player1.name.uppercase(),
+                        GameResult.get(
+                            GameUtil.getGameResult(
+                                item.gameHistory.player1Hero,
+                                item.gameHistory.player2Hero
+                            )
+                        ).toString()
+                    )
+                }
+                else -> {
+                    binding.tvWinnerPlayerName.text = binding.root.context.getString(
+                        R.string.text_format_player_name_win,
+                        item.player2.name.uppercase(),
+                        GameResult.get(
+                            GameUtil.getGameResult(
+                                item.gameHistory.player2Hero,
+                                item.gameHistory.player1Hero
+                            )
+                        ).toString()
+                    )
+                }
             }
             binding.tvPlayer1Name.text =
                 binding.root.context.getString(R.string.text_format_player1, item.player1.name)
@@ -76,8 +86,12 @@ class GameHistoryAdapter : RecyclerView.Adapter<GameHistoryAdapter.GameHistoryHo
                 R.string.text_format_power,
                 HERO[item.gameHistory.player1Hero!!]
             )
-            binding.tvPlayer2Name.text =
-                binding.root.context.getString(R.string.text_format_player2, item.player2.name)
+            if (item.gameHistory.player2Id == null)
+                binding.tvPlayer2Name.text =
+                    binding.root.context.getString(R.string.text_format_player2, "ROBOT")
+            else
+                binding.tvPlayer2Name.text =
+                    binding.root.context.getString(R.string.text_format_player2, item.player2.name)
             binding.tvPlayer2Hero.text = binding.root.context.getString(
                 R.string.text_format_power,
                 HERO[item.gameHistory.player2Hero!!]

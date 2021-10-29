@@ -8,7 +8,7 @@ import com.catnip.rockpaperscissorchapter6and7.data.model.GameHistoryWithPlayer
 interface GameHistoryDao {
     @Transaction
     @Query("SELECT * FROM GameHistory WHERE player1_id == :playerId OR player2_id == :playerId")
-    suspend fun getGameHistoryByPlayerId(playerId: Int): List<GameHistoryWithPlayer>
+    suspend fun getGameHistoryByPlayerId(playerId: Long?): List<GameHistoryWithPlayer>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertGameHistory(gameHistory: GameHistory): Long
