@@ -10,4 +10,7 @@ interface PlayersDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertPlayer(player: Player): Long
+
+    @Query("SELECT * FROM Players WHERE id IN (:ids)")
+    suspend fun getPlayerByIDs(ids : List<Long>) : List<Player>
 }

@@ -11,4 +11,8 @@ class PlayersDataSourceImpl(private val dao: PlayersDao) : PlayersDataSource {
     override suspend fun insertPlayer(player: Player): Long {
         return dao.insertPlayer(player)
     }
+
+    override suspend fun getPlayerByIDs(ids: List<Long>): List<Player> {
+        return dao.getPlayerByIDs(ids)
+    }
 }

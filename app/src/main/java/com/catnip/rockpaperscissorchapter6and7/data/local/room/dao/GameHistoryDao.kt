@@ -13,5 +13,7 @@ interface GameHistoryDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertGameHistory(gameHistory: GameHistory): Long
 
-
+    @Transaction
+    @Query("SELECT * FROM GameHistory WHERE player1_id == :playerId OR player2_id == :playerId")
+    suspend fun getGameHistoriesByPlayerId(playerId: Long?): List<GameHistory>
 }

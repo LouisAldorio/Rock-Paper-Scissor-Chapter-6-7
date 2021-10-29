@@ -1,5 +1,6 @@
 package com.catnip.rockpaperscissorchapter6and7.ui.game.history
 
+import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.appcompat.widget.ListPopupWindow
@@ -12,6 +13,7 @@ import com.catnip.rockpaperscissorchapter6and7.base.model.Resource
 import com.catnip.rockpaperscissorchapter6and7.data.local.preference.UserPreference
 import com.catnip.rockpaperscissorchapter6and7.data.local.room.PlayersDatabase
 import com.catnip.rockpaperscissorchapter6and7.data.local.room.datasource.GameHistoryDataSourceImpl
+import com.catnip.rockpaperscissorchapter6and7.data.local.room.datasource.PlayersDataSourceImpl
 import com.catnip.rockpaperscissorchapter6and7.data.model.GameHistory
 import com.catnip.rockpaperscissorchapter6and7.data.model.GameHistoryWithPlayer
 import com.catnip.rockpaperscissorchapter6and7.databinding.ActivityGameHistoryBinding
@@ -65,12 +67,14 @@ class GameHistoryActivity : BaseActivity<ActivityGameHistoryBinding, GameHistory
     override fun initPresenter() {
         val dataSource =
             GameHistoryDataSourceImpl(PlayersDatabase.getInstance(this).gameHistoryDao())
-        val repository = GameHistoryRepository(dataSource)
+
+        val playerDataSource = PlayersDataSourceImpl(PlayersDatabase.getInstance(this).playersDao())
+        val repository = GameHistoryRepository(dataSource, playerDataSource)
         setPresenter(GameHistoryPresenter(this@GameHistoryActivity, repository))
     }
 
     override fun getData() {
-        getPresenter().getGameHistoryByPlayerId(UserPreference(this).player?.id)
+        getPresenter().getGameHistoriesByPlayerId(UserPreference(this).player?.id)
     }
 
     override fun setGameHistoryData(data: List<GameHistoryWithPlayer>) {
@@ -159,6 +163,7 @@ class GameHistoryActivity : BaseActivity<ActivityGameHistoryBinding, GameHistory
     }
 
     override fun onDataCallback(response: Resource<List<GameHistoryWithPlayer>>) {
+
         when (response) {
             is Resource.Loading -> {
                 showLoading(true)
