@@ -12,6 +12,7 @@ import com.catnip.rockpaperscissorchapter6and7.data.local.preference.UserPrefere
 import com.catnip.rockpaperscissorchapter6and7.data.local.room.PlayersDatabase
 import com.catnip.rockpaperscissorchapter6and7.data.local.room.datasource.GameHistoryDataSourceImpl
 import com.catnip.rockpaperscissorchapter6and7.data.local.room.datasource.PlayersDataSourceImpl
+import com.catnip.rockpaperscissorchapter6and7.data.model.GameHistory
 import com.catnip.rockpaperscissorchapter6and7.data.model.Player
 import com.catnip.rockpaperscissorchapter6and7.databinding.ActivityGamePlayBinding
 import com.catnip.rockpaperscissorchapter6and7.enumeration.GameResult
@@ -20,6 +21,8 @@ import com.catnip.rockpaperscissorchapter6and7.ui.game.gameplay.dialog.ResultDia
 import com.catnip.rockpaperscissorchapter6and7.ui.game.mode.dialog.PlayerMenusRepository
 import com.catnip.rockpaperscissorchapter6and7.utils.Constant
 import kotlinx.coroutines.delay
+import java.text.SimpleDateFormat
+import java.util.*
 
 class GamePlayActivity : BaseActivity<ActivityGamePlayBinding, GamePlayContract.Presenter>(
     ActivityGamePlayBinding::inflate
@@ -164,6 +167,14 @@ class GamePlayActivity : BaseActivity<ActivityGamePlayBinding, GamePlayContract.
                     //do compare
 
                     getPresenter().compare(it, player!!)
+                    getPresenter().insertGameHistory(GameHistory(
+                        null,
+                        player?.id,
+                        player?.choice,
+                        enemy?.id,
+                        enemy?.choice,
+                        SimpleDateFormat("EEEE, dd MMMM yyyy").format(Date())
+                    ))
                 }
             }
 
@@ -181,6 +192,14 @@ class GamePlayActivity : BaseActivity<ActivityGamePlayBinding, GamePlayContract.
             enemyElements[computeChoice].setBackgroundColor(ContextCompat.getColor(this, R.color.ThirdColor))
 
             getPresenter().compare(computeChoice, player!!)
+            getPresenter().insertGameHistory(GameHistory(
+                null,
+                player?.id,
+                player?.choice,
+                null,
+                computeChoice,
+                SimpleDateFormat("EEEE, dd MMMM yyyy").format(Date())
+            ))
         }
     }
 }
