@@ -130,7 +130,7 @@ class GamePlayActivity : BaseActivity<ActivityGamePlayBinding, GamePlayContract.
     }
 
     override fun showResultDialog(gameResult : GameResult) {
-        ResultDialogFragment(gameResult, { resetState() }, {finishToMenu()}).show(supportFragmentManager, null)
+        player?.let { ResultDialogFragment(gameResult, { resetState() }, {finishToMenu()}, it).show(supportFragmentManager, null) }
     }
 
     private fun finishToMenu() {
