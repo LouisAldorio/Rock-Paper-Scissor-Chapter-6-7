@@ -5,6 +5,7 @@ import android.content.Intent
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import com.catnip.rockpaperscissorchapter6and7.R
 import com.catnip.rockpaperscissorchapter6and7.base.BaseActivity
@@ -84,6 +85,22 @@ class GamePlayActivity : BaseActivity<ActivityGamePlayBinding, GamePlayContract.
     }
 
     override fun initListeners() {
+
+        getViewBinding().ivExit.setOnClickListener {
+            val dialog = AlertDialog.Builder(this)
+            dialog.setTitle("Exit Game")
+            dialog.setMessage("Do you really want to exit ?")
+
+            dialog.setPositiveButton(android.R.string.yes) { dialog, which ->
+                finishAffinity()
+            }
+
+            dialog.setNegativeButton(android.R.string.no) { dialog, which ->
+                dialog.dismiss()
+            }
+
+            dialog.show()
+        }
 
         getViewBinding().tvPlayer.text = UserPreference(this).player?.name
 

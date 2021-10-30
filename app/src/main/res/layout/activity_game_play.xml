@@ -9,6 +9,7 @@
     tools:context=".ui.game.gameplay.GamePlayActivity">
 
     <ImageView
+        android:id="@+id/iv_exit"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:src="@drawable/img_exit"
