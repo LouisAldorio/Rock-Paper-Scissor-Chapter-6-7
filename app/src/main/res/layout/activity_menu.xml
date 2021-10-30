@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.game.MenuActivity">
+
+    <TextView
+        android:id="@+id/tv_option_menu_title"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="@string/text_title_options_menu"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="wrap_content"
+        android:textStyle="bold"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:textSize="24sp"
+        android:textColor="@color/primaryColor"
+        android:layout_height="wrap_content"/>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_game_mode"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_option_menu_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardElevation="10dp"
+        android:layout_margin="16dp"
+        app:cardCornerRadius="20dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardMaxElevation="12dp"
+        app:cardPreventCornerOverlap="true"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_marginEnd="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:outlineProvider="background"
+                android:scaleType="centerCrop"
+                android:background="@color/primaryColor"
+                android:tint="@color/white"
+                android:src="@drawable/baseline_sports_esports_20"
+                app:shapeAppearanceOverlay="@style/roundedImageView"
+                android:layout_gravity="center"
+                android:layout_margin="20dp"
+                android:id="@+id/iv_option_menu_game_mode"
+                android:contentDescription="@string/app_name" />
+
+            <TextView
+                android:id="@+id/tv_option_menu_game_mode"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/tv_option_menu_game_mode_description"
+                app:layout_constraintStart_toEndOf="@id/iv_option_menu_game_mode"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:text="@string/text_game_mode"
+                android:gravity="center_vertical"
+                android:layout_marginStart="12dp"
+                android:textSize="20sp"
+                android:textStyle="bold"
+            />
+
+            <TextView
+                android:id="@+id/tv_option_menu_game_mode_description"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_option_menu_game_mode"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/iv_option_menu_game_mode"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:text="@string/text_play_in_player_1_vs_player_2_mode_or_player_1_vs_robot_mode"
+                android:paddingStart="12dp"
+                android:paddingEnd="8dp"
+                android:textAlignment="textStart"
+                android:textSize="12sp"
+                android:textStyle="bold"
+            />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_game_history"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cv_game_mode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardElevation="10dp"
+        app:cardCornerRadius="20dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardMaxElevation="12dp"
+        android:layout_margin="16dp"
+        app:cardPreventCornerOverlap="true"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_marginEnd="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:outlineProvider="background"
+                android:scaleType="centerCrop"
+                android:background="@color/primaryColor"
+                android:tint="@color/white"
+                android:src="@drawable/baseline_manage_search_20"
+                app:shapeAppearanceOverlay="@style/roundedImageView"
+                android:layout_gravity="center"
+                android:layout_margin="20dp"
+                android:id="@+id/iv_option_menu_game_history"
+                android:contentDescription="@string/app_name" />
+
+            <TextView
+                android:id="@+id/tv_option_menu_game_history"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/tv_option_menu_game_history_description"
+                app:layout_constraintStart_toEndOf="@id/iv_option_menu_game_history"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:text="@string/text_game_history"
+                android:gravity="center_vertical"
+                android:layout_marginStart="12dp"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                />
+
+            <TextView
+                android:id="@+id/tv_option_menu_game_history_description"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_option_menu_game_history"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/iv_option_menu_game_history"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:text="@string/text_look_at_your_previous_played_game_history"
+                android:paddingStart="12dp"
+                android:paddingEnd="8dp"
+                android:textAlignment="textStart"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_game_tutorial"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cv_game_history"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardElevation="10dp"
+        app:cardCornerRadius="20dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardMaxElevation="12dp"
+        android:layout_margin="16dp"
+        app:cardPreventCornerOverlap="true"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_marginEnd="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:outlineProvider="background"
+                android:scaleType="centerCrop"
+                android:background="@color/primaryColor"
+                android:tint="@color/white"
+                android:src="@drawable/baseline_play_circle_filled_24"
+                app:shapeAppearanceOverlay="@style/roundedImageView"
+                android:layout_gravity="center"
+                android:layout_margin="20dp"
+                android:id="@+id/iv_option_menu_game_tutorial"
+                android:contentDescription="@string/app_name" />
+
+            <TextView
+                android:id="@+id/tv_option_menu_game_tutorial"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/tv_option_menu_game_tutorial_description"
+                app:layout_constraintStart_toEndOf="@id/iv_option_menu_game_tutorial"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:text="@string/text_video_tutorial"
+                android:gravity="center_vertical"
+                android:layout_marginStart="12dp"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                />
+
+            <TextView
+                android:id="@+id/tv_option_menu_game_tutorial_description"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_option_menu_game_tutorial"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/iv_option_menu_game_tutorial"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:text="@string/text_to_watch_video_tutorial_about_how_to_play_and_the_rules"
+                android:paddingStart="12dp"
+                android:paddingEnd="8dp"
+                android:textAlignment="textStart"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_game_about"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cv_game_tutorial"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardElevation="10dp"
+        app:cardCornerRadius="20dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardMaxElevation="12dp"
+        android:layout_margin="16dp"
+        app:cardPreventCornerOverlap="true"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_marginEnd="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:outlineProvider="background"
+                android:scaleType="centerCrop"
+                android:background="@color/primaryColor"
+                android:tint="@color/white"
+                android:src="@drawable/baseline_info_20"
+                app:shapeAppearanceOverlay="@style/roundedImageView"
+                android:layout_gravity="center"
+                android:layout_margin="20dp"
+                android:id="@+id/iv_option_menu_game_about"
+                android:contentDescription="@string/app_name" />
+
+            <TextView
+                android:id="@+id/tv_option_menu_game_about"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/tv_option_menu_game_about_description"
+                app:layout_constraintStart_toEndOf="@id/iv_option_menu_game_about"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:text="@string/text_about"
+                android:gravity="center_vertical"
+                android:layout_marginStart="12dp"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                />
+
+            <TextView
+                android:id="@+id/tv_option_menu_game_about_description"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_option_menu_game_about"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/iv_option_menu_game_about"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:text="@string/text_get_to_know_the_developers_who_developer_the_application"
+                android:paddingLeft="12dp"
+                android:paddingRight="8dp"
+                android:textAlignment="textStart"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
