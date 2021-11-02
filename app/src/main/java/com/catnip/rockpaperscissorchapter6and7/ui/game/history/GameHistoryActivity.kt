@@ -40,7 +40,7 @@ class GameHistoryActivity : BaseActivity<ActivityGameHistoryBinding, GameHistory
         // Set button as the list popup's anchor
         listPopupWindow.anchorView = listPopupWindowButton
 
-        listPopupWindowItem = listOf(GameResult.WIN.stringValue, "LOSE", "DRAW")
+        listPopupWindowItem = listOf(GameResult.WIN.stringValue, "LOSE", "DRAW", "ALL")
         listPopupWindow.setAdapter(
             ArrayAdapter(
                 this,
