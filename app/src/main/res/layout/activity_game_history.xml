@@ -11,7 +11,7 @@
         android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="40dp"
         android:text="@string/text_title_game_history"
         android:textColor="@color/white"
         android:textSize="26sp"
@@ -25,11 +25,11 @@
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
+        android:layout_marginStart="40dp"
         android:backgroundTint="@color/primaryColor"
         android:text="@string/text_btn_game_result"
         android:textSize="12sp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/btn_sort_asc"
         app:layout_constraintTop_toBottomOf="@id/tv_title" />
 
     <Button
@@ -51,10 +51,10 @@
         android:layout_width="70dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
+        android:layout_marginEnd="40dp"
         android:backgroundTint="@color/primaryColor"
         android:text="DESC"
         android:textSize="12sp"
-        app:layout_constraintLeft_toRightOf="@id/btn_sort_asc"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_title" />
 
@@ -64,16 +64,17 @@
         android:layout_marginTop="24dp"
         android:background="@drawable/rectangle_radius_top_left_right"
         android:orientation="vertical"
-        android:paddingStart="24dp"
-        android:paddingRight="24dp"
+        android:paddingStart="40dp"
+        android:paddingRight="40dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/menu_button1">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_history"
+            android:layout_marginBottom="40dp"
             android:layout_width="match_parent"
-            tools:listitem="@layout/card_winner_item"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            tools:listitem="@layout/card_winner_item" />
 
         <LinearLayout
             android:id="@+id/ll_no_data"
