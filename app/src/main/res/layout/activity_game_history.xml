@@ -14,7 +14,7 @@
         android:layout_marginTop="40dp"
         android:text="@string/text_title_game_history"
         android:textColor="@color/white"
-        android:textSize="26sp"
+        android:textSize="24sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

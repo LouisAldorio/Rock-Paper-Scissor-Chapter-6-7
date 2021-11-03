@@ -7,18 +7,25 @@
     android:layout_height="match_parent"
     tools:context=".ui.game.MenuActivity">
 
+    <View
+        android:background="@drawable/img_gameplay_bg"
+        android:layout_width="match_parent"
+        android:layout_marginTop="130dp"
+        android:layout_height="match_parent" />
+
     <TextView
         android:id="@+id/tv_option_menu_title"
-        app:layout_constraintTop_toTopOf="parent"
-        android:text="@string/text_title_options_menu"
-        app:layout_constraintStart_toStartOf="parent"
         android:layout_width="wrap_content"
-        android:textStyle="bold"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
-        android:textSize="24sp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="@string/text_title_options_menu"
         android:textColor="@color/primaryColor"
-        android:layout_height="wrap_content"/>
+        android:textSize="24sp"
+        android:textStyle="bold"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cv_game_mode"
@@ -28,7 +35,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardElevation="10dp"
-        android:layout_margin="16dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="30dp"
         app:cardCornerRadius="20dp"
         app:cardBackgroundColor="@color/white"
         app:cardMaxElevation="12dp"
@@ -40,53 +49,53 @@
             android:layout_height="match_parent">
 
             <com.google.android.material.imageview.ShapeableImageView
-                android:layout_marginEnd="8dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:id="@+id/iv_option_menu_game_mode"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:outlineProvider="background"
-                android:scaleType="centerCrop"
-                android:background="@color/primaryColor"
-                android:tint="@color/white"
-                android:src="@drawable/baseline_sports_esports_20"
-                app:shapeAppearanceOverlay="@style/roundedImageView"
                 android:layout_gravity="center"
                 android:layout_margin="20dp"
-                android:id="@+id/iv_option_menu_game_mode"
-                android:contentDescription="@string/app_name" />
+                android:layout_marginEnd="8dp"
+                android:background="@color/primaryColor"
+                android:contentDescription="@string/app_name"
+                android:outlineProvider="background"
+                android:scaleType="centerCrop"
+                android:src="@drawable/baseline_sports_esports_20"
+                android:tint="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:shapeAppearanceOverlay="@style/roundedImageView" />
 
             <TextView
                 android:id="@+id/tv_option_menu_game_mode"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toTopOf="@+id/tv_option_menu_game_mode_description"
-                app:layout_constraintStart_toEndOf="@id/iv_option_menu_game_mode"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:text="@string/text_game_mode"
-                android:gravity="center_vertical"
                 android:layout_marginStart="12dp"
+                android:gravity="center_vertical"
+                android:text="@string/text_game_mode"
                 android:textSize="20sp"
                 android:textStyle="bold"
-            />
+                android:textColor="@color/black"
+                app:layout_constraintBottom_toTopOf="@+id/tv_option_menu_game_mode_description"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/iv_option_menu_game_mode"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tv_option_menu_game_mode_description"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_option_menu_game_mode"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/iv_option_menu_game_mode"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:text="@string/text_play_in_player_1_vs_player_2_mode_or_player_1_vs_robot_mode"
                 android:paddingStart="12dp"
                 android:paddingEnd="8dp"
+                android:text="@string/text_play_in_player_1_vs_player_2_mode_or_player_1_vs_robot_mode"
                 android:textAlignment="textStart"
                 android:textSize="12sp"
                 android:textStyle="bold"
-            />
+                android:textColor="@color/black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/iv_option_menu_game_mode"
+                app:layout_constraintTop_toBottomOf="@id/tv_option_menu_game_mode" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
@@ -101,7 +110,9 @@
         app:cardCornerRadius="20dp"
         app:cardBackgroundColor="@color/white"
         app:cardMaxElevation="12dp"
-        android:layout_margin="16dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="30dp"
         app:cardPreventCornerOverlap="true"
         >
 
@@ -140,6 +151,7 @@
                 android:layout_marginStart="12dp"
                 android:textSize="20sp"
                 android:textStyle="bold"
+                android:textColor="@color/black"
                 />
 
             <TextView
@@ -156,6 +168,7 @@
                 android:textAlignment="textStart"
                 android:textSize="12sp"
                 android:textStyle="bold"
+                android:textColor="@color/black"
                 />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
@@ -171,7 +184,9 @@
         app:cardCornerRadius="20dp"
         app:cardBackgroundColor="@color/white"
         app:cardMaxElevation="12dp"
-        android:layout_margin="16dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="30dp"
         app:cardPreventCornerOverlap="true"
         >
 
@@ -210,6 +225,7 @@
                 android:layout_marginStart="12dp"
                 android:textSize="20sp"
                 android:textStyle="bold"
+                android:textColor="@color/black"
                 />
 
             <TextView
@@ -225,6 +241,7 @@
                 android:paddingEnd="8dp"
                 android:textAlignment="textStart"
                 android:textSize="12sp"
+                android:textColor="@color/black"
                 android:textStyle="bold"
                 />
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -241,7 +258,9 @@
         app:cardCornerRadius="20dp"
         app:cardBackgroundColor="@color/white"
         app:cardMaxElevation="12dp"
-        android:layout_margin="16dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="30dp"
         app:cardPreventCornerOverlap="true"
         >
 
@@ -280,6 +299,7 @@
                 android:layout_marginStart="12dp"
                 android:textSize="20sp"
                 android:textStyle="bold"
+                android:textColor="@color/black"
                 />
 
             <TextView
@@ -296,6 +316,7 @@
                 android:textAlignment="textStart"
                 android:textSize="12sp"
                 android:textStyle="bold"
+                android:textColor="@color/black"
                 />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
