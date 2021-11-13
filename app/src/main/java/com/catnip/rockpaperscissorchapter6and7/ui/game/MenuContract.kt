@@ -1,14 +1,14 @@
 package com.catnip.rockpaperscissorchapter6and7.ui.game
 
-import com.catnip.rockpaperscissorchapter6and7.base.BaseContract
+import com.catnip.rockpaperscissorchapter6and7.base.BaseViewModelContract
 
 interface MenuContract {
 
-    interface View : BaseContract.BaseView {
+    interface View : BaseViewModelContract.BaseView {
         fun setClickListeners()
     }
 
-    interface Presenter : BaseContract.BasePresenter {
+    interface ViewModel {
 
     }
 }
