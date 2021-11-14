@@ -1,7 +1,7 @@
 package com.catnip.rockpaperscissorchapter6and7.data.network.model.services
 
 import com.catnip.rockpaperscissorchapter6and7.BuildConfig
-import com.catnip.rockpaperscissorchapter6and7.data.local.datasource.LocalDataSource
+import com.catnip.rockpaperscissorchapter6and7.data.local.preference.datasource.LocalDataSource
 import com.catnip.rockpaperscissorchapter6and7.data.network.model.response.auth.BaseAuthResponse
 import com.catnip.rockpaperscissorchapter6and7.data.network.model.response.auth.UserData
 import okhttp3.Interceptor
@@ -11,14 +11,14 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import java.util.concurrent.TimeUnit
 
-interface AuthApiService {
+interface BinarApiService {
     @GET("auth/me")
     suspend fun getSyncUser(): BaseAuthResponse<UserData, String>
 
 
     companion object {
         @JvmStatic
-        operator fun invoke(localDataSource: LocalDataSource) : AuthApiService {
+        operator fun invoke(localDataSource: LocalDataSource) : BinarApiService {
             val authInterceptor = Interceptor {
                 val requestBuilder = it.request().newBuilder()
                 localDataSource.getAuthToken()?.let { token ->
@@ -37,7 +37,7 @@ interface AuthApiService {
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(okHttpClient)
                 .build()
-            return retrofit.create(AuthApiService::class.java)
+            return retrofit.create(BinarApiService::class.java)
         }
     }
 }

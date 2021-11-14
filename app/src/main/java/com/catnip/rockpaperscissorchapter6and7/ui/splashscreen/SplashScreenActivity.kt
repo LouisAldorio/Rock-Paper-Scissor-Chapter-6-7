@@ -5,10 +5,10 @@ import android.widget.Toast
 import com.catnip.rockpaperscissorchapter6and7.base.BaseViewModelActivity
 import com.catnip.rockpaperscissorchapter6and7.base.GenericViewModelFactory
 import com.catnip.rockpaperscissorchapter6and7.base.model.Resource
-import com.catnip.rockpaperscissorchapter6and7.data.local.datasource.LocalDataSourceImpl
+import com.catnip.rockpaperscissorchapter6and7.data.local.preference.datasource.LocalDataSourceImpl
 import com.catnip.rockpaperscissorchapter6and7.data.local.preference.SessionPreference
-import com.catnip.rockpaperscissorchapter6and7.data.network.datasource.auth.AuthApiDataSourceImpl
-import com.catnip.rockpaperscissorchapter6and7.data.network.model.services.AuthApiService
+import com.catnip.rockpaperscissorchapter6and7.data.network.datasource.binar.BinarApiDataSourceImpl
+import com.catnip.rockpaperscissorchapter6and7.data.network.model.services.BinarApiService
 import com.catnip.rockpaperscissorchapter6and7.databinding.ActivitySplashScreenBinding
 import com.catnip.rockpaperscissorchapter6and7.ui.game.MenuActivity
 
@@ -22,7 +22,7 @@ class SplashScreenActivity : BaseViewModelActivity<ActivitySplashScreenBinding>(
     }
 
     override fun initViewModel() {
-        val dataSource = AuthApiDataSourceImpl(AuthApiService.invoke(LocalDataSourceImpl(SessionPreference(this))))
+        val dataSource = BinarApiDataSourceImpl(BinarApiService.invoke(LocalDataSourceImpl(SessionPreference(this))))
         val repository = SplashScreenRepository(dataSource)
         viewModel = GenericViewModelFactory(SplashScreenViewModel(repository)).create(SplashScreenViewModel::class.java)
         observeViewModel()

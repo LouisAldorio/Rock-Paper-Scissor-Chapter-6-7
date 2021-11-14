@@ -1,4 +1,4 @@
-package com.catnip.rockpaperscissorchapter6and7.data.network.model.request.auth
+package com.catnip.rockpaperscissorchapter6and7.data.network.model.request.binar
 
 import com.google.gson.annotations.SerializedName
 
