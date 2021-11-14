@@ -3,10 +3,10 @@ package com.catnip.rockpaperscissorchapter6and7.data.network.model.request.binar
 import com.google.gson.annotations.SerializedName
 
 data class RegisterRequest(
-    @SerializedName("username")
-    var username: String? = null,
     @SerializedName("email")
-    var email: String? = null,
+    var email: String,
+    @SerializedName("username")
+    var username: String,
     @SerializedName("password")
-    var password: String? = null
+    var password: String
 )

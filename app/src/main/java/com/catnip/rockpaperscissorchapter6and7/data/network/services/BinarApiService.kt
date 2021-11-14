@@ -4,7 +4,7 @@ import com.catnip.rockpaperscissorchapter6and7.BuildConfig
 import com.catnip.rockpaperscissorchapter6and7.data.local.room.datasource.LocalDataSource
 import com.catnip.rockpaperscissorchapter6and7.data.network.model.request.binar.RegisterRequest
 import com.catnip.rockpaperscissorchapter6and7.data.network.model.response.binar.BaseResponse
-import com.catnip.rockpaperscissorchapter6and7.data.network.model.response.binar.UserData
+import com.catnip.rockpaperscissorchapter6and7.data.network.model.response.binar.RegisterData
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -15,8 +15,7 @@ import java.util.concurrent.TimeUnit
 
 interface BinarApiService {
     @POST("auth/register")
-    suspend fun postRegisterUser(@Body registerRequest: RegisterRequest): BaseResponse<UserData, String>
-
+    suspend fun postRegisterUser(@Body registerRequest: RegisterRequest): BaseResponse<RegisterData, String>
 
     companion object {
         @JvmStatic
@@ -39,6 +38,7 @@ interface BinarApiService {
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(okHttpClient)
                 .build()
+
             return retrofit.create(BinarApiService::class.java)
         }
     }
