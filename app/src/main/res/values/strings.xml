@@ -57,5 +57,12 @@
     <string name="text_you_win">%s Win!</string>
     <string name="text_you_lose">%s Lose!</string>
     <string name="text_draw">Draw!</string>
+    <string name="text_update">Update</string>
+    <string name="text_cancel">Cancel</string>
+    <string name="text_username">Username</string>
+    <string name="text_email">Email</string>
+    <string name="text_update_profile">Update Profile</string>
+    <string name="text_profile">Profile</string>
+    <string name="text_update_or_see_your_profile">Update Or See Your Profile</string>
 
 </resources>

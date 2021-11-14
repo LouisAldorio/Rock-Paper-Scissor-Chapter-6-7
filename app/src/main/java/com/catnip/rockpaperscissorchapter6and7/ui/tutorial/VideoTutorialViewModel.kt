@@ -7,7 +7,7 @@ import com.catnip.rockpaperscissorchapter6and7.base.model.Resource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class VideoTutorialVideModel(private val repository : VideoTutorialContract.Repository) : ViewModel(), VideoTutorialContract.ViewModel {
+class VideoTutorialViewModel(private val repository : VideoTutorialContract.Repository) : ViewModel(), VideoTutorialContract.ViewModel {
 
     val transactionResult = MutableLiveData<Resource<String>>()
 

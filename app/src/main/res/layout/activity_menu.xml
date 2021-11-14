@@ -17,12 +17,11 @@
         android:id="@+id/tv_option_menu_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:text="@string/text_title_options_menu"
         android:textColor="@color/primaryColor"
         android:textSize="24sp"
         android:textStyle="bold"
-
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -37,7 +36,7 @@
         app:cardElevation="10dp"
         android:layout_marginEnd="40dp"
         android:layout_marginStart="40dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="15dp"
         app:cardCornerRadius="20dp"
         app:cardBackgroundColor="@color/white"
         app:cardMaxElevation="12dp"
@@ -51,7 +50,7 @@
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/iv_option_menu_game_mode"
                 android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_height="70dp"
                 android:layout_gravity="center"
                 android:layout_margin="20dp"
                 android:layout_marginEnd="8dp"
@@ -112,7 +111,7 @@
         app:cardMaxElevation="12dp"
         android:layout_marginEnd="40dp"
         android:layout_marginStart="40dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="15dp"
         app:cardPreventCornerOverlap="true"
         >
 
@@ -126,7 +125,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_height="70dp"
                 android:outlineProvider="background"
                 android:scaleType="centerCrop"
                 android:background="@color/primaryColor"
@@ -186,7 +185,7 @@
         app:cardMaxElevation="12dp"
         android:layout_marginEnd="40dp"
         android:layout_marginStart="40dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="15dp"
         app:cardPreventCornerOverlap="true"
         >
 
@@ -200,7 +199,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_height="70dp"
                 android:outlineProvider="background"
                 android:scaleType="centerCrop"
                 android:background="@color/primaryColor"
@@ -260,7 +259,7 @@
         app:cardMaxElevation="12dp"
         android:layout_marginEnd="40dp"
         android:layout_marginStart="40dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="15dp"
         app:cardPreventCornerOverlap="true"
         >
 
@@ -274,7 +273,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_height="70dp"
                 android:outlineProvider="background"
                 android:scaleType="centerCrop"
                 android:background="@color/primaryColor"
@@ -311,6 +310,80 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:text="@string/text_get_to_know_the_developers_who_developer_the_application"
+                android:paddingLeft="12dp"
+                android:paddingRight="8dp"
+                android:textAlignment="textStart"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_profile"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cv_game_about"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardElevation="10dp"
+        app:cardCornerRadius="20dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardMaxElevation="12dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="15dp"
+        app:cardPreventCornerOverlap="true"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_marginEnd="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_width="80dp"
+                android:layout_height="70dp"
+                android:outlineProvider="background"
+                android:scaleType="centerCrop"
+                android:background="@color/primaryColor"
+                android:tint="@color/white"
+                android:src="@drawable/ic_baseline_person_pin_24"
+                app:shapeAppearanceOverlay="@style/roundedImageView"
+                android:layout_gravity="center"
+                android:layout_margin="20dp"
+                android:id="@+id/iv_option_menu_profile"
+                android:contentDescription="@string/app_name" />
+
+            <TextView
+                android:id="@+id/tv_option_menu_profile"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/tv_option_menu_profile_description"
+                app:layout_constraintStart_toEndOf="@id/iv_option_menu_profile"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:text="@string/text_profile"
+                android:gravity="center_vertical"
+                android:layout_marginStart="12dp"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                />
+
+            <TextView
+                android:id="@+id/tv_option_menu_profile_description"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_option_menu_profile"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/iv_option_menu_profile"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:text="@string/text_update_or_see_your_profile"
                 android:paddingLeft="12dp"
                 android:paddingRight="8dp"
                 android:textAlignment="textStart"

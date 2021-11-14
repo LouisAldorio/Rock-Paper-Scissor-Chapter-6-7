@@ -10,6 +10,7 @@ import com.catnip.rockpaperscissorchapter6and7.ui.about.AboutActivity
 import com.catnip.rockpaperscissorchapter6and7.ui.about.AboutViewModel
 
 import com.catnip.rockpaperscissorchapter6and7.ui.game.mode.GameModeActivity
+import com.catnip.rockpaperscissorchapter6and7.ui.profile.ProfileDialog
 import com.catnip.rockpaperscissorchapter6and7.ui.tutorial.VideoTutorialDialog
 
 
@@ -45,6 +46,10 @@ class MenuActivity : BaseViewModelActivity<ActivityMenuBinding> (
         getViewBinding().cvGameAbout.setOnClickListener {
             val intent = Intent(this@MenuActivity, AboutActivity::class.java)
             startActivity(intent)
+        }
+
+        getViewBinding().cvProfile.setOnClickListener {
+            ProfileDialog().show(supportFragmentManager,"Profile")
         }
     }
 }
