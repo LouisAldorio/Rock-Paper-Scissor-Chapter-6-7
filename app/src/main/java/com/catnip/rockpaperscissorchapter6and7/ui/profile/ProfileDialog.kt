@@ -1,5 +1,6 @@
 package com.catnip.rockpaperscissorchapter6and7.ui.profile
 
+import android.content.DialogInterface
 import android.util.Log
 import androidx.core.view.isVisible
 import com.catnip.rockpaperscissorchapter6and7.base.BaseViewModelDialogFragment
@@ -11,6 +12,14 @@ import com.catnip.rockpaperscissorchapter6and7.data.network.datasource.auth.Auth
 import com.catnip.rockpaperscissorchapter6and7.data.network.services.AuthApiService
 import com.catnip.rockpaperscissorchapter6and7.databinding.DialogFragmentProfileBinding
 import com.shashank.sony.fancytoastlib.FancyToast
+import android.content.Intent
+import android.view.ViewGroup
+import android.window.SplashScreen
+import com.catnip.rockpaperscissorchapter6and7.data.network.model.response.auth.BaseAuthResponse
+import com.catnip.rockpaperscissorchapter6and7.data.network.model.response.auth.UserData
+import com.catnip.rockpaperscissorchapter6and7.ui.intro.IntroActivity
+import com.catnip.rockpaperscissorchapter6and7.ui.splashscreen.SplashScreenActivity
+
 
 class ProfileDialog : BaseViewModelDialogFragment<DialogFragmentProfileBinding>(
     DialogFragmentProfileBinding::inflate
@@ -26,12 +35,14 @@ class ProfileDialog : BaseViewModelDialogFragment<DialogFragmentProfileBinding>(
     }
 
     override fun initView() {
+        dialog?.getWindow()?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         getViewBinding().btnCancel.setOnClickListener {
             dismiss()
         }
         getViewBinding().btnUpdate.setOnClickListener {
             if (validate()) {
                 profileViewModel.updateProfile(getViewBinding().etUsername.text.toString(),getViewBinding().etEmail.text.toString())
+
             }else {
                 FancyToast.makeText(
                     requireContext(),
@@ -58,42 +69,15 @@ class ProfileDialog : BaseViewModelDialogFragment<DialogFragmentProfileBinding>(
         profileViewModel = GenericViewModelFactory(ProfileViewModel(repository)).create(ProfileViewModel::class.java)
 
         profileViewModel.transactionResult.observe(this, { response ->
-            when (response) {
-                is Resource.Loading -> {
-                    showLoading(true)
-                    showError(false, null)
-                    showContent(false)
-                }
-                is Resource.Success -> {
-                    Log.i("sampe", "masuk error")
-                    showLoading(false)
-                    response.data?.let {
-                        if (!it.isSuccess) {
-                            showError(true, it.errorMsg)
-                            showContent(false)
-                        } else {
-                            showError(false, null)
-                            showContent(true)
+            determineAction(false, response)
+        })
 
-                            it.data.email?.let { it1 -> it.data.username?.let { it2 ->
-                                setProfileData(it1,
-                                    it2
-                                )
-                            } }
-                        }
-                    }
-                }
-                is Resource.Error -> {
-                    showLoading(false)
-                    showError(true, response.data?.errorMsg)
-                    showContent(false)
-                }
-            }
+        profileViewModel.updateTransactionResult.observe(this, { response ->
+            determineAction(true, response)
         })
     }
 
     override fun setProfileData(email: String, username: String) {
-        Log.i("sampe", username + email)
         getViewBinding().etEmail.setText(email)
         getViewBinding().etUsername.setText(username)
     }
@@ -114,4 +98,70 @@ class ProfileDialog : BaseViewModelDialogFragment<DialogFragmentProfileBinding>(
         getViewBinding().tvMessage.isVisible = isErrorEnabled
         getViewBinding().tvMessage.text = msg
     }
+
+    private fun restartApplicationAndClearPreference() {
+
+        val intent = Intent(requireContext(), SplashScreenActivity::class.java)
+        intent.addFlags( Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        startActivity(intent)
+
+        //todo : clear the expired token that is stored under the shared preference
+
+
+        dismiss()
+    }
+
+    private fun closeDialogWhenUpdateSuccess() {
+        FancyToast.makeText(
+            requireContext(),
+            "Successfully Updated Profile Data!",
+            FancyToast.LENGTH_LONG,
+            FancyToast.SUCCESS,
+            true
+        ).show();
+        dismiss()
+    }
+
+    private fun determineAction(isUpdateTransaction : Boolean,
+                                response: Resource<BaseAuthResponse<UserData, String>>) {
+
+        when (response) {
+            is Resource.Loading -> {
+                showLoading(true)
+                showError(false, null)
+                showContent(false)
+            }
+            is Resource.Success -> {
+                showLoading(false)
+                response.data?.let {
+                    if (!it.isSuccess) {
+                        showError(true, it.errorMsg)
+                        showContent(false)
+                    } else {
+                        showError(false, null)
+                        showContent(true)
+
+                        if(isUpdateTransaction) {
+                            closeDialogWhenUpdateSuccess()
+                        }else
+                            it.data.email?.let { it1 -> it.data.username?.let { it2 ->
+                                setProfileData(it1,
+                                    it2
+                                )
+                            }}
+                    }
+                }
+            }
+            is Resource.Error -> {
+                if(response.message == "Token is expired") {
+                    restartApplicationAndClearPreference()
+                }else {
+                    showLoading(false)
+                    showError(true, response.message)
+                    showContent(false)
+                }
+            }
+        }
+    }
+
 }

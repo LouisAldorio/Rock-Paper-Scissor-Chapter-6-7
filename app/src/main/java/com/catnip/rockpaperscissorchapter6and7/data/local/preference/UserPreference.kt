@@ -13,7 +13,7 @@ class UserPreference(context : Context) {
         private const val PREF_NAME = "RockPaperScissor"
         private const val PREF_MODE = Context.MODE_PRIVATE
         private val PREF_IS_USER_LOGGED_IN = Pair("player", null)
-        private val PREF_AUTH_TOKEN = Pair("PREF_AUTH_TOKEN", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MThkMTkzODZiOWFlZjAwMTc0NWEzMWQiLCJ1c2VybmFtZSI6ImxvdWlzYWxkb3JpbzEyMyIsImVtYWlsIjoibG91aXNhbGRvcmlvMTIzQGdtYWlsLmNvbSIsImlhdCI6MTYzNjg2MzcwNiwiZXhwIjoxNjM2ODcwOTA2fQ.JsxUWKzJ31pwZZRDqz3gr4HyLnmQV183nGTvfFKd1ME")
+        private val PREF_AUTH_TOKEN = Pair("PREF_AUTH_TOKEN", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MThkMTkzODZiOWFlZjAwMTc0NWEzMWQiLCJ1c2VybmFtZSI6ImxvdWlzYWxkb3JpbzEyMyIsImVtYWlsIjoibG91aXNhbGRvcmlvMTIzQGdtYWlsLmNvbSIsImlhdCI6MTYzNjk4NDUzMSwiZXhwIjoxNjM2OTkxNzMxfQ.a9rJMbNJ8Rlen1i3cUaxQwL8kV46kdxHl9RuNoVyUe0")
         private val gson = Gson()
     }
 
