@@ -37,6 +37,7 @@
             android:name=".ui.splashscreen.SplashScreenActivity"
             android:exported="true"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+
         <activity
             android:name=".ui.game.MenuActivity"
             android:exported="true" />

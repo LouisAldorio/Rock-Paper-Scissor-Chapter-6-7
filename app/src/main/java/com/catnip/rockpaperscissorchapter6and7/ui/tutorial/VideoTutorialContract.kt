@@ -6,11 +6,10 @@ import com.catnip.rockpaperscissorchapter6and7.data.model.Player
 
 interface VideoTutorialContract {
     interface View: BaseContract.BaseView {
-        fun onDataCallback(response: Resource<String>)
         fun setUpYoutubePlayer(videoId : String)
     }
 
-    interface Presenter: BaseContract.BasePresenter {
+    interface ViewModel {
         fun getVideoId()
     }
 
