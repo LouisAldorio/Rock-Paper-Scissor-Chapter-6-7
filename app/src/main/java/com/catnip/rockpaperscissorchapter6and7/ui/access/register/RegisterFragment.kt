@@ -70,7 +70,9 @@ class RegisterFragment : Fragment(), RegisterContract.View{
                     }
                 }
                 is Resource.Error -> {
-                    Toast.makeText(context, response.message, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, """
+                        Pendaftaran gagal, pastikan username lebih dari 5 karakter atau coba email yang lain atau username yang lain
+                    """.trimIndent(), Toast.LENGTH_SHORT).show()
                 }
             }
         })
