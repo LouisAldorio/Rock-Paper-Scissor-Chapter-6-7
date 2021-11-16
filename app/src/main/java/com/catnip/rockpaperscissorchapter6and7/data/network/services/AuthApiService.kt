@@ -36,8 +36,7 @@ interface AuthApiService {
     @PUT("users")
     suspend fun putUserData(@Body data : RequestBody) : BaseAuthResponse<UserData, String>
 
-//    @POST("auth/register")
-//    suspend fun postRegisterUser(@Body registerRequest: AuthRequest): BaseAuthResponse<UserData, String>
+
 
     companion object {
 

@@ -16,6 +16,7 @@ import com.catnip.rockpaperscissorchapter6and7.data.network.model.request.binar.
 import com.catnip.rockpaperscissorchapter6and7.data.network.services.AuthApiService
 import com.catnip.rockpaperscissorchapter6and7.databinding.FragmentRegisterBinding
 import com.catnip.rockpaperscissorchapter6and7.ui.intro.IntroActivity
+import com.shashank.sony.fancytoastlib.FancyToast
 
 
 class RegisterFragment : Fragment(), RegisterContract.View{
@@ -71,7 +72,13 @@ class RegisterFragment : Fragment(), RegisterContract.View{
                     }
                 }
                 is Resource.Error -> {
-                    Toast.makeText(context, response.message, Toast.LENGTH_SHORT).show()
+                    FancyToast.makeText(
+                        requireContext(),
+                        response.message,
+                        FancyToast.LENGTH_LONG,
+                        FancyToast.ERROR,
+                        true
+                    ).show();
                 }
             }
         })
