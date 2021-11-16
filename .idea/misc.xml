@@ -3,9 +3,18 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/MBKM/Binar Academy/Chapter 6/Challenge/App/Rock-Paper-Scissor-Chapter-6-7/app/src/main/res/layout/activity_game_mode.xml" value="0.22" />
         <entry key="..\:/Studi Independen Kampus Merdeka/Binar Academy Android Engineering/Platinum/challenge/Rock Paper Scissor Chapter 6 And 7/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.24791666666666667" />
         <entry key="..\:/Studi Independen Kampus Merdeka/Binar Academy Android Engineering/Platinum/challenge/Rock Paper Scissor Chapter 6 And 7/app/src/main/res/drawable/ic_launcher_background.xml" value="0.24791666666666667" />
+        <entry key="..\:/Studi Independen Kampus Merdeka/Binar Academy Android Engineering/Platinum/challenge/Rock Paper Scissor Chapter 6 And 7/app/src/main/res/drawable/rectangle_radius_top_left_right.xml" value="0.27447916666666666" />
+        <entry key="..\:/Studi Independen Kampus Merdeka/Binar Academy Android Engineering/Platinum/challenge/Rock Paper Scissor Chapter 6 And 7/app/src/main/res/drawable/rounded_corner_primary.xml" value="0.27447916666666666" />
+        <entry key="..\:/Studi Independen Kampus Merdeka/Binar Academy Android Engineering/Platinum/challenge/Rock Paper Scissor Chapter 6 And 7/app/src/main/res/drawable/rounded_corner_shape.xml" value="0.27447916666666666" />
+        <entry key="..\:/Studi Independen Kampus Merdeka/Binar Academy Android Engineering/Platinum/challenge/Rock Paper Scissor Chapter 6 And 7/app/src/main/res/layout/activity_about.xml" value="0.23324275362318841" />
         <entry key="..\:/Studi Independen Kampus Merdeka/Binar Academy Android Engineering/Platinum/challenge/Rock Paper Scissor Chapter 6 And 7/app/src/main/res/layout/activity_game_history.xml" value="0.21829710144927536" />
+        <entry key="..\:/Studi Independen Kampus Merdeka/Binar Academy Android Engineering/Platinum/challenge/Rock Paper Scissor Chapter 6 And 7/app/src/main/res/layout/activity_menu.xml" value="0.20923913043478262" />
+        <entry key="..\:/Studi Independen Kampus Merdeka/Binar Academy Android Engineering/Platinum/challenge/Rock Paper Scissor Chapter 6 And 7/app/src/main/res/layout/dialog_fragment_profile.xml" value="0.22239583333333332" />
+        <entry key="..\:/Studi Independen Kampus Merdeka/Binar Academy Android Engineering/Platinum/challenge/Rock Paper Scissor Chapter 6 And 7/app/src/main/res/layout/dialog_fragment_video_tutorial.xml" value="0.20923913043478262" />
+        <entry key="..\:/Studi Independen Kampus Merdeka/Binar Academy Android Engineering/Platinum/challenge/Rock Paper Scissor Chapter 6 And 7/app/src/main/res/layout/fragment_result_dialog.xml" value="0.20923913043478262" />
         <entry key="..\:/Studi Independen Kampus Merdeka/Binar Academy Android Engineering/Platinum/challenge/Rock Paper Scissor Chapter 6 And 7/app/src/main/res/layout/list_popup_window_item.xml" value="0.234375" />
         <entry key="..\:/Users/user/AndroidStudioProjects/BinarAcademy/Challenge/Rock-Paper-Scissor-Chapter-6-7/app/src/main/res/layout/activity_game_history.xml" value="0.36666666666666664" />
         <entry key="..\:/kotlin-project/Rock-Paper-Scissor-Chapter-6-7/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2682291666666667" />

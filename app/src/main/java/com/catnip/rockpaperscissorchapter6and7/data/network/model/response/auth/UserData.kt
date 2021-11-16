@@ -3,12 +3,16 @@ package com.catnip.rockpaperscissorchapter6and7.data.network.model.response.auth
 import com.google.gson.annotations.SerializedName
 
 data class UserData(
+
     @SerializedName("_id")
-    val id: String?,
+    val id : String?,
+
     @SerializedName("username")
-    val username: String?,
+    val username : String?,
+
     @SerializedName("email")
-    val email: String?,
+    val email : String?,
+
     @SerializedName("token")
-    val token: String?
+    val token : String?
 )

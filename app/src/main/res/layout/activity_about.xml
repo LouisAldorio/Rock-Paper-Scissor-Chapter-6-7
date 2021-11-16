@@ -7,7 +7,7 @@
     android:layout_height="match_parent">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cv_img_mode_pvr"
+        android:id="@+id/cv_img_mode_pvc"
         android:layout_width="80dp"
         android:layout_height="80dp"
         app:cardCornerRadius="20dp"
@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/iv_mode_pvr"
+            android:id="@+id/iv_mode_pvc"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"

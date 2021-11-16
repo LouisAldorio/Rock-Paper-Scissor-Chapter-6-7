@@ -3,7 +3,7 @@ package com.catnip.rockpaperscissorchapter6and7.ui.about
 import com.catnip.rockpaperscissorchapter6and7.base.BaseViewModelContract
 import com.catnip.rockpaperscissorchapter6and7.data.model.TeamMember
 
-interface AboutViewModelContract {
+interface AboutContract {
     interface ViewModel {
         fun getData()
 

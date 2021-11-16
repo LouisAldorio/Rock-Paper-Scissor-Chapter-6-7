@@ -2,11 +2,16 @@ package com.catnip.rockpaperscissorchapter6and7.data.network.model.response.auth
 
 import com.google.gson.annotations.SerializedName
 
-data class BaseAuthResponse<D, E>(
+
+data class BaseAuthResponse<D,E>(
+
     @SerializedName("success")
-    val isSuccess: Boolean,
+    val isSuccess : Boolean,
+
     @SerializedName("data")
-    val data: D,
+    var data : D,
+
     @SerializedName("errors")
-    val errorMsg: E
+    var errorMsg : E
 )
+

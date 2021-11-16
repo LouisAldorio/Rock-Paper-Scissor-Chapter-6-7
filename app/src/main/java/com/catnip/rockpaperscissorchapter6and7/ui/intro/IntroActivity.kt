@@ -15,7 +15,7 @@ class IntroActivity : AppIntro2() {
 
         isIndicatorEnabled = false
         supportActionBar?.hide()
-        for (i in 0..3) {
+        for (i in 0..2) {
             addSlide(IntroFragment.newInstance(IntroType.values()[i]))
         }
     }

@@ -1,23 +1,22 @@
-package com.catnip.rockpaperscissorchapter6and7.ui.about
+package com.catnip.rockpaperscissorchapter6and7.ui.tutorial
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.catnip.rockpaperscissorchapter6and7.base.model.Resource
-import com.catnip.rockpaperscissorchapter6and7.data.model.TeamMember
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class AboutViewModel(private val repository: AboutContract.Repository) : ViewModel(),AboutContract.ViewModel {
+class VideoTutorialViewModel(private val repository : VideoTutorialContract.Repository) : ViewModel(), VideoTutorialContract.ViewModel {
 
-    val transactionResult = MutableLiveData<Resource<List<TeamMember>>>()
+    val transactionResult = MutableLiveData<Resource<String>>()
 
-    override fun getData() {
+    override fun getVideoId() {
         viewModelScope.launch {
             try {
-                val teamMembers = repository.getTeamMembers()
+                val videoId = repository.getVideoId()
                 viewModelScope.launch (Dispatchers.Main){
-                    transactionResult.value = Resource.Success(teamMembers)
+                    transactionResult.value = Resource.Success(videoId)
                 }
             } catch (e: Exception) {
                 viewModelScope.launch (Dispatchers.Main){
