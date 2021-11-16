@@ -25,11 +25,11 @@ class UserPreference(context : Context) {
             }
         }
 
-    var authToken: String?
-        get() = preference.getString(PREF_AUTH_TOKEN.first, PREF_AUTH_TOKEN.second)
-        set(value) = preference.edit {
-            it.putString(PREF_AUTH_TOKEN.first, value)
-        }
+//    var authToken: String?
+//        get() = preference.getString(PREF_AUTH_TOKEN.first, PREF_AUTH_TOKEN.second)
+//        set(value) = preference.edit {
+//            it.putString(PREF_AUTH_TOKEN.first, value)
+//        }
 }
 
 private inline fun SharedPreferences.edit(operation : (SharedPreferences.Editor) -> Unit) {

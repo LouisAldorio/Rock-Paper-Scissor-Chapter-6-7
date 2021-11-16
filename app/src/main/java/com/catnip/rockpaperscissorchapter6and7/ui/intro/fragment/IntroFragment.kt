@@ -73,10 +73,9 @@ class IntroFragment : Fragment() {
     }
 
     private fun goToAccessPage() {
-//        Move to login and register page
-//        val intent = Intent(context, MenuActivity::class.java)
-//        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-//        startActivity(intent)
+        val intent = Intent(context, MenuActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
     }
 
     companion object {

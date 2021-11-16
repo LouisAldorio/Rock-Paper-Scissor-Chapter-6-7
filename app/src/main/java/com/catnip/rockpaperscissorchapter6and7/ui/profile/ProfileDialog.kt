@@ -1,23 +1,19 @@
 package com.catnip.rockpaperscissorchapter6and7.ui.profile
 
-import android.content.DialogInterface
-import android.util.Log
 import androidx.core.view.isVisible
 import com.catnip.rockpaperscissorchapter6and7.base.BaseViewModelDialogFragment
 import com.catnip.rockpaperscissorchapter6and7.base.GenericViewModelFactory
 import com.catnip.rockpaperscissorchapter6and7.base.model.Resource
-import com.catnip.rockpaperscissorchapter6and7.data.local.preference.UserPreference
-import com.catnip.rockpaperscissorchapter6and7.data.local.preference.datasource.PreferenceDataSourceImpl
 import com.catnip.rockpaperscissorchapter6and7.data.network.datasource.auth.AuthApiDataSourceImpl
 import com.catnip.rockpaperscissorchapter6and7.data.network.services.AuthApiService
 import com.catnip.rockpaperscissorchapter6and7.databinding.DialogFragmentProfileBinding
 import com.shashank.sony.fancytoastlib.FancyToast
 import android.content.Intent
 import android.view.ViewGroup
-import android.window.SplashScreen
+import com.catnip.rockpaperscissorchapter6and7.data.local.preference.SessionPreference
+import com.catnip.rockpaperscissorchapter6and7.data.local.preference.datasource.LocalDataSourceImpl
 import com.catnip.rockpaperscissorchapter6and7.data.network.model.response.auth.BaseAuthResponse
 import com.catnip.rockpaperscissorchapter6and7.data.network.model.response.auth.UserData
-import com.catnip.rockpaperscissorchapter6and7.ui.intro.IntroActivity
 import com.catnip.rockpaperscissorchapter6and7.ui.splashscreen.SplashScreenActivity
 
 
@@ -61,9 +57,11 @@ class ProfileDialog : BaseViewModelDialogFragment<DialogFragmentProfileBinding>(
     }
 
     override fun initViewModel() {
-        val datasource = AuthApiDataSourceImpl(AuthApiService.invoke(PreferenceDataSourceImpl(
-            UserPreference(requireContext())
-        )))
+        val datasource = AuthApiDataSourceImpl(AuthApiService.invoke(
+            LocalDataSourceImpl(
+                SessionPreference(requireContext())
+            )
+        ))
 
         val repository = ProfileRepository(datasource)
         profileViewModel = GenericViewModelFactory(ProfileViewModel(repository)).create(ProfileViewModel::class.java)

@@ -1,9 +1,12 @@
 package com.catnip.rockpaperscissorchapter6and7.data.network.services
 
 import com.catnip.rockpaperscissorchapter6and7.BuildConfig
-import com.catnip.rockpaperscissorchapter6and7.data.local.preference.datasource.PreferenceDataSource
+import com.catnip.rockpaperscissorchapter6and7.data.local.preference.datasource.LocalDataSource
+import com.catnip.rockpaperscissorchapter6and7.data.network.model.request.binar.RegisterRequest
 import com.catnip.rockpaperscissorchapter6and7.data.network.model.response.auth.BaseAuthResponse
 import com.catnip.rockpaperscissorchapter6and7.data.network.model.response.auth.UserData
+import com.catnip.rockpaperscissorchapter6and7.data.network.model.response.auth.BaseResponse
+import com.catnip.rockpaperscissorchapter6and7.data.network.model.response.auth.RegisterData
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody
@@ -11,10 +14,17 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.PUT
 import java.util.concurrent.TimeUnit
 
 interface AuthApiService {
+
+    @GET("auth/me")
+    suspend fun getSyncUser(): BaseAuthResponse<UserData, String>
+
+    @POST("auth/register")
+    suspend fun postRegisterUser(@Body registerRequest: RegisterRequest): BaseResponse<RegisterData, String>
 
     @GET("users")
     suspend fun getUserData() : BaseAuthResponse<UserData, String>
@@ -25,11 +35,11 @@ interface AuthApiService {
     companion object {
 
         @JvmStatic
-        operator fun invoke(preferenceDataSource: PreferenceDataSource) : AuthApiService {
+        operator fun invoke(localDataSource: LocalDataSource) : AuthApiService {
             val authInterceptor = Interceptor {
 
                 val requestBuilder = it.request().newBuilder()
-                preferenceDataSource.getAuthToken()?.let { token ->
+                localDataSource.getAuthToken()?.let { token ->
                     requestBuilder.addHeader("Authorization", "Bearer $token")
                 }
                 it.proceed(requestBuilder.build())

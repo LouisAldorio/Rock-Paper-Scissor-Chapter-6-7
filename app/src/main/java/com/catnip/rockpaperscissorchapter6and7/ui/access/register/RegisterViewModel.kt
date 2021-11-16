@@ -6,8 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.catnip.rockpaperscissorchapter6and7.base.model.Resource
 import com.catnip.rockpaperscissorchapter6and7.data.network.model.request.binar.RegisterRequest
-import com.catnip.rockpaperscissorchapter6and7.data.network.model.response.binar.BaseResponse
-import com.catnip.rockpaperscissorchapter6and7.data.network.model.response.binar.RegisterData
+import com.catnip.rockpaperscissorchapter6and7.data.network.model.response.auth.BaseResponse
+import com.catnip.rockpaperscissorchapter6and7.data.network.model.response.auth.RegisterData
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
