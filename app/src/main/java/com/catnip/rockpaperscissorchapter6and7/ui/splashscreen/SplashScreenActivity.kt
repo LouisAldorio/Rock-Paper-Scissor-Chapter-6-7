@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
 import com.catnip.rockpaperscissorchapter6and7.R
+import com.catnip.rockpaperscissorchapter6and7.ui.auth.AuthActivity
 import com.catnip.rockpaperscissorchapter6and7.ui.game.MenuActivity
 import com.catnip.rockpaperscissorchapter6and7.ui.intro.IntroActivity
 import java.text.SimpleDateFormat
@@ -28,7 +29,7 @@ class SplashScreenActivity : Activity() {
             override fun onTick(p0: Long) {}
 
             override fun onFinish() {
-                val intent = Intent(this@SplashScreenActivity, IntroActivity::class.java)
+                val intent = Intent(this@SplashScreenActivity, AuthActivity::class.java)
                 startActivity(intent)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 finish()

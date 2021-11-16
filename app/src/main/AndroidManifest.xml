@@ -19,6 +19,9 @@
             android:name=".ui.game.gameplay.GamePlayActivity"
             android:exported="true" />
         <activity
+            android:name=".ui.auth.AuthActivity"
+            android:exported="true" />
+        <activity
             android:name=".ui.about.AboutActivity"
             android:exported="true" />
 
