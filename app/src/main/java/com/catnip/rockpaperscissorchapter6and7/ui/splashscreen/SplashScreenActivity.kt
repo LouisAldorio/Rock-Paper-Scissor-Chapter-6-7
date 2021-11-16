@@ -2,6 +2,8 @@ package com.catnip.rockpaperscissorchapter6and7.ui.splashscreen
 
 import android.content.Intent
 import android.util.Log
+import com.catnip.rockpaperscissorchapter6and7.R
+import com.catnip.rockpaperscissorchapter6and7.ui.auth.AuthActivity
 import android.widget.Toast
 import com.catnip.rockpaperscissorchapter6and7.base.BaseViewModelActivity
 import com.catnip.rockpaperscissorchapter6and7.base.GenericViewModelFactory
@@ -28,6 +30,7 @@ class SplashScreenActivity : BaseViewModelActivity<ActivitySplashScreenBinding>(
         viewModel = GenericViewModelFactory(SplashScreenViewModel(repository)).create(SplashScreenViewModel::class.java)
         observeViewModel()
     }
+
 
     override fun observeViewModel() {
         viewModel.getAuthSyncLiveData().observe(this, { response ->

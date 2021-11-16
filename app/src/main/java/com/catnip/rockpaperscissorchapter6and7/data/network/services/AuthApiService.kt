@@ -2,6 +2,7 @@ package com.catnip.rockpaperscissorchapter6and7.data.network.services
 
 import com.catnip.rockpaperscissorchapter6and7.BuildConfig
 import com.catnip.rockpaperscissorchapter6and7.data.local.preference.datasource.PreferenceDataSource
+import com.catnip.rockpaperscissorchapter6and7.data.network.model.request.auth.AuthRequest
 import com.catnip.rockpaperscissorchapter6and7.data.network.model.response.auth.BaseAuthResponse
 import com.catnip.rockpaperscissorchapter6and7.data.network.model.response.auth.UserData
 import okhttp3.Interceptor
@@ -11,16 +12,23 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.PUT
 import java.util.concurrent.TimeUnit
 
 interface AuthApiService {
+
+    @POST("auth/login")
+    suspend fun postLoginUser(@Body loginRequest: AuthRequest): BaseAuthResponse<UserData, String>
 
     @GET("users")
     suspend fun getUserData() : BaseAuthResponse<UserData, String>
 
     @PUT("users")
     suspend fun putUserData(@Body data : RequestBody) : BaseAuthResponse<UserData, String>
+
+    @POST("auth/register")
+    suspend fun postRegisterUser(@Body registerRequest: AuthRequest): BaseAuthResponse<UserData, String>
 
     companion object {
 
