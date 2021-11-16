@@ -1,14 +1,11 @@
 package com.catnip.rockpaperscissorchapter6and7.ui.auth.login
 
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import com.catnip.rockpaperscissorchapter6and7.R
 import com.catnip.rockpaperscissorchapter6and7.base.GenericViewModelFactory
 import com.catnip.rockpaperscissorchapter6and7.base.model.Resource
 import com.catnip.rockpaperscissorchapter6and7.data.local.preference.SessionPreference
@@ -16,28 +13,19 @@ import com.catnip.rockpaperscissorchapter6and7.data.local.preference.UserPrefere
 import com.catnip.rockpaperscissorchapter6and7.data.local.preference.datasource.PreferenceDataSourceImpl
 import com.catnip.rockpaperscissorchapter6and7.data.network.datasource.auth.AuthApiDataSourceImpl
 import com.catnip.rockpaperscissorchapter6and7.data.network.model.request.auth.AuthRequest
-import com.catnip.rockpaperscissorchapter6and7.data.network.model.response.auth.BaseAuthResponse
 import com.catnip.rockpaperscissorchapter6and7.data.network.model.response.auth.UserData
 import com.catnip.rockpaperscissorchapter6and7.data.network.services.AuthApiService
 import com.catnip.rockpaperscissorchapter6and7.databinding.FragmentLoginBinding
-import com.catnip.rockpaperscissorchapter6and7.ui.auth.AuthActivity
-import com.catnip.rockpaperscissorchapter6and7.ui.auth.register.RegisterFragment
-import com.google.android.material.tabs.TabLayoutMediator
 
 class LoginFragment : Fragment(), LoginContract.View {
 
     private lateinit var binding: FragmentLoginBinding
     private lateinit var viewModel: LoginViewModel
 
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentLoginBinding.inflate(inflater, container, false)
         return binding.root
 
@@ -50,16 +38,14 @@ class LoginFragment : Fragment(), LoginContract.View {
 
     override fun observeViewModel() {
         viewModel.loginResponse.observe(viewLifecycleOwner, { response ->
-            when (response) {
-                is Resource.Success -> {
-                    Toast.makeText(context, "Login Success", Toast.LENGTH_SHORT).show()
-                    response.data?.data.let{
-                        it?.let { it1 -> saveSessionLogin(it1) }
-                    }
+            if (response is Resource.Success) {
+                Toast.makeText(context, "Login Success", Toast.LENGTH_SHORT).show()
+                response.data?.data.let{
+                    it?.let { it1 -> saveSessionLogin(it1) }
                 }
-                is Resource.Error -> {
-                    Toast.makeText(context, "Login Failed, Please check email and password correctly", Toast.LENGTH_SHORT).show()
-                }
+            }
+            else if (response is Resource.Error) {
+                Toast.makeText(context, "Login Failed, Please check email and password correctly", Toast.LENGTH_SHORT).show()
             }
         })
     }
