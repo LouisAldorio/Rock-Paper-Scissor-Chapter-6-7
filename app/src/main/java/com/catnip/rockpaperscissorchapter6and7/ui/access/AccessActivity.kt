@@ -18,10 +18,11 @@ class AccessActivity : BaseViewModelActivity<ActivityAccessBinding>(
 //    }
 
     override fun initView() {
-
+//        supportFragmentManager.beginTransaction().replace(R.id.fooFragment, RegisterFragment()).commitAllowingStateLoss()
     }
 
     override fun initViewModel() {
 
     }
+
 }

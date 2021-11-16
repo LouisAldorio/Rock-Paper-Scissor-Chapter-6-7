@@ -12,6 +12,7 @@ import com.catnip.rockpaperscissorchapter6and7.data.network.datasource.auth.Auth
 import com.catnip.rockpaperscissorchapter6and7.data.network.services.AuthApiService
 import com.catnip.rockpaperscissorchapter6and7.databinding.ActivitySplashScreenBinding
 import com.catnip.rockpaperscissorchapter6and7.ui.access.AccessActivity
+import com.catnip.rockpaperscissorchapter6and7.ui.auth.AuthActivity
 import com.catnip.rockpaperscissorchapter6and7.ui.game.MenuActivity
 import com.catnip.rockpaperscissorchapter6and7.ui.intro.IntroActivity
 
@@ -31,6 +32,7 @@ class SplashScreenActivity : BaseViewModelActivity<ActivitySplashScreenBinding>(
         viewModel = GenericViewModelFactory(SplashScreenViewModel(repository)).create(SplashScreenViewModel::class.java)
         observeViewModel()
     }
+
 
     override fun observeViewModel() {
         viewModel.getAuthSyncLiveData().observe(this, { response ->
@@ -55,7 +57,7 @@ class SplashScreenActivity : BaseViewModelActivity<ActivitySplashScreenBinding>(
     override fun showError(isErrorEnabled: Boolean, msg: String?) {
         if (isErrorEnabled) {
             Toast.makeText(this, "Move to Login Page", Toast.LENGTH_SHORT).show()
-            val intent = Intent(this, AccessActivity::class.java)
+            val intent = Intent(this, AuthActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
             startActivity(intent)
         }

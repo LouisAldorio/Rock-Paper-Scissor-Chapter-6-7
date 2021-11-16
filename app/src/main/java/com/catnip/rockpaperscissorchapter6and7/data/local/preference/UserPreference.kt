@@ -13,7 +13,6 @@ class UserPreference(context : Context) {
         private const val PREF_NAME = "RockPaperScissor"
         private const val PREF_MODE = Context.MODE_PRIVATE
         private val PREF_IS_USER_LOGGED_IN = Pair("player", null)
-        private val PREF_AUTH_TOKEN = Pair("PREF_AUTH_TOKEN", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MThkMTkzODZiOWFlZjAwMTc0NWEzMWQiLCJ1c2VybmFtZSI6ImxvdWlzYWxkb3JpbzEyMyIsImVtYWlsIjoibG91aXNhbGRvcmlvMTIzQGdtYWlsLmNvbSIsImlhdCI6MTYzNjk4NDUzMSwiZXhwIjoxNjM2OTkxNzMxfQ.a9rJMbNJ8Rlen1i3cUaxQwL8kV46kdxHl9RuNoVyUe0")
         private val gson = Gson()
     }
 
@@ -24,12 +23,6 @@ class UserPreference(context : Context) {
                 it.putString(PREF_IS_USER_LOGGED_IN.first, gson.toJson(player))
             }
         }
-
-//    var authToken: String?
-//        get() = preference.getString(PREF_AUTH_TOKEN.first, PREF_AUTH_TOKEN.second)
-//        set(value) = preference.edit {
-//            it.putString(PREF_AUTH_TOKEN.first, value)
-//        }
 }
 
 private inline fun SharedPreferences.edit(operation : (SharedPreferences.Editor) -> Unit) {

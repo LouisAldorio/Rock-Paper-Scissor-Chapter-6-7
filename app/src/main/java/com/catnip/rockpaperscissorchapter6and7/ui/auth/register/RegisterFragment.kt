@@ -1,4 +1,4 @@
-package com.catnip.rockpaperscissorchapter6and7.ui.access.register
+package com.catnip.rockpaperscissorchapter6and7.ui.auth.register
 
 import android.content.Intent
 import android.os.Bundle
