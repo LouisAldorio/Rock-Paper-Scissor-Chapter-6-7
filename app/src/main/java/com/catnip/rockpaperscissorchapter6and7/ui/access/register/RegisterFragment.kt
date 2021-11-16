@@ -1,11 +1,11 @@
 package com.catnip.rockpaperscissorchapter6and7.ui.access.register
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.catnip.rockpaperscissorchapter6and7.base.GenericViewModelFactory
 import com.catnip.rockpaperscissorchapter6and7.base.model.Resource
 import com.catnip.rockpaperscissorchapter6and7.data.local.preference.SessionPreference
@@ -16,7 +16,7 @@ import com.catnip.rockpaperscissorchapter6and7.data.network.services.BinarApiSer
 import com.catnip.rockpaperscissorchapter6and7.databinding.FragmentRegisterBinding
 
 
-class RegisterFragment : Fragment() {
+class RegisterFragment : Fragment(), RegisterContract.View{
     private lateinit var binding: FragmentRegisterBinding
     private lateinit var viewModel: RegisterViewModel
 
@@ -38,15 +38,21 @@ class RegisterFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViewModel()
+        setClickListener()
 
-        viewModel.postRegisterUser(RegisterRequest(
-            "hermasasdd.yp@gmail.com",
-            "aaaasd",
-            "123se456"
-        ))
     }
 
-    fun initViewModel() {
+    override fun setClickListener() {
+        binding.btnRegister.setOnClickListener {
+            viewModel.postRegisterUser(RegisterRequest(
+                binding.tfEmail.editText?.text.toString(),
+                binding.tfUsername.editText?.text.toString(),
+                binding.tfPassword.editText?.text.toString()
+            ))
+        }
+    }
+
+    override fun initViewModel() {
         val dataSource = BinarApiDataSourceImpl(BinarApiService.invoke(LocalDataSourceImpl(
             SessionPreference(requireContext())
         )))
@@ -55,16 +61,16 @@ class RegisterFragment : Fragment() {
         observeViewModel()
     }
 
-    fun observeViewModel() {
+    override fun observeViewModel() {
         viewModel.getResponseLiveData().observe(requireActivity(), { response ->
             when (response) {
                 is Resource.Success -> {
-                    Log.d("HABIS", "observeViewModel: ${response.data}")
-                    Log.d("HABIS", "observeViewModel: ${response.message}")
+                    if (response.data!!.isSuccess) {
+                        Toast.makeText(context, "Pendaftaran Berhasil", Toast.LENGTH_SHORT).show()
+                    }
                 }
                 is Resource.Error -> {
-                    Log.d("HABIS", "ERROR observeViewModel: ${response.data}")
-                    Log.d("HABIS", "ERROR observeViewModel: ${response.message}")
+                    Toast.makeText(context, response.message, Toast.LENGTH_SHORT).show()
                 }
             }
         })

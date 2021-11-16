@@ -11,6 +11,8 @@ import com.catnip.rockpaperscissorchapter6and7.data.network.model.response.binar
 interface RegisterContract {
     interface View {
         fun observeViewModel()
+        fun initViewModel()
+        fun setClickListener()
     }
     interface ViewModel {
         fun getResponseLiveData(): LiveData<Resource<BaseResponse<RegisterData, String>>>
