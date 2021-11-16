@@ -2,14 +2,13 @@ package com.catnip.rockpaperscissorchapter6and7.data.local.preference
 
 import android.content.Context
 import android.content.SharedPreferences
-import dagger.hilt.android.qualifiers.ApplicationContext
-import javax.inject.Inject
 
 class SessionPreference(context: Context) {
     private var preference: SharedPreferences = context.getSharedPreferences(NAME, MODE)
 
     companion object {
-        private const val NAME = "RockPaperScissor" //app name or else
+        private const val NAME = "RockPaperScissor"
+
         private const val MODE = Context.MODE_PRIVATE
         private val PREF_AUTH_TOKEN = Pair("PREF_AUTH_TOKEN", null)
     }
@@ -19,7 +18,6 @@ class SessionPreference(context: Context) {
         set(value) = preference.edit {
             it.putString(PREF_AUTH_TOKEN.first, value)
         }
-
 }
 
 private inline fun SharedPreferences.edit(operation: (SharedPreferences.Editor) -> Unit) {
