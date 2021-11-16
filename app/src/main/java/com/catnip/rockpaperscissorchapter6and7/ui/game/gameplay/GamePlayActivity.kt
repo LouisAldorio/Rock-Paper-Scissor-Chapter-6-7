@@ -5,6 +5,7 @@ import android.content.Intent
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import com.catnip.rockpaperscissorchapter6and7.R
@@ -35,7 +36,7 @@ class GamePlayActivity : BaseActivity<ActivityGamePlayBinding, GamePlayContract.
     private lateinit var playerElements: Array<ImageView>
     private lateinit var enemyElements: Array<ImageView>
 
-    private var enemy : Player? = null
+    private var enemy: Player? = null
 
     companion object {
         @JvmStatic
@@ -55,14 +56,15 @@ class GamePlayActivity : BaseActivity<ActivityGamePlayBinding, GamePlayContract.
 
     override fun initPresenter() {
         // sesuaikan , untuk saat ini pakai player dlo, ntar pake history punya
-        val dataSource = GameHistoryDataSourceImpl(PlayersDatabase.getInstance(this).gameHistoryDao())
+        val dataSource =
+            GameHistoryDataSourceImpl(PlayersDatabase.getInstance(this).gameHistoryDao())
         val repository = GamePlayRepository(dataSource)
         setPresenter(GamePlayPresenter(this, repository))
     }
 
     override fun getIntentData() {
         gameType = intent.extras?.getSerializable(Constant.GAME_TYPE_KEY) as GameType
-        if(gameType == GameType.PLAYER_TO_PLAYER) {
+        if (gameType == GameType.PLAYER_TO_PLAYER) {
             enemy = intent.extras?.get(Constant.PLAYER) as Player
         }
     }
@@ -78,7 +80,7 @@ class GamePlayActivity : BaseActivity<ActivityGamePlayBinding, GamePlayContract.
         }
         enemyElements.forEach {
             it.setBackgroundColor(ContextCompat.getColor(this, R.color.primaryColor))
-            if(gameType == GameType.PLAYER_TO_PLAYER){
+            if (gameType == GameType.PLAYER_TO_PLAYER) {
                 it.isClickable = true
             }
         }
@@ -118,6 +120,11 @@ class GamePlayActivity : BaseActivity<ActivityGamePlayBinding, GamePlayContract.
         playerElements.forEachIndexed { index, frameLayout ->
             frameLayout.setOnClickListener { elem ->
                 setFocus(elem, index, playerElements, false)
+                Toast.makeText(
+                    this,
+                    "${UserPreference(this).player?.name} telah memilih",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
 
@@ -125,6 +132,7 @@ class GamePlayActivity : BaseActivity<ActivityGamePlayBinding, GamePlayContract.
             getViewBinding().tvCom.text = enemy?.name ?: ""
             enemyElements.forEachIndexed { index, frameLayout ->
                 frameLayout.setOnClickListener { elem ->
+                    Toast.makeText(this, "Player 2 telah memilih", Toast.LENGTH_SHORT).show()
                     setFocus(elem, index, enemyElements, true)
                 }
             }
@@ -136,7 +144,7 @@ class GamePlayActivity : BaseActivity<ActivityGamePlayBinding, GamePlayContract.
             iv.isClickable = false
         }
 
-        if(gameType == GameType.PLAYER_TO_PLAYER){
+        if (gameType == GameType.PLAYER_TO_PLAYER) {
             enemyElements.forEachIndexed { index, iv ->
                 iv.isClickable = false
             }
@@ -146,15 +154,27 @@ class GamePlayActivity : BaseActivity<ActivityGamePlayBinding, GamePlayContract.
         getViewBinding().llRight.visibility = View.VISIBLE
     }
 
-    override fun showResultDialog(gameResult : GameResult) {
-        player?.let { ResultDialogFragment(gameResult, { resetState() }, {finishToMenu()}, it).show(supportFragmentManager, null) }
+    override fun showResultDialog(gameResult: GameResult) {
+        player?.let {
+            ResultDialogFragment(
+                gameResult,
+                { resetState() },
+                { finishToMenu() },
+                it
+            ).show(supportFragmentManager, null)
+        }
     }
 
     private fun finishToMenu() {
         finish()
     }
 
-    private fun setFocus(elem : View, index : Int, candidates : Array<ImageView>, isFromEnemy : Boolean) {
+    private fun setFocus(
+        elem: View,
+        index: Int,
+        candidates: Array<ImageView>,
+        isFromEnemy: Boolean
+    ) {
 
         elem.setBackgroundColor(ContextCompat.getColor(this, R.color.ThirdColor))
         candidates.forEach {
@@ -163,12 +183,12 @@ class GamePlayActivity : BaseActivity<ActivityGamePlayBinding, GamePlayContract.
             }
         }
 
-        if(gameType == GameType.PLAYER_TO_PLAYER) {
+        if (gameType == GameType.PLAYER_TO_PLAYER) {
 
-            if(isFromEnemy) {
+            if (isFromEnemy) {
                 enemy?.choice = index
                 getViewBinding().llRight.visibility = View.INVISIBLE
-            }else {
+            } else {
 
                 //replace id with the id got from preference later
                 player = UserPreference(this).player?.let {
@@ -178,24 +198,26 @@ class GamePlayActivity : BaseActivity<ActivityGamePlayBinding, GamePlayContract.
                 getViewBinding().llLeft.visibility = View.INVISIBLE
             }
 
-            if(player?.choice != -1 && (enemy?.choice != null && enemy?.choice != -1)) {
+            if (player?.choice != -1 && (enemy?.choice != null && enemy?.choice != -1)) {
 
                 enemy?.choice?.let {
                     //do compare
 
                     getPresenter().compare(it, player!!)
-                    getPresenter().insertGameHistory(GameHistory(
-                        null,
-                        player?.id,
-                        player?.choice,
-                        enemy?.id,
-                        enemy?.choice,
-                        SimpleDateFormat("EEEE, dd MMMM yyyy").format(Date())
-                    ))
+                    getPresenter().insertGameHistory(
+                        GameHistory(
+                            null,
+                            player?.id,
+                            player?.choice,
+                            enemy?.id,
+                            enemy?.choice,
+                            SimpleDateFormat("EEEE, dd MMMM yyyy").format(Date())
+                        )
+                    )
                 }
             }
 
-        }else if(gameType == GameType.PLAYER_TO_COM) {
+        } else if (gameType == GameType.PLAYER_TO_COM) {
 
             //change id to the id from preference later
             player = UserPreference(this).player?.let {
@@ -206,17 +228,24 @@ class GamePlayActivity : BaseActivity<ActivityGamePlayBinding, GamePlayContract.
 
             //do compare
             val computeChoice = (0..2).random()
-            enemyElements[computeChoice].setBackgroundColor(ContextCompat.getColor(this, R.color.ThirdColor))
+            enemyElements[computeChoice].setBackgroundColor(
+                ContextCompat.getColor(
+                    this,
+                    R.color.ThirdColor
+                )
+            )
 
             getPresenter().compare(computeChoice, player!!)
-            getPresenter().insertGameHistory(GameHistory(
-                null,
-                player?.id,
-                player?.choice,
-                null,
-                computeChoice,
-                SimpleDateFormat("EEEE, dd MMMM yyyy").format(Date())
-            ))
+            getPresenter().insertGameHistory(
+                GameHistory(
+                    null,
+                    player?.id,
+                    player?.choice,
+                    null,
+                    computeChoice,
+                    SimpleDateFormat("EEEE, dd MMMM yyyy").format(Date())
+                )
+            )
         }
     }
 }
