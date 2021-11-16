@@ -4,9 +4,11 @@ import androidx.lifecycle.*
 import com.catnip.rockpaperscissorchapter6and7.base.model.Resource
 import com.catnip.rockpaperscissorchapter6and7.data.network.model.response.auth.BaseAuthResponse
 import com.catnip.rockpaperscissorchapter6and7.data.network.model.response.auth.UserData
+import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
 import java.lang.Exception
 import javax.inject.Inject
 
@@ -26,9 +28,16 @@ class SplashScreenViewModel(private val repository: SplashScreenRepository) :
                 viewModelScope.launch(Dispatchers.Main) {
                     AuthResponseLiveData.value = Resource.Success(response)
                 }
-            } catch (e: Exception) {
-                viewModelScope.launch(Dispatchers.Main) {
-                    AuthResponseLiveData.value = Resource.Error(e.message.orEmpty())
+            } catch (cause: Throwable) {
+                when(cause) {
+                    is HttpException -> {
+                        cause.response()?.errorBody()?.source()?.let {
+                            val error = Gson().fromJson(it.readString(Charsets.UTF_8), BaseAuthResponse::class.java)
+                            viewModelScope.launch(Dispatchers.Main) {
+                                AuthResponseLiveData.value = Resource.Error(error.errorMsg.toString(), null)
+                            }
+                        }
+                    }
                 }
             }
         }

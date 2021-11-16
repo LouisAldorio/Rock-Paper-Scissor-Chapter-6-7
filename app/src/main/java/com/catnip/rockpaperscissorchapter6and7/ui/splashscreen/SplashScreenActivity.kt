@@ -1,6 +1,7 @@
 package com.catnip.rockpaperscissorchapter6and7.ui.splashscreen
 
 import android.content.Intent
+import android.util.Log
 import android.widget.Toast
 import com.catnip.rockpaperscissorchapter6and7.base.BaseViewModelActivity
 import com.catnip.rockpaperscissorchapter6and7.base.GenericViewModelFactory
@@ -45,16 +46,10 @@ class SplashScreenActivity : BaseViewModelActivity<ActivitySplashScreenBinding>(
     }
 
     override fun showContent(isContentVisible: Boolean) {
-        if (isContentVisible) {
-            // Move To Menu Page
-            startActivity(Intent(this, MenuActivity::class.java))
-        } else {
-            // Mode To Login Page
-            Toast.makeText(this, "Move to Login Page", Toast.LENGTH_SHORT).show()
-        }
+        if (isContentVisible) startActivity(Intent(this, MenuActivity::class.java))
     }
 
     override fun showError(isErrorEnabled: Boolean, msg: String?) {
-        if (isErrorEnabled) Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+        if (isErrorEnabled) Toast.makeText(this, "Move to Login Page", Toast.LENGTH_SHORT).show()
     }
 }
