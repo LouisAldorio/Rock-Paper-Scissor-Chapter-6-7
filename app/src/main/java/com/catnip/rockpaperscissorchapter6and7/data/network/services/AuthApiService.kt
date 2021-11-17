@@ -4,10 +4,7 @@ import com.catnip.rockpaperscissorchapter6and7.BuildConfig
 import com.catnip.rockpaperscissorchapter6and7.data.local.preference.datasource.LocalDataSource
 import com.catnip.rockpaperscissorchapter6and7.data.network.model.request.binar.RegisterRequest
 import com.catnip.rockpaperscissorchapter6and7.data.network.model.request.auth.AuthRequest
-import com.catnip.rockpaperscissorchapter6and7.data.network.model.response.auth.BaseAuthResponse
-import com.catnip.rockpaperscissorchapter6and7.data.network.model.response.auth.UserData
-import com.catnip.rockpaperscissorchapter6and7.data.network.model.response.auth.BaseResponse
-import com.catnip.rockpaperscissorchapter6and7.data.network.model.response.auth.RegisterData
+import com.catnip.rockpaperscissorchapter6and7.data.network.model.response.auth.*
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody
@@ -36,7 +33,8 @@ interface AuthApiService {
     @PUT("users")
     suspend fun putUserData(@Body data : RequestBody) : BaseAuthResponse<UserData, String>
 
-
+    @GET("battle")
+    suspend fun getHistoryBattle() : BaseAuthResponse<List<GameHistoryData>, String>
 
     companion object {
 
