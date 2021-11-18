@@ -31,7 +31,7 @@ class ProfileDialog : BaseViewModelDialogFragment<DialogFragmentProfileBinding>(
     }
 
     override fun initView() {
-        dialog?.getWindow()?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        dialog?.getWindow()?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         getViewBinding().btnCancel.setOnClickListener {
             dismiss()
         }
