@@ -22,7 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Welcome to Suiterhero"
+        android:text="@string/text_auth_welcome"
         android:textColor="@color/white"
         android:layout_marginTop="16dp"
         android:textSize="20sp"
@@ -55,6 +55,5 @@
             app:layout_constraintLeft_toLeftOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 </LinearLayout>
