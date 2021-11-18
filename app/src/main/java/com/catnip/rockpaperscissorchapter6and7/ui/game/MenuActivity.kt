@@ -4,6 +4,7 @@ package com.catnip.rockpaperscissorchapter6and7.ui.game
 import android.content.Intent
 import com.catnip.rockpaperscissorchapter6and7.base.*
 import com.catnip.rockpaperscissorchapter6and7.databinding.ActivityMenuBinding
+import com.catnip.rockpaperscissorchapter6and7.enumeration.GameHistoryType
 import com.catnip.rockpaperscissorchapter6and7.ui.game.history.GameHistoryActivity
 
 import com.catnip.rockpaperscissorchapter6and7.ui.about.AboutActivity
@@ -36,7 +37,7 @@ class MenuActivity : BaseViewModelActivity<ActivityMenuBinding> (
         }
 
         getViewBinding().cvGameHistory.setOnClickListener {
-            startActivity(Intent(this@MenuActivity, GameHistoryActivity::class.java))
+            GameHistoryActivity.startActivity(this, GameHistoryType.LOCAL_HISTORY)
         }
 
         getViewBinding().cvGameTutorial.setOnClickListener {

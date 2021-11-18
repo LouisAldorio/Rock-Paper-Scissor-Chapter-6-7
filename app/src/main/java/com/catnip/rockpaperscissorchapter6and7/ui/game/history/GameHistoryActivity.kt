@@ -1,5 +1,7 @@
 package com.catnip.rockpaperscissorchapter6and7.ui.game.history
 
+import android.content.Context
+import android.content.Intent
 import android.view.View
 import android.widget.*
 import androidx.appcompat.widget.ListPopupWindow
@@ -16,6 +18,7 @@ import com.catnip.rockpaperscissorchapter6and7.data.local.room.PlayersDatabase
 import com.catnip.rockpaperscissorchapter6and7.data.local.room.datasource.GameHistoryDataSourceImpl
 import com.catnip.rockpaperscissorchapter6and7.data.local.room.datasource.PlayersDataSourceImpl
 import com.catnip.rockpaperscissorchapter6and7.data.model.GameHistoryWithPlayer
+import com.catnip.rockpaperscissorchapter6and7.data.model.Player
 import com.catnip.rockpaperscissorchapter6and7.data.network.datasource.auth.AuthApiDataSourceImpl
 import com.catnip.rockpaperscissorchapter6and7.data.network.model.response.auth.GameHistoryData
 import com.catnip.rockpaperscissorchapter6and7.data.network.services.AuthApiService
@@ -26,11 +29,11 @@ import com.catnip.rockpaperscissorchapter6and7.ui.game.history.adapter.GameHisto
 import com.catnip.rockpaperscissorchapter6and7.ui.game.history.adapter.RemoteGameHistoryAdapter
 import com.catnip.rockpaperscissorchapter6and7.utils.GameUtil
 
-class GameHistoryActivity(gameHistoryType: GameHistoryType) :
+class GameHistoryActivity :
     BaseViewModelActivity<ActivityGameHistoryBinding>(ActivityGameHistoryBinding::inflate),
     GameHistoryContract.View {
 
-    private var gameHistoryType: GameHistoryType = gameHistoryType
+    private lateinit var gameHistoryType: GameHistoryType
     private lateinit var adapter: GameHistoryAdapter
     private lateinit var remoteAdapter: RemoteGameHistoryAdapter
     private var gameResultFilter: String? = null
@@ -41,6 +44,23 @@ class GameHistoryActivity(gameHistoryType: GameHistoryType) :
     private lateinit var listPopupWindowItem: List<String>
 
     private lateinit var viewModel: GameHistoryViewModel
+
+    companion object {
+        private const val EXTRAS_COIN_ID = "EXTRAS_GAME_TYPE"
+
+        @JvmStatic
+        fun startActivity(context: Context?, gameHistoryType: GameHistoryType) {
+            val intent = Intent(context, GameHistoryActivity::class.java)
+            intent.putExtra(EXTRAS_COIN_ID, gameHistoryType)
+            context?.startActivity(intent)
+        }
+    }
+
+    private fun getIntentData() {
+        intent.extras?.getSerializable(EXTRAS_COIN_ID)?.let {
+            gameHistoryType = (it as GameHistoryType)
+        }
+    }
 
     private fun setListPopupWindow() {
         listPopupWindowButton = getViewBinding().menuButton1
@@ -61,8 +81,7 @@ class GameHistoryActivity(gameHistoryType: GameHistoryType) :
 
     override fun initView() {
         supportActionBar?.hide()
-        SessionPreference(this).authToken =
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MThkMjQzNzZiOWFlZjAwMTc0NWEzMjMiLCJ1c2VybmFtZSI6Imhlcm1hc3lwIiwiZW1haWwiOiJoZXJtYXMueXBAZ21haWwuY29tIiwiaWF0IjoxNjM3MTYxNzU0LCJleHAiOjE2MzcxNjg5NTR9.prW7J8xmMHMoyJ568OFwi1U7qCiTpmuHcCy0xctHSxQ"
+        getIntentData()
         initViewModel()
         initList()
 
@@ -86,7 +105,11 @@ class GameHistoryActivity(gameHistoryType: GameHistoryType) :
             }
         }
 
+
+
     }
+
+
 
     override fun setGameHistoryData(data: List<GameHistoryWithPlayer>) {
         adapter.setItems(data)
