@@ -46,18 +46,18 @@ class GameHistoryActivity :
     private lateinit var viewModel: GameHistoryViewModel
 
     companion object {
-        private const val EXTRAS_COIN_ID = "EXTRAS_GAME_TYPE"
+        private const val EXTRAS_GAME_TYPE = "EXTRAS_GAME_TYPE"
 
         @JvmStatic
         fun startActivity(context: Context?, gameHistoryType: GameHistoryType) {
             val intent = Intent(context, GameHistoryActivity::class.java)
-            intent.putExtra(EXTRAS_COIN_ID, gameHistoryType)
+            intent.putExtra(EXTRAS_GAME_TYPE, gameHistoryType)
             context?.startActivity(intent)
         }
     }
 
     private fun getIntentData() {
-        intent.extras?.getSerializable(EXTRAS_COIN_ID)?.let {
+        intent.extras?.getSerializable(EXTRAS_GAME_TYPE)?.let {
             gameHistoryType = (it as GameHistoryType)
         }
     }
