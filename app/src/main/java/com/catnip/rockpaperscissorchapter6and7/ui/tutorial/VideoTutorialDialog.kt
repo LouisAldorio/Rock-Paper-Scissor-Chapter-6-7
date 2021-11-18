@@ -1,5 +1,6 @@
 package com.catnip.rockpaperscissorchapter6and7.ui.tutorial
 
+import android.view.ViewGroup
 import com.catnip.rockpaperscissorchapter6and7.base.BaseViewModelDialogFragment
 import com.catnip.rockpaperscissorchapter6and7.base.GenericViewModelFactory
 import com.catnip.rockpaperscissorchapter6and7.base.model.Resource
@@ -62,5 +63,7 @@ class VideoTutorialDialog : BaseViewModelDialogFragment<DialogFragmentVideoTutor
         })
     }
 
-    override fun initView() {}
+    override fun initView() {
+        dialog?.getWindow()?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+    }
 }

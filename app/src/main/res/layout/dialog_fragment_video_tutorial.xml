@@ -29,7 +29,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:autoPlay="true"
-        app:videoId="84ur94_rSss"
+        app:videoId="2dsHuU10udY"
         app:showFullScreenButton="true" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
