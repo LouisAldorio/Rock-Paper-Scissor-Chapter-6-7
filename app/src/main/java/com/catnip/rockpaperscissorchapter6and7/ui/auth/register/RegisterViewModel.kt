@@ -22,6 +22,7 @@ class RegisterViewModel(private val registerRepository: RegisterRepository) : Vi
     override fun getResponseLiveData(): LiveData<Resource<BaseResponse<RegisterData, String>>> = getResponseLiveData
 
     override fun postRegisterUser(registerRequest: RegisterRequest) {
+        getResponseLiveData.value = Resource.Loading()
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val response = registerRepository.postRegisterUser(registerRequest)

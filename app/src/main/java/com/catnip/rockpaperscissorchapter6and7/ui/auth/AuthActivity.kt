@@ -29,9 +29,7 @@ class AuthActivity : AppCompatActivity() {
         }
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
             tab.text = fragmentAdapter.getPageTitle(position)
-
         }.attach()
-
 
     }
 }
