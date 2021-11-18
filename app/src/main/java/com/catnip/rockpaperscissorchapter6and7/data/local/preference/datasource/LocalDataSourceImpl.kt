@@ -6,4 +6,8 @@ class LocalDataSourceImpl(private val sessionPreference: SessionPreference) : Lo
     override fun getAuthToken(): String? {
         return sessionPreference.authToken
     }
+
+    override fun setAuthToken(authToken: String?) {
+        sessionPreference.authToken = authToken
+    }
 }
