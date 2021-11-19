@@ -9,6 +9,7 @@ import com.catnip.rockpaperscissorchapter6and7.ui.game.history.GameHistoryActivi
 
 import com.catnip.rockpaperscissorchapter6and7.ui.about.AboutActivity
 import com.catnip.rockpaperscissorchapter6and7.ui.about.AboutViewModel
+import com.catnip.rockpaperscissorchapter6and7.ui.game.historyoptions.GameHistoryOptionsActivity
 
 import com.catnip.rockpaperscissorchapter6and7.ui.game.mode.GameModeActivity
 import com.catnip.rockpaperscissorchapter6and7.ui.profile.ProfileDialog
@@ -37,7 +38,8 @@ class MenuActivity : BaseViewModelActivity<ActivityMenuBinding> (
         }
 
         getViewBinding().cvGameHistory.setOnClickListener {
-            GameHistoryActivity.startActivity(this, GameHistoryType.REMOTE_HISTORY)
+            val intent = Intent(this@MenuActivity, GameHistoryOptionsActivity::class.java)
+            startActivity(intent)
         }
 
         getViewBinding().cvGameTutorial.setOnClickListener {
