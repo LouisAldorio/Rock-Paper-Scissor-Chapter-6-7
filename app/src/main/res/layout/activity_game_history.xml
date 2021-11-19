@@ -52,6 +52,7 @@
 
 
     <LinearLayout
+        android:id="@+id/ll"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="24dp"
@@ -91,12 +92,14 @@
             app:layout_constraintTop_toBottomOf="@id/menu_button1">
 
             <ImageView
+                android:id="@+id/iv"
                 android:layout_width="300dp"
                 android:layout_height="200dp"
                 android:src="@drawable/img_no_data_available"
                 tools:ignore="ContentDescription" />
 
             <TextView
+                android:id="@+id/tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/text_no_data_available"
