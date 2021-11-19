@@ -3,23 +3,27 @@ package com.catnip.rockpaperscissorchapter6and7.ui.auth.register
 import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.os.Bundle
-import android.view.View
+import android.util.Log
 import android.view.Window
 import android.widget.Toast
-import androidx.core.view.marginTop
+import androidx.lifecycle.lifecycleScope
 import com.catnip.rockpaperscissorchapter6and7.R
 import com.catnip.rockpaperscissorchapter6and7.base.BaseFragment
 import com.catnip.rockpaperscissorchapter6and7.base.GenericViewModelFactory
 import com.catnip.rockpaperscissorchapter6and7.base.model.Resource
 import com.catnip.rockpaperscissorchapter6and7.data.local.preference.SessionPreference
+import com.catnip.rockpaperscissorchapter6and7.data.local.preference.UserPreference
 import com.catnip.rockpaperscissorchapter6and7.data.local.preference.datasource.LocalDataSourceImpl
+import com.catnip.rockpaperscissorchapter6and7.data.local.room.PlayersDatabase
+import com.catnip.rockpaperscissorchapter6and7.data.model.Player
 import com.catnip.rockpaperscissorchapter6and7.data.network.datasource.auth.AuthApiDataSourceImpl
 import com.catnip.rockpaperscissorchapter6and7.data.network.model.request.binar.RegisterRequest
 import com.catnip.rockpaperscissorchapter6and7.data.network.services.AuthApiService
 import com.catnip.rockpaperscissorchapter6and7.databinding.FragmentRegisterBinding
 import com.catnip.rockpaperscissorchapter6and7.utils.StringUtils
 import com.shashank.sony.fancytoastlib.FancyToast
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 class RegisterFragment : BaseFragment<FragmentRegisterBinding>(
@@ -88,7 +92,12 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(
 
     override fun initViewModel() {
         val dataSource = AuthApiDataSourceImpl(
-            AuthApiService.invoke(LocalDataSourceImpl(SessionPreference(requireContext())))
+            AuthApiService.invoke(
+                LocalDataSourceImpl(
+                    SessionPreference(requireContext()),
+                    UserPreference(requireContext())
+                )
+            )
         )
 
         val repository = RegisterRepository(dataSource)
@@ -102,17 +111,18 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(
         viewModel.getResponseLiveData().observe(requireActivity(), { response ->
             when (response) {
                 is Resource.Loading -> {
-                    showLoading(dialog,true)
+                    showLoading(dialog, true)
                 }
                 is Resource.Success -> {
-                    showLoading(dialog,false)
+                    showLoading(dialog, false)
                     if (response.data!!.isSuccess) {
                         showToast(true, getString(R.string.text_register_success))
+                        saveToDao(response.data.data.username)
                     }
                     initView()
                 }
                 is Resource.Error -> {
-                    showLoading(dialog,false)
+                    showLoading(dialog, false)
                     val msg = response.message.toString()
                     when {
                         "email_1 dup key" in msg -> showToast(
@@ -142,7 +152,12 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(
         })
     }
 
-    override fun showLoading(dialog: Dialog,isLoading: Boolean) {
+    private fun saveToDao(userName: String) {
+        val db = PlayersDatabase.getInstance(requireContext())
+        viewModel.saveToDao(userName,true,db)
+    }
+
+    override fun showLoading(dialog: Dialog, isLoading: Boolean) {
         if (isLoading) {
             dialog.window?.setTitle(Window.FEATURE_NO_TITLE.toString())
             dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))

@@ -6,6 +6,7 @@ import android.content.Intent
 import com.catnip.rockpaperscissorchapter6and7.R
 import com.catnip.rockpaperscissorchapter6and7.base.*
 import com.catnip.rockpaperscissorchapter6and7.data.local.preference.SessionPreference
+import com.catnip.rockpaperscissorchapter6and7.data.local.preference.UserPreference
 import com.catnip.rockpaperscissorchapter6and7.data.local.preference.datasource.LocalDataSource
 import com.catnip.rockpaperscissorchapter6and7.data.local.preference.datasource.LocalDataSourceImpl
 import com.catnip.rockpaperscissorchapter6and7.databinding.ActivityMenuBinding
@@ -31,7 +32,8 @@ class MenuActivity : BaseViewModelActivity<ActivityMenuBinding>(
     override fun initView() {
         supportActionBar?.hide()
         setClickListeners()
-        getViewBinding().tvLogout.text = getString(R.string.text_log_out, "nama")
+        getViewBinding().tvLogout.text =
+            getString(R.string.text_log_out, UserPreference(this).player?.name.orEmpty())
     }
 
     override fun initViewModel() {
@@ -40,7 +42,8 @@ class MenuActivity : BaseViewModelActivity<ActivityMenuBinding>(
                 MenuViewModel(
                     MenuRepository(
                         LocalDataSourceImpl(
-                            SessionPreference(this)
+                            SessionPreference(this),
+                            UserPreference(this)
                         )
                     )
                 )

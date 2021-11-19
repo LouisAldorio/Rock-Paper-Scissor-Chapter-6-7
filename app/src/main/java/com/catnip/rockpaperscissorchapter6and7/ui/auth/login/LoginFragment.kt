@@ -4,16 +4,19 @@ import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.os.Bundle
-import android.view.View
+import android.util.Log
 import android.view.Window
 import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
 import com.catnip.rockpaperscissorchapter6and7.R
 import com.catnip.rockpaperscissorchapter6and7.base.BaseFragment
 import com.catnip.rockpaperscissorchapter6and7.base.GenericViewModelFactory
 import com.catnip.rockpaperscissorchapter6and7.base.model.Resource
 import com.catnip.rockpaperscissorchapter6and7.data.local.preference.SessionPreference
+import com.catnip.rockpaperscissorchapter6and7.data.local.preference.UserPreference
 import com.catnip.rockpaperscissorchapter6and7.data.local.preference.datasource.LocalDataSourceImpl
+import com.catnip.rockpaperscissorchapter6and7.data.local.room.PlayersDatabase
+import com.catnip.rockpaperscissorchapter6and7.data.model.Player
 import com.catnip.rockpaperscissorchapter6and7.data.network.datasource.auth.AuthApiDataSourceImpl
 import com.catnip.rockpaperscissorchapter6and7.data.network.model.request.auth.AuthRequest
 import com.catnip.rockpaperscissorchapter6and7.data.network.model.response.auth.UserData
@@ -22,6 +25,8 @@ import com.catnip.rockpaperscissorchapter6and7.databinding.FragmentLoginBinding
 import com.catnip.rockpaperscissorchapter6and7.ui.intro.IntroActivity
 import com.catnip.rockpaperscissorchapter6and7.utils.StringUtils
 import com.shashank.sony.fancytoastlib.FancyToast
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class LoginFragment : BaseFragment<FragmentLoginBinding>(
     FragmentLoginBinding::inflate
@@ -40,7 +45,11 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
                     showLoading(dialog, false)
                     showToast(true, getString(R.string.text_login_success))
                     response.data?.data.let {
-                        it?.let { it1 -> saveSessionLogin(it1) }
+                        it?.let { it1 ->
+                            saveSessionLogin(it1)
+                            saveUserPreference(it1)
+                            saveToDao(it1)
+                        }
                     }
                 }
                 is Resource.Error -> {
@@ -53,6 +62,16 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
                 }
             }
         })
+    }
+
+    private fun saveToDao(data: UserData) {
+        val userName = data.username.orEmpty()
+        val db = PlayersDatabase.getInstance(requireContext())
+        viewModel.saveToDao(userName,true,db)
+    }
+
+    private fun saveUserPreference(data: UserData) {
+        viewModel.saveUserPreference(data.username.orEmpty())
     }
 
     override fun showLoading(dialog: Dialog, isLoading: Boolean) {
@@ -150,11 +169,15 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
         val apiDataSource = AuthApiDataSourceImpl(
             AuthApiService.invoke(
                 LocalDataSourceImpl(
-                    SessionPreference(requireContext())
+                    SessionPreference(requireContext()),
+                    UserPreference(requireContext())
                 )
             )
         )
-        val localDataSource = LocalDataSourceImpl(SessionPreference(requireContext()))
+        val localDataSource = LocalDataSourceImpl(
+            SessionPreference(requireContext()),
+            UserPreference(requireContext())
+        )
         val repository = LoginRepository(apiDataSource, localDataSource)
         viewModel = GenericViewModelFactory(LoginViewModel(repository))
             .create(LoginViewModel::class.java)
