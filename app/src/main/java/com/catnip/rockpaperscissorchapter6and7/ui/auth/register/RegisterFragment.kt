@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.Window
 import android.widget.Toast
+import androidx.core.view.marginTop
 import com.catnip.rockpaperscissorchapter6and7.R
 import com.catnip.rockpaperscissorchapter6and7.base.BaseFragment
 import com.catnip.rockpaperscissorchapter6and7.base.GenericViewModelFactory
@@ -26,13 +27,6 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(
 ), RegisterContract.View {
 
     private lateinit var viewModel: RegisterViewModel
-
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        initView()
-        setClickListener()
-    }
 
     override fun setClickListener() {
         getViewBinding().cvButtonAuth.setOnClickListener {
@@ -56,27 +50,39 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(
         when {
             email.isEmpty() -> {
                 isFormValid = false
+                getViewBinding().tilEmail.isErrorEnabled = true
                 getViewBinding().tilEmail.error = getString(R.string.text_error_email_empty)
-
             }
             StringUtils.isEmailValid(email).not() -> {
                 isFormValid = false
+                getViewBinding().tilEmail.isErrorEnabled = true
                 getViewBinding().tilEmail.error = getString(R.string.text_error_email_invalid)
-
             }
+            else -> {
+                getViewBinding().tilEmail.isErrorEnabled = false
+            }
+        }
+        when {
             name.isEmpty() -> {
                 isFormValid = false
+                getViewBinding().tilName.isErrorEnabled = true
                 getViewBinding().tilName.error = getString(R.string.text_error_name_empty)
             }
             name.count() < 6 -> {
                 isFormValid = false
+                getViewBinding().tilName.isErrorEnabled = true
                 getViewBinding().tilName.error = getString(R.string.text_error_name_short)
             }
-            pass.isEmpty() -> {
-                isFormValid = false
-                getViewBinding().tilPassword.error = getString(R.string.text_error_password_empty)
+            else -> {
+                getViewBinding().tilName.isErrorEnabled = false
             }
         }
+        if (pass.isEmpty()) {
+            isFormValid = false
+            getViewBinding().tilPassword.isErrorEnabled = true
+            getViewBinding().tilPassword.error = getString(R.string.text_error_password_empty)
+        } else getViewBinding().tilPassword.isErrorEnabled = false
+
         return isFormValid
     }
 
@@ -92,20 +98,21 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(
     }
 
     override fun observeViewModel() {
+        val dialog = Dialog(requireContext())
         viewModel.getResponseLiveData().observe(requireActivity(), { response ->
             when (response) {
                 is Resource.Loading -> {
-                    showLoading(true)
+                    showLoading(dialog,true)
                 }
                 is Resource.Success -> {
+                    showLoading(dialog,false)
                     if (response.data!!.isSuccess) {
-                        showLoading(false)
                         showToast(true, getString(R.string.text_register_success))
                     }
                     initView()
                 }
                 is Resource.Error -> {
-                    showLoading(false)
+                    showLoading(dialog,false)
                     val msg = response.message.toString()
                     when {
                         "email_1 dup key" in msg -> showToast(
@@ -135,8 +142,7 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(
         })
     }
 
-    override fun showLoading(isLoading: Boolean) {
-        val dialog = Dialog(requireContext())
+    override fun showLoading(dialog: Dialog,isLoading: Boolean) {
         if (isLoading) {
             dialog.window?.setTitle(Window.FEATURE_NO_TITLE.toString())
             dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -170,6 +176,7 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(
         getViewBinding().etName.setText("")
         getViewBinding().etEmail.setText("")
         getViewBinding().etPassword.setText("")
+        setClickListener()
         initViewModel()
     }
 }

@@ -29,26 +29,22 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
 
     private lateinit var viewModel: LoginViewModel
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        initView()
-    }
-
     override fun observeViewModel() {
+        val dialog = Dialog(requireContext())
         viewModel.loginResponse.observe(viewLifecycleOwner, { response ->
             when (response) {
                 is Resource.Loading -> {
-                    showLoading(true)
+                    showLoading(dialog, true)
                 }
                 is Resource.Success -> {
-                    showLoading(false)
+                    showLoading(dialog, false)
                     showToast(true, getString(R.string.text_login_success))
                     response.data?.data.let {
                         it?.let { it1 -> saveSessionLogin(it1) }
                     }
                 }
                 is Resource.Error -> {
-                    showLoading(false)
+                    showLoading(dialog, false)
                     val msg = response.message.orEmpty()
                     showToast(
                         false,
@@ -59,9 +55,8 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
         })
     }
 
-    override fun showLoading(isLoading: Boolean) {
+    override fun showLoading(dialog: Dialog, isLoading: Boolean) {
         super.showLoading(isLoading)
-        val dialog = Dialog(requireContext())
         if (isLoading) {
             dialog.window?.setTitle(Window.FEATURE_NO_TITLE.toString())
             dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -93,7 +88,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
         }
     }
 
-
     override fun navigateToMenu() {
         val intent = Intent(requireContext(), IntroActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
@@ -120,17 +114,26 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
         when {
             email.isEmpty() -> {
                 isFormValid = false
+                getViewBinding().tilEmail.isErrorEnabled = true
                 getViewBinding().tilEmail.error = getString(R.string.text_error_email_empty)
             }
             StringUtils.isEmailValid(email).not() -> {
                 isFormValid = false
+                getViewBinding().tilEmail.isErrorEnabled = true
                 getViewBinding().tilEmail.error = getString(R.string.text_error_email_invalid)
             }
-            pass.isEmpty() -> {
-                isFormValid = false
-                getViewBinding().tilPassword.error = getString(R.string.text_error_password_empty)
+            else -> {
+                getViewBinding().tilEmail.isErrorEnabled = false
+
             }
         }
+
+        if (pass.isEmpty()) {
+            isFormValid = false
+            getViewBinding().tilPassword.isErrorEnabled = true
+            getViewBinding().tilPassword.error = getString(R.string.text_error_password_empty)
+        } else getViewBinding().tilPassword.isErrorEnabled = false
+
         return isFormValid
     }
 

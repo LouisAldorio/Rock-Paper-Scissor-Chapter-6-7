@@ -81,5 +81,6 @@
     <string name="text_password">Password</string>
     <string name="text_register">REGISTER</string>
     <string name="text_login">LOGIN</string>
+    <string name="text_log_out">Log Out %s</string>
 
 </resources>

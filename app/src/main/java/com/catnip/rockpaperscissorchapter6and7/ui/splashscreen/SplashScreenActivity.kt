@@ -25,9 +25,12 @@ class SplashScreenActivity : BaseViewModelActivity<ActivitySplashScreenBinding>(
     }
 
     override fun initViewModel() {
-        val dataSource = AuthApiDataSourceImpl(AuthApiService.invoke(LocalDataSourceImpl(SessionPreference(this))))
-        val repository = SplashScreenRepository(dataSource)
-        viewModel = GenericViewModelFactory(SplashScreenViewModel(repository)).create(SplashScreenViewModel::class.java)
+        val apiDataSource =
+            AuthApiDataSourceImpl(AuthApiService.invoke(LocalDataSourceImpl(SessionPreference(this))))
+        val localDataSource = LocalDataSourceImpl(SessionPreference(this))
+        val repository = SplashScreenRepository(apiDataSource, localDataSource)
+        viewModel =
+            GenericViewModelFactory(SplashScreenViewModel(repository)).create(SplashScreenViewModel::class.java)
         observeViewModel()
     }
 
@@ -38,10 +41,12 @@ class SplashScreenActivity : BaseViewModelActivity<ActivitySplashScreenBinding>(
                 is Resource.Success -> {
                     showContent(response.data!!.isSuccess)
                     showError(false, null)
+
                 }
                 is Resource.Error -> {
                     showError(true, response.message)
                     showContent(false)
+                    viewModel.deleteSession()
                 }
             }
         })

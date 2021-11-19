@@ -10,4 +10,8 @@ class LocalDataSourceImpl(private val sessionPreference: SessionPreference) : Lo
     override fun setAuthToken(authToken: String?) {
         sessionPreference.authToken = authToken
     }
+
+    override fun deleteSession() {
+        sessionPreference.deleteSession()
+    }
 }

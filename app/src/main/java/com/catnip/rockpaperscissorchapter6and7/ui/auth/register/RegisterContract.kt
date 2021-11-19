@@ -14,12 +14,15 @@ interface RegisterContract {
         fun initViewModel()
         fun setClickListener()
         fun checkFormValidation(): Boolean
+        fun showLoading(dialog: Dialog, isLoading: Boolean)
         fun showToast(isSuccess: Boolean, msg: String)
     }
+
     interface ViewModel {
         fun getResponseLiveData(): LiveData<Resource<BaseResponse<RegisterData, String>>>
         fun postRegisterUser(registerRequest: RegisterRequest)
     }
+
     interface Repository {
         suspend fun postRegisterUser(registerRequest: RegisterRequest): BaseResponse<RegisterData, String>
     }

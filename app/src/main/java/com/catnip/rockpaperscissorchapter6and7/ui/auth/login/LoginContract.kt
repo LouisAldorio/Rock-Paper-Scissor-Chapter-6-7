@@ -13,6 +13,7 @@ interface LoginContract {
         fun navigateToMenu()
         fun setOnClick()
         fun saveSessionLogin(data: UserData)
+        fun showLoading(dialog: Dialog, isLoading: Boolean)
         fun showToast(isSuccess: Boolean, msg: String)
         fun checkFormValidation(): Boolean
     }

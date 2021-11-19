@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/MBKM/Binar Academy/Chapter 6/Challenge/App/Rock-Paper-Scissor-Chapter-6-7/app/src/main/res/layout/activity_menu.xml" value="0.16" />
+        <entry key="..\:/MBKM/Binar Academy/Chapter 6/Challenge/App/Rock-Paper-Scissor-Chapter-6-7/app/src/main/res/layout/fragment_login.xml" value="0.15670289855072464" />
+        <entry key="..\:/MBKM/Binar Academy/Chapter 6/Challenge/App/Rock-Paper-Scissor-Chapter-6-7/app/src/main/res/layout/fragment_register.xml" value="0.18" />
+      </map>
+    </option>
+  </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="11" project-jdk-type="JavaSDK" />
 </project>
