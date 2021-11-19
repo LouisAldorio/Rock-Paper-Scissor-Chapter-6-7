@@ -10,7 +10,7 @@ interface ResultDialogContract {
 
     }
 
-    interface Presenter: BaseContract.BasePresenter {
+    interface ViewModel {
 
     }
 }
