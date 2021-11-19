@@ -14,7 +14,6 @@ interface LoginContract {
         fun setOnClick()
         fun saveSessionLogin(data: UserData)
         fun showToast(isSuccess: Boolean, msg: String)
-        fun showLoading(dialog: Dialog, isLoading: Boolean)
         fun checkFormValidation(): Boolean
     }
 

@@ -14,7 +14,6 @@ interface RegisterContract {
         fun initViewModel()
         fun setClickListener()
         fun checkFormValidation(): Boolean
-        fun showLoading(dialog: Dialog, isLoading: Boolean)
         fun showToast(isSuccess: Boolean, msg: String)
     }
     interface ViewModel {

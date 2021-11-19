@@ -56,38 +56,25 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(
         when {
             email.isEmpty() -> {
                 isFormValid = false
-                showToast(
-                    false,
-                    getString(R.string.text_fill_email)
-                )
+                getViewBinding().tilEmail.error = getString(R.string.text_error_email_empty)
+
             }
             StringUtils.isEmailValid(email).not() -> {
                 isFormValid = false
-                showToast(
-                    false,
-                    getString(R.string.text_check_email)
-                )
+                getViewBinding().tilEmail.error = getString(R.string.text_error_email_invalid)
+
             }
             name.isEmpty() -> {
                 isFormValid = false
-                showToast(
-                    false,
-                    getString(R.string.text_fill_name)
-                )
+                getViewBinding().tilName.error = getString(R.string.text_error_name_empty)
             }
             name.count() < 6 -> {
                 isFormValid = false
-                showToast(
-                    false,
-                    getString(R.string.text_name_shorter_than_minimum)
-                )
+                getViewBinding().tilName.error = getString(R.string.text_error_name_short)
             }
             pass.isEmpty() -> {
                 isFormValid = false
-                showToast(
-                    false,
-                    getString(R.string.text_fill_password)
-                )
+                getViewBinding().tilPassword.error = getString(R.string.text_error_password_empty)
             }
         }
         return isFormValid
@@ -105,42 +92,41 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(
     }
 
     override fun observeViewModel() {
-        val dialog = Dialog(requireContext())
         viewModel.getResponseLiveData().observe(requireActivity(), { response ->
             when (response) {
                 is Resource.Loading -> {
-                    showLoading(dialog, true)
+                    showLoading(true)
                 }
                 is Resource.Success -> {
                     if (response.data!!.isSuccess) {
-                        showLoading(dialog, false)
+                        showLoading(false)
                         showToast(true, getString(R.string.text_register_success))
                     }
                     initView()
                 }
                 is Resource.Error -> {
-                    showLoading(dialog, false)
+                    showLoading(false)
                     val msg = response.message.toString()
                     when {
                         "email_1 dup key" in msg -> showToast(
                             false,
                             getString(
-                                R.string.text_register_failed,
-                                getString(R.string.text_email_is_exist)
+                                R.string.text_error_register_failed,
+                                getString(R.string.text_error_email_exist)
                             )
                         )
                         "username_1 dup key" in msg -> showToast(
                             false,
                             getString(
-                                R.string.text_register_failed,
-                                getString(R.string.text_name_is_exist)
+                                R.string.text_error_register_failed,
+                                getString(R.string.text_error_name_exist)
                             )
                         )
                         "alphanumeric characters" in msg -> showToast(
                             false,
                             getString(
-                                R.string.text_register_failed,
-                                getString(R.string.text_name_should_only_alphanumeric)
+                                R.string.text_error_register_failed,
+                                getString(R.string.text_error_name_alphanumeric)
                             )
                         )
                     }
@@ -149,7 +135,8 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(
         })
     }
 
-    override fun showLoading(dialog: Dialog, isLoading: Boolean) {
+    override fun showLoading(isLoading: Boolean) {
+        val dialog = Dialog(requireContext())
         if (isLoading) {
             dialog.window?.setTitle(Window.FEATURE_NO_TITLE.toString())
             dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))

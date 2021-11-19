@@ -35,35 +35,33 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
     }
 
     override fun observeViewModel() {
-        val dialog = Dialog(requireContext())
         viewModel.loginResponse.observe(viewLifecycleOwner, { response ->
             when (response) {
                 is Resource.Loading -> {
-                    showLoading(dialog, true)
+                    showLoading(true)
                 }
                 is Resource.Success -> {
-                    showLoading(dialog, false)
+                    showLoading(false)
                     showToast(true, getString(R.string.text_login_success))
                     response.data?.data.let {
-                        it?.let { it1 ->
-                            saveSessionLogin(it1)
-                        }
+                        it?.let { it1 -> saveSessionLogin(it1) }
                     }
                 }
                 is Resource.Error -> {
-                    showLoading(dialog, false)
+                    showLoading(false)
                     val msg = response.message.orEmpty()
                     showToast(
                         false,
-                        getString(R.string.text_login_failed,msg)
+                        getString(R.string.text_error_login_failed, msg)
                     )
                 }
             }
         })
     }
 
-    override fun showLoading(dialog: Dialog, isLoading: Boolean) {
+    override fun showLoading(isLoading: Boolean) {
         super.showLoading(isLoading)
+        val dialog = Dialog(requireContext())
         if (isLoading) {
             dialog.window?.setTitle(Window.FEATURE_NO_TITLE.toString())
             dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -122,24 +120,15 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
         when {
             email.isEmpty() -> {
                 isFormValid = false
-                showToast(
-                    false,
-                    getString(R.string.text_fill_email)
-                )
+                getViewBinding().tilEmail.error = getString(R.string.text_error_email_empty)
             }
             StringUtils.isEmailValid(email).not() -> {
                 isFormValid = false
-                showToast(
-                    false,
-                    getString(R.string.text_check_email)
-                )
+                getViewBinding().tilEmail.error = getString(R.string.text_error_email_invalid)
             }
             pass.isEmpty() -> {
                 isFormValid = false
-                showToast(
-                    false,
-                    getString(R.string.text_fill_password)
-                )
+                getViewBinding().tilPassword.error = getString(R.string.text_error_password_empty)
             }
         }
         return isFormValid

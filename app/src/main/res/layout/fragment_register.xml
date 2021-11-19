@@ -19,7 +19,7 @@
             android:layout_marginTop="51dp"
             android:layout_marginEnd="40dp"
             android:gravity="center"
-            android:hint="@string/text_form_name"
+            android:hint="@string/text_name"
             app:hintTextColor="@color/primaryColor"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -65,7 +65,7 @@
             android:layout_marginTop="30dp"
             android:layout_marginEnd="40dp"
             android:gravity="center"
-            android:hint="@string/text_form_password"
+            android:hint="@string/text_password"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/til_email"
@@ -101,7 +101,7 @@
                 android:layout_gravity="center"
                 android:paddingTop="20dp"
                 android:paddingBottom="17dp"
-                android:text="@string/text_button_register"
+                android:text="@string/text_register"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
 
