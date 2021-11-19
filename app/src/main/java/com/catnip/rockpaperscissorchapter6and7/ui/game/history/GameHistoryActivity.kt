@@ -18,7 +18,6 @@ import com.catnip.rockpaperscissorchapter6and7.data.local.room.PlayersDatabase
 import com.catnip.rockpaperscissorchapter6and7.data.local.room.datasource.GameHistoryDataSourceImpl
 import com.catnip.rockpaperscissorchapter6and7.data.local.room.datasource.PlayersDataSourceImpl
 import com.catnip.rockpaperscissorchapter6and7.data.model.GameHistoryWithPlayer
-import com.catnip.rockpaperscissorchapter6and7.data.model.Player
 import com.catnip.rockpaperscissorchapter6and7.data.network.datasource.auth.AuthApiDataSourceImpl
 import com.catnip.rockpaperscissorchapter6and7.data.network.model.response.auth.GameHistoryData
 import com.catnip.rockpaperscissorchapter6and7.data.network.services.AuthApiService
@@ -87,7 +86,6 @@ class GameHistoryActivity :
 
         setListPopupWindow()
         setClickListeners()
-
     }
 
     override fun onResume() {
@@ -104,9 +102,6 @@ class GameHistoryActivity :
                 viewModel.getRemoteGameHistory()
             }
         }
-
-
-
     }
 
 
@@ -236,9 +231,9 @@ class GameHistoryActivity :
                     gameResultSortIsAscending = !gameResultSortIsAscending
                     getData()
                 }
-
             }
             GameHistoryType.REMOTE_HISTORY -> {
+                getViewBinding().menuButton1.visibility = View.GONE
                 getViewBinding().menuButton2.visibility = View.GONE
             }
         }

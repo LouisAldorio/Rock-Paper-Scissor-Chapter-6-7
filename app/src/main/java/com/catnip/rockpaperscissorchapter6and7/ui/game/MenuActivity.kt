@@ -37,7 +37,7 @@ class MenuActivity : BaseViewModelActivity<ActivityMenuBinding> (
         }
 
         getViewBinding().cvGameHistory.setOnClickListener {
-            GameHistoryActivity.startActivity(this, GameHistoryType.LOCAL_HISTORY)
+            GameHistoryActivity.startActivity(this, GameHistoryType.REMOTE_HISTORY)
         }
 
         getViewBinding().cvGameTutorial.setOnClickListener {
