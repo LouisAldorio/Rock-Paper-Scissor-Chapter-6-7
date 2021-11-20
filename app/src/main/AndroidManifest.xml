@@ -29,7 +29,8 @@
             android:exported="true" />
         <activity
             android:name=".ui.splashscreen.SplashScreenActivity"
-            android:exported="true" >
+            android:exported="true">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -39,7 +40,8 @@
 
         <activity
             android:name=".ui.game.MenuActivity"
-            android:exported="true" />
+            android:exported="true"/>
+
         <activity
             android:name=".ui.intro.IntroActivity"
             android:exported="true" />

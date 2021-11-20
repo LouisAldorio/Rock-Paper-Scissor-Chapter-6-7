@@ -11,6 +11,7 @@ import com.shashank.sony.fancytoastlib.FancyToast
 import android.content.Intent
 import android.view.ViewGroup
 import com.catnip.rockpaperscissorchapter6and7.data.local.preference.SessionPreference
+import com.catnip.rockpaperscissorchapter6and7.data.local.preference.UserPreference
 import com.catnip.rockpaperscissorchapter6and7.data.local.preference.datasource.LocalDataSourceImpl
 import com.catnip.rockpaperscissorchapter6and7.data.network.model.response.auth.BaseAuthResponse
 import com.catnip.rockpaperscissorchapter6and7.data.network.model.response.auth.UserData
@@ -59,7 +60,8 @@ class ProfileDialog : BaseViewModelDialogFragment<DialogFragmentProfileBinding>(
     override fun initViewModel() {
         val datasource = AuthApiDataSourceImpl(AuthApiService.invoke(
             LocalDataSourceImpl(
-                SessionPreference(requireContext())
+                SessionPreference(requireContext()),
+                UserPreference(requireContext())
             )
         ))
 

@@ -8,6 +8,7 @@ import com.catnip.rockpaperscissorchapter6and7.base.GenericViewModelFactory
 import com.catnip.rockpaperscissorchapter6and7.base.model.Resource
 import com.catnip.rockpaperscissorchapter6and7.data.local.preference.datasource.LocalDataSourceImpl
 import com.catnip.rockpaperscissorchapter6and7.data.local.preference.SessionPreference
+import com.catnip.rockpaperscissorchapter6and7.data.local.preference.UserPreference
 import com.catnip.rockpaperscissorchapter6and7.data.network.datasource.auth.AuthApiDataSourceImpl
 import com.catnip.rockpaperscissorchapter6and7.data.network.services.AuthApiService
 import com.catnip.rockpaperscissorchapter6and7.databinding.ActivitySplashScreenBinding
@@ -25,9 +26,19 @@ class SplashScreenActivity : BaseViewModelActivity<ActivitySplashScreenBinding>(
     }
 
     override fun initViewModel() {
-        val dataSource = AuthApiDataSourceImpl(AuthApiService.invoke(LocalDataSourceImpl(SessionPreference(this))))
-        val repository = SplashScreenRepository(dataSource)
-        viewModel = GenericViewModelFactory(SplashScreenViewModel(repository)).create(SplashScreenViewModel::class.java)
+        val apiDataSource =
+            AuthApiDataSourceImpl(
+                AuthApiService.invoke(
+                    LocalDataSourceImpl(
+                        SessionPreference(this),
+                        UserPreference(this)
+                    )
+                )
+            )
+        val localDataSource = LocalDataSourceImpl(SessionPreference(this), UserPreference(this))
+        val repository = SplashScreenRepository(apiDataSource, localDataSource)
+        viewModel =
+            GenericViewModelFactory(SplashScreenViewModel(repository)).create(SplashScreenViewModel::class.java)
         observeViewModel()
     }
 
@@ -38,10 +49,12 @@ class SplashScreenActivity : BaseViewModelActivity<ActivitySplashScreenBinding>(
                 is Resource.Success -> {
                     showContent(response.data!!.isSuccess)
                     showError(false, null)
+
                 }
                 is Resource.Error -> {
                     showError(true, response.message)
                     showContent(false)
+                    viewModel.deleteSession()
                 }
             }
         })
