@@ -1,27 +1,25 @@
 package com.catnip.rockpaperscissorchapter6and7.ui.about
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
 import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.catnip.rockpaperscissorchapter6and7.base.BaseActivity
-import com.catnip.rockpaperscissorchapter6and7.base.BaseDialogFragment
-import com.catnip.rockpaperscissorchapter6and7.base.BaseFragment
+import com.catnip.rockpaperscissorchapter6and7.base.*
 import com.catnip.rockpaperscissorchapter6and7.base.model.Resource
-import com.catnip.rockpaperscissorchapter6and7.data.local.room.PlayersDatabase
 import com.catnip.rockpaperscissorchapter6and7.data.local.room.datasource.AboutDataSourceImpl
-import com.catnip.rockpaperscissorchapter6and7.data.local.room.datasource.PlayersDataSourceImpl
 import com.catnip.rockpaperscissorchapter6and7.data.model.TeamMember
 import com.catnip.rockpaperscissorchapter6and7.databinding.ActivityAboutBinding
-import com.catnip.rockpaperscissorchapter6and7.databinding.DialogFragmentVideoTutorialBinding
 import com.catnip.rockpaperscissorchapter6and7.ui.about.adapter.TeamMemberRecyclerViewAdapter
-import com.catnip.rockpaperscissorchapter6and7.ui.game.mode.dialog.PlayerMenusPresenter
-import com.catnip.rockpaperscissorchapter6and7.ui.game.mode.dialog.PlayerMenusRepository
-import com.catnip.rockpaperscissorchapter6and7.ui.tutorial.VideoTutorialContract
 
-class AboutActivity : BaseActivity<ActivityAboutBinding, AboutContract.Presenter>(
+class AboutActivity : BaseViewModelActivity<ActivityAboutBinding>(
     ActivityAboutBinding::inflate
 ), AboutContract.View {
+
+    private lateinit var viewModel: AboutViewModel
+
+    override fun renderTeamMembers(members: List<TeamMember>) {
+        val adapter = TeamMemberRecyclerViewAdapter(members)
+        getViewBinding().rvTeamMembers.adapter = adapter
+        getViewBinding().rvTeamMembers.layoutManager = LinearLayoutManager(this)
+    }
 
     override fun initView() {
         supportActionBar?.hide()
@@ -29,47 +27,41 @@ class AboutActivity : BaseActivity<ActivityAboutBinding, AboutContract.Presenter
 
     override fun onResume() {
         super.onResume()
-        getPresenter().getTeamMembers()
+        viewModel.getData()
     }
 
-    override fun initPresenter() {
+    override fun initViewModel() {
         val dataSource = AboutDataSourceImpl()
         val repository = AboutRespository(dataSource)
-        setPresenter(AboutPresenter(this@AboutActivity, repository))
-    }
+        viewModel = GenericViewModelFactory(AboutViewModel(repository)).create(AboutViewModel::class.java)
 
-    override fun renderTeamMembers(members : List<TeamMember>) {
-        val adapter = TeamMemberRecyclerViewAdapter(members)
-        getViewBinding().rvTeamMembers.adapter = adapter
-        getViewBinding().rvTeamMembers.layoutManager = LinearLayoutManager(this)
-    }
-
-    override fun onDataCallback(response: Resource<List<TeamMember>>) {
-        when (response) {
-            is Resource.Loading -> {
-                showLoading(true)
-                showError(false, null)
-                showContent(false)
-            }
-            is Resource.Success -> {
-                showLoading(false)
-                response.data?.let {
-                    if (it.isEmpty()) {
-                        showError(true, "Error")
-                        showContent(false)
-                    } else {
-                        showError(false, null)
-                        showContent(true)
-                        renderTeamMembers(it)
+        viewModel.transactionResult.observe(this, { response ->
+            when (response) {
+                is Resource.Loading -> {
+                    showLoading(true)
+                    showError(false, null)
+                    showContent(false)
+                }
+                is Resource.Success -> {
+                    showLoading(false)
+                    response.data?.let {
+                        if (it.isEmpty()) {
+                            showError(true, "Error")
+                            showContent(false)
+                        } else {
+                            showError(false, null)
+                            showContent(true)
+                            Log.i("tempok", it.toString())
+                            renderTeamMembers(it)
+                        }
                     }
                 }
+                is Resource.Error -> {
+                    showLoading(false)
+                    showError(true, response.message)
+                    showContent(false)
+                }
             }
-            is Resource.Error -> {
-                showLoading(false)
-                showError(true, response.message)
-                showContent(false)
-            }
-        }
+        })
     }
-
 }

@@ -20,45 +20,39 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:textAllCaps="false"
         android:id="@+id/menu_button1"
-        android:layout_width="150dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
         android:layout_marginStart="40dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
         android:backgroundTint="@color/primaryColor"
         android:text="@string/text_btn_game_result"
+        android:textAllCaps="false"
         android:textSize="12sp"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/menu_button2"
         app:layout_constraintTop_toBottomOf="@id/tv_title" />
 
     <Button
-        android:textAllCaps="false"
-        android:id="@+id/btn_sort_asc"
-        android:layout_width="70dp"
+        android:id="@+id/menu_button2"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:backgroundTint="@color/primaryColor"
-        android:text="ASC"
-        android:textSize="12sp"
-        app:layout_constraintLeft_toRightOf="@id/menu_button1"
-        app:layout_constraintRight_toLeftOf="@id/btn_sort_desc"
-        app:layout_constraintTop_toBottomOf="@id/tv_title" />
-
-    <Button
-        android:textAllCaps="false"
-        android:id="@+id/btn_sort_desc"
-        android:layout_width="70dp"
-        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="40dp"
         android:backgroundTint="@color/primaryColor"
-        android:text="DESC"
+        android:drawableEnd="@drawable/ic_baseline_arrow_upward_24"
+        android:text="Sorting"
+        android:textAllCaps="false"
         android:textSize="12sp"
+        app:layout_constraintLeft_toRightOf="@id/menu_button1"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_title" />
 
+
     <LinearLayout
+        android:id="@+id/ll"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="24dp"
@@ -71,10 +65,19 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_history"
-            android:layout_marginBottom="40dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="40dp"
             tools:listitem="@layout/card_winner_item" />
+
+        <ProgressBar
+            android:id="@+id/pb_loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:visibility="gone" />
 
         <LinearLayout
             android:id="@+id/ll_no_data"
@@ -89,12 +92,14 @@
             app:layout_constraintTop_toBottomOf="@id/menu_button1">
 
             <ImageView
+                android:id="@+id/iv"
                 android:layout_width="300dp"
                 android:layout_height="200dp"
                 android:src="@drawable/img_no_data_available"
                 tools:ignore="ContentDescription" />
 
             <TextView
+                android:id="@+id/tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/text_no_data_available"

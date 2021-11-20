@@ -25,8 +25,8 @@
     <string name="text_hint_insert_player_name">Insert Player Name</string>
     <string name="text_btn_get_started">Get Started</string>
     <string name="text_title_game_mode">Game Mode</string>
-    <string name="text_pvr">PVR</string>
-    <string name="text_pvp">PVP</string>
+    <string name="text_pvc">Player VS Computer</string>
+    <string name="text_pvp">Player VS Player</string>
     <string name="text_player_name">Name: Player Name Viewer</string>
     <string name="text_mode_pvr">Mode: Player 1 vs Robot</string>
     <string name="text_mode_pvp">Mode: Player 1 vs Player 2</string>
@@ -57,5 +57,29 @@
     <string name="text_you_win">%s Win!</string>
     <string name="text_you_lose">%s Lose!</string>
     <string name="text_draw">Draw!</string>
+    <string name="text_update">Update</string>
+    <string name="text_cancel">Cancel</string>
+    <string name="text_username">Username</string>
+    <string name="text_email">Email</string>
+    <string name="text_update_profile">Update Profile</string>
+    <string name="text_profile">Profile</string>
+    <string name="text_update_or_see_your_profile">Update Or See Your Profile</string>
+    <string name="text_auth_welcome">Welcome to Suiterhero</string>
+    <string name="text_login_success">Login Success</string>
+    <string name="text_login_failed">Login Failed. %s</string>
+    <string name="text_register_failed">Register Failed. %s</string>
+    <string name="text_fill_email">Please fill in your email</string>
+    <string name="text_check_email">Please check email correctly</string>
+    <string name="text_fill_password">Please fill in your password</string>
+    <string name="text_fill_name">Please fill in your name</string>
+    <string name="text_name_shorter_than_minimum">Name is shorter than minimum allowed length (6)</string>
+    <string name="text_register_success">Register Success</string>
+    <string name="text_email_is_exist">Email is exist!</string>
+    <string name="text_name_is_exist">Name is exist!</string>
+    <string name="text_name_should_only_alphanumeric">Name should only contain alphanumeric characters</string>
+    <string name="text_form_name">Name</string>
+    <string name="text_form_password">Password</string>
+    <string name="text_button_register">REGISTER</string>
+    <string name="text_button_login">LOGIN</string>
 
 </resources>

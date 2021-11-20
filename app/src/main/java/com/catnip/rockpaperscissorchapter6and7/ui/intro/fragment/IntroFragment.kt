@@ -47,76 +47,33 @@ class IntroFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setPage()
-        setOnClickListeners()
     }
-
-    private fun setOnClickListeners() {
-        binding.ivNext.setOnClickListener { (activity as IntroActivity).nextSlide() }
-        binding.btnGetStarted.setOnClickListener { getStarted() }
-    }
-
     private fun setPage() {
         when (type) {
             IntroType.ONE -> {
-                isInsertName(false)
                 binding.ivBanner.setImageResource(R.drawable.img_intro_page_1)
                 binding.tvTitleImage.text = getString(R.string.text_title_image_intro_page_first)
                 binding.tvInstruction.text = getString(R.string.text_intro_page_first)
+                binding.ivNext.setOnClickListener { (activity as IntroActivity).nextSlide() }
             }
             IntroType.TWO -> {
-                isInsertName(false)
                 binding.ivBanner.setImageResource(R.drawable.img_intro_page_2)
                 binding.tvTitleImage.text = getString(R.string.text_title_image_intro_page_second)
                 binding.tvInstruction.text = getString(R.string.text_intro_page_second)
+                binding.ivNext.setOnClickListener { (activity as IntroActivity).nextSlide() }
             }
             IntroType.THREE -> {
-                isInsertName(false)
                 binding.ivBanner.setImageResource(R.drawable.img_intro_page_3)
                 binding.tvTitleImage.text = getString(R.string.text_title_image_intro_page_third)
                 binding.tvInstruction.text = getString(R.string.text_intro_page_third)
-            }
-            IntroType.FOUR -> {
-                isInsertName(true)
-                binding.ivInsertPlayerName.setImageResource(R.drawable.img_input_name_page)
-                binding.tietPlayerName.setText(UserPreference(requireContext()).player?.name)
+                binding.ivNext.setOnClickListener { goToAccessPage() }
+
             }
         }
     }
 
-    private fun isInsertName(insertName: Boolean) {
-        if (insertName) {
-            binding.groupIntro.visibility = View.GONE
-            binding.groupInsertPlayerName.visibility = View.VISIBLE
-        } else {
-            binding.groupIntro.visibility = View.VISIBLE
-            binding.groupInsertPlayerName.visibility = View.GONE
-        }
-    }
-
-    private fun getStarted() {
-        if (binding.tietPlayerName.text.toString().isNotBlank()) {
-            val db = PlayersDatabase.getInstance(requireContext())
-            val coroutineJob = Job()
-            val scope = CoroutineScope(Dispatchers.IO + coroutineJob)
-            val username = binding.tietPlayerName.text.toString().trimIndent()
-            var usernameAdded = false
-
-            scope.launch {
-                val players = db.playersDao().getAllPlayers()
-                players.forEach { if (username.uppercase() == it.name.uppercase()) usernameAdded = true }
-
-                if (!usernameAdded) {
-                    val playerId = db.playersDao().insertPlayer(Player(null, username))
-                    UserPreference(requireContext()).player = Player(playerId, username)
-                }
-            }
-            goToMenu()
-        }
-    }
-
-    private fun goToMenu() {
+    private fun goToAccessPage() {
         val intent = Intent(context, MenuActivity::class.java)
-        // do not add current activity to stack after navigate to other activity
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
     }
