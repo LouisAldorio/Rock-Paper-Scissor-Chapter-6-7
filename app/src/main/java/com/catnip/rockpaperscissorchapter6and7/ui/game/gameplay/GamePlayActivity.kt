@@ -75,7 +75,6 @@ class GamePlayActivity : BaseViewModelActivity<ActivityGamePlayBinding>(
     }
 
     override fun resetState() {
-
         player?.choice = -1
         enemy?.choice = -1
 
@@ -92,6 +91,10 @@ class GamePlayActivity : BaseViewModelActivity<ActivityGamePlayBinding>(
     }
 
     override fun initListeners() {
+
+        getViewBinding().ivRepeat.setOnClickListener {
+            resetState()
+        }
 
         getViewBinding().ivExit.setOnClickListener {
             val dialog = AlertDialog.Builder(this)
@@ -267,8 +270,8 @@ class GamePlayActivity : BaseViewModelActivity<ActivityGamePlayBinding>(
     }
 
     private fun compare(enemyChoice: Int, player: Player): String {
+        disableClickAfterComparison()
         if ((player.choice + 1) % 3 == enemyChoice) {
-
             // enemy win
             showResultDialog(GameResult.LOSE)
             return "Opponent Win"
@@ -284,8 +287,6 @@ class GamePlayActivity : BaseViewModelActivity<ActivityGamePlayBinding>(
             showResultDialog(GameResult.WIN)
             return "Player Win"
         }
-
-        disableClickAfterComparison()
     }
 
     override fun initViewModel() {
