@@ -52,8 +52,6 @@ class RegisterViewModel(private val registerRepository: RegisterRepository) : Vi
                     }
                 }
             }
-
-
         }
     }
 }

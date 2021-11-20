@@ -10,23 +10,33 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import com.catnip.rockpaperscissorchapter6and7.R
 import com.catnip.rockpaperscissorchapter6and7.base.BaseActivity
+import com.catnip.rockpaperscissorchapter6and7.base.BaseViewModelActivity
+import com.catnip.rockpaperscissorchapter6and7.base.GenericViewModelFactory
+import com.catnip.rockpaperscissorchapter6and7.base.model.Resource
+import com.catnip.rockpaperscissorchapter6and7.data.local.preference.SessionPreference
 import com.catnip.rockpaperscissorchapter6and7.data.local.preference.UserPreference
+import com.catnip.rockpaperscissorchapter6and7.data.local.preference.datasource.LocalDataSourceImpl
 import com.catnip.rockpaperscissorchapter6and7.data.local.room.PlayersDatabase
 import com.catnip.rockpaperscissorchapter6and7.data.local.room.datasource.GameHistoryDataSourceImpl
 import com.catnip.rockpaperscissorchapter6and7.data.local.room.datasource.PlayersDataSourceImpl
 import com.catnip.rockpaperscissorchapter6and7.data.model.GameHistory
 import com.catnip.rockpaperscissorchapter6and7.data.model.Player
+import com.catnip.rockpaperscissorchapter6and7.data.network.datasource.auth.AuthApiDataSourceImpl
+import com.catnip.rockpaperscissorchapter6and7.data.network.model.request.binar.GameHistoryRequest
+import com.catnip.rockpaperscissorchapter6and7.data.network.services.AuthApiService
 import com.catnip.rockpaperscissorchapter6and7.databinding.ActivityGamePlayBinding
+import com.catnip.rockpaperscissorchapter6and7.enumeration.GameHistoryType
 import com.catnip.rockpaperscissorchapter6and7.enumeration.GameResult
 import com.catnip.rockpaperscissorchapter6and7.enumeration.GameType
 import com.catnip.rockpaperscissorchapter6and7.ui.game.gameplay.dialog.ResultDialogFragment
+import com.catnip.rockpaperscissorchapter6and7.ui.game.history.GameHistoryViewModel
 import com.catnip.rockpaperscissorchapter6and7.ui.game.mode.dialog.PlayerMenusRepository
 import com.catnip.rockpaperscissorchapter6and7.utils.Constant
 import kotlinx.coroutines.delay
 import java.text.SimpleDateFormat
 import java.util.*
 
-class GamePlayActivity : BaseActivity<ActivityGamePlayBinding, GamePlayContract.Presenter>(
+class GamePlayActivity : BaseViewModelActivity<ActivityGamePlayBinding>(
     ActivityGamePlayBinding::inflate
 ), GamePlayContract.View {
 
@@ -37,6 +47,8 @@ class GamePlayActivity : BaseActivity<ActivityGamePlayBinding, GamePlayContract.
     private lateinit var enemyElements: Array<ImageView>
 
     private var enemy: Player? = null
+
+    private lateinit var viewModel: GamePlayViewModel
 
     companion object {
         @JvmStatic
@@ -50,16 +62,9 @@ class GamePlayActivity : BaseActivity<ActivityGamePlayBinding, GamePlayContract.
 
     override fun initView() {
         supportActionBar?.hide()
+        initViewModel()
         getIntentData()
         initListeners()
-    }
-
-    override fun initPresenter() {
-        // sesuaikan , untuk saat ini pakai player dlo, ntar pake history punya
-        val dataSource =
-            GameHistoryDataSourceImpl(PlayersDatabase.getInstance(this).gameHistoryDao())
-        val repository = GamePlayRepository(dataSource)
-        setPresenter(GamePlayPresenter(this, repository))
     }
 
     override fun getIntentData() {
@@ -203,8 +208,8 @@ class GamePlayActivity : BaseActivity<ActivityGamePlayBinding, GamePlayContract.
                 enemy?.choice?.let {
                     //do compare
 
-                    getPresenter().compare(it, player!!)
-                    getPresenter().insertGameHistory(
+                    val winner = compare(it, player!!)
+                    viewModel.insertGameHistory(
                         GameHistory(
                             null,
                             player?.id,
@@ -212,6 +217,12 @@ class GamePlayActivity : BaseActivity<ActivityGamePlayBinding, GamePlayContract.
                             enemy?.id,
                             enemy?.choice,
                             SimpleDateFormat("EEEE, dd MMMM yyyy").format(Date())
+                        )
+                    )
+                    viewModel.postRemoteGameHistory(
+                        GameHistoryRequest(
+                            mode = GameType.PLAYER_TO_PLAYER.value,
+                            result = winner
                         )
                     )
                 }
@@ -235,8 +246,8 @@ class GamePlayActivity : BaseActivity<ActivityGamePlayBinding, GamePlayContract.
                 )
             )
 
-            getPresenter().compare(computeChoice, player!!)
-            getPresenter().insertGameHistory(
+            val winner = compare(computeChoice, player!!)
+            viewModel.insertGameHistory(
                 GameHistory(
                     null,
                     player?.id,
@@ -246,6 +257,87 @@ class GamePlayActivity : BaseActivity<ActivityGamePlayBinding, GamePlayContract.
                     SimpleDateFormat("EEEE, dd MMMM yyyy").format(Date())
                 )
             )
+            viewModel.postRemoteGameHistory(
+                GameHistoryRequest(
+                    mode = GameType.PLAYER_TO_COM.value,
+                    result = winner
+                )
+            )
         }
+    }
+
+    private fun compare(enemyChoice: Int, player: Player): String {
+        if ((player.choice + 1) % 3 == enemyChoice) {
+
+            // enemy win
+            showResultDialog(GameResult.LOSE)
+            return "Opponent Win"
+
+        } else if (player.choice == enemyChoice) {
+
+            //draw
+            showResultDialog(GameResult.DRAW)
+            return "Draw"
+        } else {
+
+            //player win
+            showResultDialog(GameResult.WIN)
+            return "Player Win"
+        }
+
+        disableClickAfterComparison()
+    }
+
+    override fun initViewModel() {
+        val dataSource =
+            GameHistoryDataSourceImpl(PlayersDatabase.getInstance(this).gameHistoryDao())
+        val remoteDataSource = AuthApiDataSourceImpl(
+            AuthApiService.invoke(
+                LocalDataSourceImpl(
+                    SessionPreference(this),
+                    UserPreference(this)
+                )
+            )
+        )
+        val repository = GamePlayRepository(dataSource, remoteDataSource)
+        viewModel = GenericViewModelFactory(GamePlayViewModel(repository)).create(
+            GamePlayViewModel::class.java
+        )
+        observeViewModel()
+    }
+
+    fun observeViewModel() {
+        viewModel.postRemoteGameHistoryLiveData().observe(this, { response ->
+            when (response) {
+                is Resource.Loading -> {
+                    showLoading(true)
+                    showError(false, null)
+                    showContent(false)
+                }
+                is Resource.Success -> {
+                }
+                is Resource.Error -> {
+                    showLoading(false)
+                    showError(true, response.message)
+                    showContent(false)
+                }
+            }
+        })
+        viewModel.insertGameHistoryLiveData().observe(this, { response ->
+            when (response) {
+                is Resource.Loading -> {
+                    showLoading(true)
+                    showError(false, null)
+                    showContent(false)
+                }
+                is Resource.Success -> {
+                }
+                is Resource.Error -> {
+                    showLoading(false)
+                    showError(true, response.message)
+                    showContent(false)
+                }
+            }
+        })
     }
 }
