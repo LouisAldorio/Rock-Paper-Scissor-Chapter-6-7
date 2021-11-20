@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+<<<<<<< HEAD
         <entry key="..\:/MBKM/Binar Academy/Chapter 6/Challenge/App/Rock-Paper-Scissor-Chapter-6-7/app/src/main/res/layout/activity_game_mode.xml" value="0.22" />
         <entry key="..\:/Studi Independen Kampus Merdeka/Binar Academy Android Engineering/Platinum/challenge/Rock Paper Scissor Chapter 6 And 7/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.24791666666666667" />
         <entry key="..\:/Studi Independen Kampus Merdeka/Binar Academy Android Engineering/Platinum/challenge/Rock Paper Scissor Chapter 6 And 7/app/src/main/res/drawable/ic_launcher_background.xml" value="0.24791666666666667" />
@@ -26,4 +27,11 @@
   <component name="ProjectType">
     <option name="id" value="Android" />
   </component>
+=======
+        <entry key="..\:/Binar Academy/Android/Chapter7/Rock-Paper-Scissor-Chapter-6-and-7/app/src/main/res/layout/activity_game_history_options.xml" value="0.1" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK" />
+>>>>>>> 1b32b8c77aaf9489af124b117c7b5f04b0a2046e
 </project>
