@@ -10,7 +10,7 @@ class UserPreference(context : Context) {
     private var preference : SharedPreferences = context.getSharedPreferences(PREF_NAME, PREF_MODE)
 
     companion object {
-        private const val PREF_NAME = "RockPaperScissor"
+        private const val PREF_NAME = "userName"
         private const val PREF_MODE = Context.MODE_PRIVATE
         private val PREF_IS_USER_LOGGED_IN = Pair("player", null)
         private val gson = Gson()

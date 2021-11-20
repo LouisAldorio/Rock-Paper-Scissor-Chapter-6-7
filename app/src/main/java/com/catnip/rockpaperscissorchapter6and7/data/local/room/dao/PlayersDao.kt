@@ -13,4 +13,7 @@ interface PlayersDao {
 
     @Query("SELECT * FROM Players WHERE id IN (:ids)")
     suspend fun getPlayerByIDs(ids : List<Long>) : List<Player>
+
+    @Query("SELECT * FROM Players WHERE name == :username")
+    suspend fun getPlayerByUsername(username : String): Player
 }

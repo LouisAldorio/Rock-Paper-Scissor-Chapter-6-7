@@ -1,6 +1,7 @@
 package com.catnip.rockpaperscissorchapter6and7.ui.game.gameplay.dialog
 
 import android.content.DialogInterface
+import android.view.ViewGroup
 import com.catnip.rockpaperscissorchapter6and7.R
 import com.catnip.rockpaperscissorchapter6and7.base.BaseDialogFragment
 import com.catnip.rockpaperscissorchapter6and7.base.BaseViewModelDialogFragment
@@ -23,6 +24,7 @@ class ResultDialogFragment(
     private lateinit var viewModel: ResultDialogViewModel
 
     override fun initView() {
+        dialog?.getWindow()?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         determineWinner()
         initListeners()
     }

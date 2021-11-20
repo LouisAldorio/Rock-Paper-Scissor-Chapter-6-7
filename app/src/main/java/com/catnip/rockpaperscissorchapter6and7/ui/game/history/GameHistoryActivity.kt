@@ -334,7 +334,8 @@ class GameHistoryActivity :
         val remoteDataSource = AuthApiDataSourceImpl(
             AuthApiService.invoke(
                 LocalDataSourceImpl(
-                    SessionPreference(this)
+                    SessionPreference(this),
+                    UserPreference(this)
                 )
             )
         )

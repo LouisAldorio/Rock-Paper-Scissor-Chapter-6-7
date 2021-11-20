@@ -1,9 +1,13 @@
 package com.catnip.rockpaperscissorchapter6and7.ui.auth.login
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import com.catnip.rockpaperscissorchapter6and7.base.model.Resource
+import com.catnip.rockpaperscissorchapter6and7.data.local.room.PlayersDatabase
+import com.catnip.rockpaperscissorchapter6and7.data.model.Player
 import com.catnip.rockpaperscissorchapter6and7.data.network.model.request.auth.AuthRequest
 import com.catnip.rockpaperscissorchapter6and7.data.network.model.response.auth.BaseAuthResponse
 import com.catnip.rockpaperscissorchapter6and7.data.network.model.response.auth.BaseResponse
@@ -18,8 +22,31 @@ class LoginViewModel(private val repository: LoginRepository) : ViewModel(),
 
     val loginResponse = MutableLiveData<Resource<BaseAuthResponse<UserData, String>>>()
 
+    override fun saveToDao(userName: String, isAdd: Boolean, db: PlayersDatabase) {
+        var isAddToDao = isAdd
+        viewModelScope.launch {
+            db.playersDao().getAllPlayers().forEach {
+                if (userName == it.name){
+                    isAddToDao = false
+                }
+            }
+            if (isAddToDao) db.playersDao().insertPlayer(Player(null, userName))
+        }
+    }
+
     override fun saveSession(authToken: String) {
         repository.saveSession(authToken)
+    }
+
+    override fun saveUserPreference(userName: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val player = repository.getPlayerByUsername(userName)
+                repository.saveUserPreference(player)
+            } catch (cause: Throwable) {
+                Log.d("testos", "saveUserPreference: $cause")
+            }
+        }
     }
 
     override fun loginUser(loginRequest: AuthRequest) {
@@ -31,12 +58,16 @@ class LoginViewModel(private val repository: LoginRepository) : ViewModel(),
                     loginResponse.value = Resource.Success(response)
                 }
             } catch (cause: Throwable) {
-                when(cause){
+                when (cause) {
                     is HttpException -> {
                         cause.response()?.errorBody()?.source()?.let {
-                            val error = Gson().fromJson(it.readString(Charsets.UTF_8), BaseResponse::class.java)
+                            val error = Gson().fromJson(
+                                it.readString(Charsets.UTF_8),
+                                BaseResponse::class.java
+                            )
                             viewModelScope.launch(Dispatchers.Main) {
-                                loginResponse.value = Resource.Error(error.errorMsg.toString(),null)
+                                loginResponse.value =
+                                    Resource.Error(error.errorMsg.toString(), null)
                             }
                         }
                     }
