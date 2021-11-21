@@ -21,9 +21,8 @@ interface LoginContract {
     }
 
     interface ViewModel {
-        fun saveToDao(userName: String, isAdd: Boolean, db: PlayersDatabase)
+        fun saveToDao(userName: String, db: PlayersDatabase)
         fun saveSession(authToken: String)
-        fun saveUserPreference(userName: String)
         fun loginUser(loginRequest: AuthRequest)
     }
 

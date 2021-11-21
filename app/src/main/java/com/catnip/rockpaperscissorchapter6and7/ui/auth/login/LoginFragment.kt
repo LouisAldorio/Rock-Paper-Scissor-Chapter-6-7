@@ -48,7 +48,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
                     response.data?.data.let {
                         it?.let { it1 ->
                             saveSessionLogin(it1)
-                            saveUserPreference(it1)
                             saveToDao(it1)
                         }
                     }
@@ -68,11 +67,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
     private fun saveToDao(data: UserData) {
         val userName = data.username.orEmpty()
         val db = PlayersDatabase.getInstance(requireContext())
-        viewModel.saveToDao(userName,true,db)
-    }
-
-    private fun saveUserPreference(data: UserData) {
-        viewModel.saveUserPreference(data.username.orEmpty())
+        viewModel.saveToDao(userName,db)
     }
 
     override fun showLoading(dialog: Dialog, isLoading: Boolean) {
