@@ -311,9 +311,14 @@ class GameHistoryActivity :
                         }
                         is Resource.Success -> {
                             showLoading(false)
-                            showContent(response.data!!.isSuccess)
-                            showError(false, null)
-                            setRemoteGameHistory(response.data.data)
+                            if (response.data!!.data.isEmpty()) {
+                                showError(true, "Error")
+                                showContent(false)
+                            } else {
+                                showContent(response.data.isSuccess)
+                                showError(false, null)
+                                setRemoteGameHistory(response.data.data)
+                            }
                         }
                         is Resource.Error -> {
                             showLoading(false)
