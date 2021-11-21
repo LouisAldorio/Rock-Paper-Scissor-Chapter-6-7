@@ -8,12 +8,10 @@ interface PlayerMenusContract {
     interface View: BaseContract.BaseView {
         fun getData()
         fun setMenusData(data: List<Player>)
-        fun onDataCallback(response: Resource<List<Player>>)
         fun setClickListeners()
-        fun onPlayerIDCallback(player : Player)
     }
 
-    interface Presenter: BaseContract.BasePresenter {
+    interface ViewModel{
         fun getAllPlayers()
         fun insertPlayer(player: Player)
     }

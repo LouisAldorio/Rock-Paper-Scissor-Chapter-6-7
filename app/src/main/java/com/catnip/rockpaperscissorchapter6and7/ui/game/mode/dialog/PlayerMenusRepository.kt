@@ -6,6 +6,7 @@ import com.catnip.rockpaperscissorchapter6and7.data.model.Player
 class PlayerMenusRepository(
     private val dataSource: PlayersDataSource
 ) : PlayerMenusContract.Repository {
+
     override suspend fun getAllPlayers(): List<Player> {
         return dataSource.getAllPlayers()
     }
