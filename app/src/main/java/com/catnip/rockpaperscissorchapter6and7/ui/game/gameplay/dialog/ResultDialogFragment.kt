@@ -1,15 +1,12 @@
 package com.catnip.rockpaperscissorchapter6and7.ui.game.gameplay.dialog
 
-import android.content.DialogInterface
 import android.view.ViewGroup
 import com.catnip.rockpaperscissorchapter6and7.R
-import com.catnip.rockpaperscissorchapter6and7.base.BaseDialogFragment
 import com.catnip.rockpaperscissorchapter6and7.base.BaseViewModelDialogFragment
 import com.catnip.rockpaperscissorchapter6and7.base.GenericViewModelFactory
 import com.catnip.rockpaperscissorchapter6and7.data.model.Player
 import com.catnip.rockpaperscissorchapter6and7.databinding.FragmentResultDialogBinding
 import com.catnip.rockpaperscissorchapter6and7.enumeration.GameResult
-import com.catnip.rockpaperscissorchapter6and7.ui.game.MenuViewModel
 
 class ResultDialogFragment(
     private val gameResult: GameResult,
@@ -40,11 +37,6 @@ class ResultDialogFragment(
             resetState()
             dismiss()
         }
-    }
-
-    override fun onDismiss(dialog: DialogInterface) {
-        super.onDismiss(dialog)
-        resetState()
     }
 
     private fun determineWinner() {
