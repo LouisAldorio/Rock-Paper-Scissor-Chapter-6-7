@@ -4,6 +4,7 @@ import android.app.Dialog
 import androidx.lifecycle.LiveData
 import com.catnip.rockpaperscissorchapter6and7.base.model.Resource
 import com.catnip.rockpaperscissorchapter6and7.data.local.room.PlayersDatabase
+import com.catnip.rockpaperscissorchapter6and7.data.model.Player
 import com.catnip.rockpaperscissorchapter6and7.data.network.model.request.binar.RegisterRequest
 import com.catnip.rockpaperscissorchapter6and7.data.network.model.response.auth.BaseResponse
 import com.catnip.rockpaperscissorchapter6and7.data.network.model.response.auth.RegisterData
@@ -20,12 +21,14 @@ interface RegisterContract {
     }
 
     interface ViewModel {
-        fun saveToDao(userName: String,isAdd: Boolean,db: PlayersDatabase)
+        fun saveToDao(userName: String)
         fun getResponseLiveData(): LiveData<Resource<BaseResponse<RegisterData, String>>>
         fun postRegisterUser(registerRequest: RegisterRequest)
     }
 
     interface Repository {
         suspend fun postRegisterUser(registerRequest: RegisterRequest): BaseResponse<RegisterData, String>
+        suspend fun getAllPlayers(): List<Player>
+        suspend fun insertPlayer(player: Player): Long
     }
 }

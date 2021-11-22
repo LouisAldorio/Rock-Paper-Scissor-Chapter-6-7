@@ -14,6 +14,7 @@ import com.catnip.rockpaperscissorchapter6and7.data.network.model.response.auth.
 import com.catnip.rockpaperscissorchapter6and7.data.network.model.response.auth.UserData
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 
@@ -22,31 +23,23 @@ class LoginViewModel(private val repository: LoginRepository) : ViewModel(),
 
     val loginResponse = MutableLiveData<Resource<BaseAuthResponse<UserData, String>>>()
 
-    override fun saveToDao(userName: String, isAdd: Boolean, db: PlayersDatabase) {
-        var isAddToDao = isAdd
-        viewModelScope.launch {
-            db.playersDao().getAllPlayers().forEach {
-                if (userName == it.name){
+    override fun saveUsername(userName: String) {
+        var isAddToDao = true
+        viewModelScope.launch(Dispatchers.Main) {
+            repository.getAllPlayers().forEach {
+                if (userName == it.name) {
                     isAddToDao = false
                 }
             }
-            if (isAddToDao) db.playersDao().insertPlayer(Player(null, userName))
+            if (isAddToDao) repository.insertPlayer(Player(null, userName))
+            delay(1000)
+            val player = repository.getPlayerByUsername(userName)
+            repository.saveUserPreference(player)
         }
     }
 
     override fun saveSession(authToken: String) {
         repository.saveSession(authToken)
-    }
-
-    override fun saveUserPreference(userName: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                val player = repository.getPlayerByUsername(userName)
-                repository.saveUserPreference(player)
-            } catch (cause: Throwable) {
-                Log.d("testos", "saveUserPreference: $cause")
-            }
-        }
     }
 
     override fun loginUser(loginRequest: AuthRequest) {

@@ -15,6 +15,7 @@ import com.catnip.rockpaperscissorchapter6and7.data.local.preference.SessionPref
 import com.catnip.rockpaperscissorchapter6and7.data.local.preference.UserPreference
 import com.catnip.rockpaperscissorchapter6and7.data.local.preference.datasource.LocalDataSourceImpl
 import com.catnip.rockpaperscissorchapter6and7.data.local.room.PlayersDatabase
+import com.catnip.rockpaperscissorchapter6and7.data.local.room.datasource.PlayersDataSourceImpl
 import com.catnip.rockpaperscissorchapter6and7.data.model.Player
 import com.catnip.rockpaperscissorchapter6and7.data.network.datasource.auth.AuthApiDataSourceImpl
 import com.catnip.rockpaperscissorchapter6and7.data.network.model.request.binar.RegisterRequest
@@ -99,8 +100,9 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(
                 )
             )
         )
-
-        val repository = RegisterRepository(dataSource)
+        val playersDataSource =
+            PlayersDataSourceImpl(PlayersDatabase.getInstance(requireContext()).playersDao())
+        val repository = RegisterRepository(dataSource, playersDataSource)
         viewModel =
             GenericViewModelFactory(RegisterViewModel(repository)).create(RegisterViewModel::class.java)
         observeViewModel()
@@ -153,8 +155,7 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(
     }
 
     private fun saveToDao(userName: String) {
-        val db = PlayersDatabase.getInstance(requireContext())
-        viewModel.saveToDao(userName,true,db)
+        viewModel.saveToDao(userName)
     }
 
     override fun showLoading(dialog: Dialog, isLoading: Boolean) {

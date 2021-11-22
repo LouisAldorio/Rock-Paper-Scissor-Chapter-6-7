@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.catnip.rockpaperscissorchapter6and7.base.model.Resource
+import com.catnip.rockpaperscissorchapter6and7.data.model.Player
 import com.catnip.rockpaperscissorchapter6and7.data.network.model.response.auth.BaseAuthResponse
 import com.catnip.rockpaperscissorchapter6and7.data.network.model.response.auth.UserData
 import com.google.gson.Gson
@@ -57,6 +58,14 @@ class ProfileViewModel(private val repository : ProfileContract.Repository) : Vi
                     updateTransactionResult.value = Resource.Error(e.message.orEmpty())
                 }
             }
+        }
+    }
+
+    override fun updateUsername(newUsername: String, oldUsername: String) {
+        viewModelScope.launch {
+            val player = repository.getPlayerByUsername(oldUsername)
+            repository.insertPlayer(Player(player.id,newUsername))
+            repository.saveUser(Player(player.id,newUsername))
         }
     }
 
