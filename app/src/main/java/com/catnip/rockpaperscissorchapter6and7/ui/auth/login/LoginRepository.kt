@@ -32,4 +32,12 @@ class LoginRepository(
     override suspend fun getPlayerByUsername(username: String): Player {
         return playerDataSource.getPlayerByUsername(username)
     }
+
+    override suspend fun getAllPlayers(): List<Player> {
+        return playerDataSource.getAllPlayers()
+    }
+
+    override suspend fun insertPlayer(player: Player): Long {
+        return playerDataSource.insertPlayer(player)
+    }
 }

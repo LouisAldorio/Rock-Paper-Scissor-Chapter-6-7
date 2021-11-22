@@ -9,6 +9,7 @@ import com.catnip.rockpaperscissorchapter6and7.data.network.model.response.auth.
 import com.catnip.rockpaperscissorchapter6and7.data.network.model.response.auth.RegisterData
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 
@@ -18,15 +19,16 @@ class RegisterViewModel(private val registerRepository: RegisterRepository) : Vi
     private val getResponseLiveData =
         MutableLiveData<Resource<BaseResponse<RegisterData, String>>>()
 
-    override fun saveToDao(userName: String, isAdd: Boolean, db: PlayersDatabase) {
-        var isAddToDao = isAdd
-        viewModelScope.launch {
-            db.playersDao().getAllPlayers().forEach {
+    override fun saveToDao(userName: String) {
+        var isAddToDao = true
+        viewModelScope.launch(Dispatchers.Main) {
+            registerRepository.getAllPlayers().forEach {
                 if (userName == it.name) {
                     isAddToDao = false
                 }
             }
-            if (isAddToDao) db.playersDao().insertPlayer(Player(null, userName))
+            if (isAddToDao) registerRepository.insertPlayer(Player(null, userName))
+            delay(1000)
         }
     }
 

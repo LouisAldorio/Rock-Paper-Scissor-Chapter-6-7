@@ -23,15 +23,15 @@ class LoginViewModel(private val repository: LoginRepository) : ViewModel(),
 
     val loginResponse = MutableLiveData<Resource<BaseAuthResponse<UserData, String>>>()
 
-    override fun saveToDao(userName: String, db: PlayersDatabase) {
+    override fun saveUsername(userName: String) {
         var isAddToDao = true
-        viewModelScope.launch {
-            db.playersDao().getAllPlayers().forEach {
-                if (userName == it.name){
+        viewModelScope.launch(Dispatchers.Main) {
+            repository.getAllPlayers().forEach {
+                if (userName == it.name) {
                     isAddToDao = false
                 }
             }
-            if (isAddToDao) db.playersDao().insertPlayer(Player(null, userName))
+            if (isAddToDao) repository.insertPlayer(Player(null, userName))
             delay(1000)
             val player = repository.getPlayerByUsername(userName)
             repository.saveUserPreference(player)

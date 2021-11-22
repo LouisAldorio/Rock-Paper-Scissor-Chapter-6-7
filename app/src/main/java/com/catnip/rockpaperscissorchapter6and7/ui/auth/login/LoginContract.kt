@@ -21,7 +21,7 @@ interface LoginContract {
     }
 
     interface ViewModel {
-        fun saveToDao(userName: String, db: PlayersDatabase)
+        fun saveUsername(userName: String)
         fun saveSession(authToken: String)
         fun loginUser(loginRequest: AuthRequest)
     }
@@ -31,5 +31,7 @@ interface LoginContract {
         fun saveUserPreference(player : Player)
         suspend fun postLoginUser(loginRequest: AuthRequest): BaseAuthResponse<UserData, String>
         suspend fun getPlayerByUsername(username : String): Player
+        suspend fun getAllPlayers(): List<Player>
+        suspend fun insertPlayer(player: Player): Long
     }
 }
