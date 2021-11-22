@@ -3,22 +3,28 @@ package com.catnip.rockpaperscissorchapter6and7.ui.auth.register
 import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.os.Bundle
-import android.view.View
+import android.util.Log
 import android.view.Window
 import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
 import com.catnip.rockpaperscissorchapter6and7.R
 import com.catnip.rockpaperscissorchapter6and7.base.BaseFragment
 import com.catnip.rockpaperscissorchapter6and7.base.GenericViewModelFactory
 import com.catnip.rockpaperscissorchapter6and7.base.model.Resource
 import com.catnip.rockpaperscissorchapter6and7.data.local.preference.SessionPreference
+import com.catnip.rockpaperscissorchapter6and7.data.local.preference.UserPreference
 import com.catnip.rockpaperscissorchapter6and7.data.local.preference.datasource.LocalDataSourceImpl
+import com.catnip.rockpaperscissorchapter6and7.data.local.room.PlayersDatabase
+import com.catnip.rockpaperscissorchapter6and7.data.local.room.datasource.PlayersDataSourceImpl
+import com.catnip.rockpaperscissorchapter6and7.data.model.Player
 import com.catnip.rockpaperscissorchapter6and7.data.network.datasource.auth.AuthApiDataSourceImpl
 import com.catnip.rockpaperscissorchapter6and7.data.network.model.request.binar.RegisterRequest
 import com.catnip.rockpaperscissorchapter6and7.data.network.services.AuthApiService
 import com.catnip.rockpaperscissorchapter6and7.databinding.FragmentRegisterBinding
 import com.catnip.rockpaperscissorchapter6and7.utils.StringUtils
 import com.shashank.sony.fancytoastlib.FancyToast
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 class RegisterFragment : BaseFragment<FragmentRegisterBinding>(
@@ -26,13 +32,6 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(
 ), RegisterContract.View {
 
     private lateinit var viewModel: RegisterViewModel
-
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        initView()
-        setClickListener()
-    }
 
     override fun setClickListener() {
         getViewBinding().cvButtonAuth.setOnClickListener {
@@ -56,49 +55,54 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(
         when {
             email.isEmpty() -> {
                 isFormValid = false
-                showToast(
-                    false,
-                    getString(R.string.text_fill_email)
-                )
+                getViewBinding().tilEmail.isErrorEnabled = true
+                getViewBinding().tilEmail.error = getString(R.string.text_error_email_empty)
             }
             StringUtils.isEmailValid(email).not() -> {
                 isFormValid = false
-                showToast(
-                    false,
-                    getString(R.string.text_check_email)
-                )
+                getViewBinding().tilEmail.isErrorEnabled = true
+                getViewBinding().tilEmail.error = getString(R.string.text_error_email_invalid)
             }
+            else -> {
+                getViewBinding().tilEmail.isErrorEnabled = false
+            }
+        }
+        when {
             name.isEmpty() -> {
                 isFormValid = false
-                showToast(
-                    false,
-                    getString(R.string.text_fill_name)
-                )
+                getViewBinding().tilName.isErrorEnabled = true
+                getViewBinding().tilName.error = getString(R.string.text_error_name_empty)
             }
             name.count() < 6 -> {
                 isFormValid = false
-                showToast(
-                    false,
-                    getString(R.string.text_name_shorter_than_minimum)
-                )
+                getViewBinding().tilName.isErrorEnabled = true
+                getViewBinding().tilName.error = getString(R.string.text_error_name_short)
             }
-            pass.isEmpty() -> {
-                isFormValid = false
-                showToast(
-                    false,
-                    getString(R.string.text_fill_password)
-                )
+            else -> {
+                getViewBinding().tilName.isErrorEnabled = false
             }
         }
+        if (pass.isEmpty()) {
+            isFormValid = false
+            getViewBinding().tilPassword.isErrorEnabled = true
+            getViewBinding().tilPassword.error = getString(R.string.text_error_password_empty)
+        } else getViewBinding().tilPassword.isErrorEnabled = false
+
         return isFormValid
     }
 
     override fun initViewModel() {
         val dataSource = AuthApiDataSourceImpl(
-            AuthApiService.invoke(LocalDataSourceImpl(SessionPreference(requireContext())))
+            AuthApiService.invoke(
+                LocalDataSourceImpl(
+                    SessionPreference(requireContext()),
+                    UserPreference(requireContext())
+                )
+            )
         )
-
-        val repository = RegisterRepository(dataSource)
+        val playersDataSource =
+            PlayersDataSourceImpl(PlayersDatabase.getInstance(requireContext()).playersDao())
+        val repository = RegisterRepository(dataSource, playersDataSource)
         viewModel =
             GenericViewModelFactory(RegisterViewModel(repository)).create(RegisterViewModel::class.java)
         observeViewModel()
@@ -112,9 +116,10 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(
                     showLoading(dialog, true)
                 }
                 is Resource.Success -> {
+                    showLoading(dialog, false)
                     if (response.data!!.isSuccess) {
-                        showLoading(dialog, false)
                         showToast(true, getString(R.string.text_register_success))
+                        saveToDao(response.data.data.username)
                     }
                     initView()
                 }
@@ -125,28 +130,32 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(
                         "email_1 dup key" in msg -> showToast(
                             false,
                             getString(
-                                R.string.text_register_failed,
-                                getString(R.string.text_email_is_exist)
+                                R.string.text_error_register_failed,
+                                getString(R.string.text_error_email_exist)
                             )
                         )
                         "username_1 dup key" in msg -> showToast(
                             false,
                             getString(
-                                R.string.text_register_failed,
-                                getString(R.string.text_name_is_exist)
+                                R.string.text_error_register_failed,
+                                getString(R.string.text_error_name_exist)
                             )
                         )
                         "alphanumeric characters" in msg -> showToast(
                             false,
                             getString(
-                                R.string.text_register_failed,
-                                getString(R.string.text_name_should_only_alphanumeric)
+                                R.string.text_error_register_failed,
+                                getString(R.string.text_error_name_alphanumeric)
                             )
                         )
                     }
                 }
             }
         })
+    }
+
+    private fun saveToDao(userName: String) {
+        viewModel.saveToDao(userName)
     }
 
     override fun showLoading(dialog: Dialog, isLoading: Boolean) {
@@ -183,6 +192,7 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(
         getViewBinding().etName.setText("")
         getViewBinding().etEmail.setText("")
         getViewBinding().etPassword.setText("")
+        setClickListener()
         initViewModel()
     }
 }

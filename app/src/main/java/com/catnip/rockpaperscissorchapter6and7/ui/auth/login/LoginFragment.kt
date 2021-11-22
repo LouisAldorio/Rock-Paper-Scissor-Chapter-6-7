@@ -4,8 +4,6 @@ import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.os.Bundle
-import android.view.View
 import android.view.Window
 import android.widget.Toast
 import com.catnip.rockpaperscissorchapter6and7.R
@@ -13,7 +11,10 @@ import com.catnip.rockpaperscissorchapter6and7.base.BaseFragment
 import com.catnip.rockpaperscissorchapter6and7.base.GenericViewModelFactory
 import com.catnip.rockpaperscissorchapter6and7.base.model.Resource
 import com.catnip.rockpaperscissorchapter6and7.data.local.preference.SessionPreference
+import com.catnip.rockpaperscissorchapter6and7.data.local.preference.UserPreference
 import com.catnip.rockpaperscissorchapter6and7.data.local.preference.datasource.LocalDataSourceImpl
+import com.catnip.rockpaperscissorchapter6and7.data.local.room.PlayersDatabase
+import com.catnip.rockpaperscissorchapter6and7.data.local.room.datasource.PlayersDataSourceImpl
 import com.catnip.rockpaperscissorchapter6and7.data.network.datasource.auth.AuthApiDataSourceImpl
 import com.catnip.rockpaperscissorchapter6and7.data.network.model.request.auth.AuthRequest
 import com.catnip.rockpaperscissorchapter6and7.data.network.model.response.auth.UserData
@@ -29,11 +30,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
 
     private lateinit var viewModel: LoginViewModel
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        initView()
-    }
-
     override fun observeViewModel() {
         val dialog = Dialog(requireContext())
         viewModel.loginResponse.observe(viewLifecycleOwner, { response ->
@@ -47,6 +43,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
                     response.data?.data.let {
                         it?.let { it1 ->
                             saveSessionLogin(it1)
+                            saveUsername(it1)
                         }
                     }
                 }
@@ -55,11 +52,16 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
                     val msg = response.message.orEmpty()
                     showToast(
                         false,
-                        getString(R.string.text_login_failed,msg)
+                        getString(R.string.text_error_login_failed, msg)
                     )
                 }
             }
         })
+    }
+
+    private fun saveUsername(data: UserData) {
+        val userName = data.username.orEmpty()
+        viewModel.saveUsername(userName)
     }
 
     override fun showLoading(dialog: Dialog, isLoading: Boolean) {
@@ -95,7 +97,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
         }
     }
 
-
     override fun navigateToMenu() {
         val intent = Intent(requireContext(), IntroActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
@@ -122,26 +123,26 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
         when {
             email.isEmpty() -> {
                 isFormValid = false
-                showToast(
-                    false,
-                    getString(R.string.text_fill_email)
-                )
+                getViewBinding().tilEmail.isErrorEnabled = true
+                getViewBinding().tilEmail.error = getString(R.string.text_error_email_empty)
             }
             StringUtils.isEmailValid(email).not() -> {
                 isFormValid = false
-                showToast(
-                    false,
-                    getString(R.string.text_check_email)
-                )
+                getViewBinding().tilEmail.isErrorEnabled = true
+                getViewBinding().tilEmail.error = getString(R.string.text_error_email_invalid)
             }
-            pass.isEmpty() -> {
-                isFormValid = false
-                showToast(
-                    false,
-                    getString(R.string.text_fill_password)
-                )
+            else -> {
+                getViewBinding().tilEmail.isErrorEnabled = false
+
             }
         }
+
+        if (pass.isEmpty()) {
+            isFormValid = false
+            getViewBinding().tilPassword.isErrorEnabled = true
+            getViewBinding().tilPassword.error = getString(R.string.text_error_password_empty)
+        } else getViewBinding().tilPassword.isErrorEnabled = false
+
         return isFormValid
     }
 
@@ -158,12 +159,19 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
         val apiDataSource = AuthApiDataSourceImpl(
             AuthApiService.invoke(
                 LocalDataSourceImpl(
-                    SessionPreference(requireContext())
+                    SessionPreference(requireContext()),
+                    UserPreference(requireContext())
                 )
             )
         )
-        val localDataSource = LocalDataSourceImpl(SessionPreference(requireContext()))
-        val repository = LoginRepository(apiDataSource, localDataSource)
+        val localDataSource = LocalDataSourceImpl(
+            SessionPreference(requireContext()),
+            UserPreference(requireContext())
+        )
+        val repository = LoginRepository(apiDataSource,
+            localDataSource,
+            PlayersDataSourceImpl(PlayersDatabase.getInstance(requireContext()).playersDao())
+        )
         viewModel = GenericViewModelFactory(LoginViewModel(repository))
             .create(LoginViewModel::class.java)
         observeViewModel()

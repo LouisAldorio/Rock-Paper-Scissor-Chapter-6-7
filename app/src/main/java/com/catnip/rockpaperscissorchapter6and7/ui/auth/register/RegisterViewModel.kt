@@ -1,15 +1,15 @@
 package com.catnip.rockpaperscissorchapter6and7.ui.auth.register
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.catnip.rockpaperscissorchapter6and7.base.model.Resource
+import com.catnip.rockpaperscissorchapter6and7.data.local.room.PlayersDatabase
+import com.catnip.rockpaperscissorchapter6and7.data.model.Player
 import com.catnip.rockpaperscissorchapter6and7.data.network.model.request.binar.RegisterRequest
 import com.catnip.rockpaperscissorchapter6and7.data.network.model.response.auth.BaseResponse
 import com.catnip.rockpaperscissorchapter6and7.data.network.model.response.auth.RegisterData
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 
@@ -18,6 +18,19 @@ class RegisterViewModel(private val registerRepository: RegisterRepository) : Vi
 
     private val getResponseLiveData =
         MutableLiveData<Resource<BaseResponse<RegisterData, String>>>()
+
+    override fun saveToDao(userName: String) {
+        var isAddToDao = true
+        viewModelScope.launch(Dispatchers.Main) {
+            registerRepository.getAllPlayers().forEach {
+                if (userName == it.name) {
+                    isAddToDao = false
+                }
+            }
+            if (isAddToDao) registerRepository.insertPlayer(Player(null, userName))
+            delay(1000)
+        }
+    }
 
     override fun getResponseLiveData(): LiveData<Resource<BaseResponse<RegisterData, String>>> = getResponseLiveData
 
@@ -41,8 +54,6 @@ class RegisterViewModel(private val registerRepository: RegisterRepository) : Vi
                     }
                 }
             }
-
-
         }
     }
 }

@@ -11,7 +11,10 @@ import com.shashank.sony.fancytoastlib.FancyToast
 import android.content.Intent
 import android.view.ViewGroup
 import com.catnip.rockpaperscissorchapter6and7.data.local.preference.SessionPreference
+import com.catnip.rockpaperscissorchapter6and7.data.local.preference.UserPreference
 import com.catnip.rockpaperscissorchapter6and7.data.local.preference.datasource.LocalDataSourceImpl
+import com.catnip.rockpaperscissorchapter6and7.data.local.room.PlayersDatabase
+import com.catnip.rockpaperscissorchapter6and7.data.local.room.datasource.PlayersDataSourceImpl
 import com.catnip.rockpaperscissorchapter6and7.data.network.model.response.auth.BaseAuthResponse
 import com.catnip.rockpaperscissorchapter6and7.data.network.model.response.auth.UserData
 import com.catnip.rockpaperscissorchapter6and7.ui.splashscreen.SplashScreenActivity
@@ -23,23 +26,29 @@ class ProfileDialog : BaseViewModelDialogFragment<DialogFragmentProfileBinding>(
 
     private lateinit var profileViewModel: ProfileViewModel
 
-    private fun validate() : Boolean {
-        if (getViewBinding().etEmail.text.toString().trim() != "" && getViewBinding().etUsername.text.toString().trim() != "") {
+    private fun validate(): Boolean {
+        if (getViewBinding().etEmail.text.toString()
+                .trim() != "" && getViewBinding().etUsername.text.toString().trim() != ""
+        ) {
             return true
         }
         return false
     }
 
     override fun initView() {
-        dialog?.getWindow()?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog?.getWindow()
+            ?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         getViewBinding().btnCancel.setOnClickListener {
             dismiss()
         }
         getViewBinding().btnUpdate.setOnClickListener {
             if (validate()) {
-                profileViewModel.updateProfile(getViewBinding().etUsername.text.toString(),getViewBinding().etEmail.text.toString())
+                profileViewModel.updateProfile(
+                    getViewBinding().etUsername.text.toString(),
+                    getViewBinding().etEmail.text.toString()
+                )
 
-            }else {
+            } else {
                 FancyToast.makeText(
                     requireContext(),
                     "Username or Email must not be Empty!",
@@ -57,14 +66,24 @@ class ProfileDialog : BaseViewModelDialogFragment<DialogFragmentProfileBinding>(
     }
 
     override fun initViewModel() {
-        val datasource = AuthApiDataSourceImpl(AuthApiService.invoke(
-            LocalDataSourceImpl(
-                SessionPreference(requireContext())
+        val datasource = AuthApiDataSourceImpl(
+            AuthApiService.invoke(
+                LocalDataSourceImpl(
+                    SessionPreference(requireContext()),
+                    UserPreference(requireContext())
+                )
             )
-        ))
+        )
 
-        val repository = ProfileRepository(datasource)
-        profileViewModel = GenericViewModelFactory(ProfileViewModel(repository)).create(ProfileViewModel::class.java)
+        val playersDataSource =
+            PlayersDataSourceImpl(PlayersDatabase.getInstance(requireContext()).playersDao())
+        val localDataSource = LocalDataSourceImpl(
+            SessionPreference(requireContext()),
+            UserPreference(requireContext())
+        )
+        val repository = ProfileRepository(datasource, playersDataSource, localDataSource)
+        profileViewModel =
+            GenericViewModelFactory(ProfileViewModel(repository)).create(ProfileViewModel::class.java)
 
         profileViewModel.transactionResult.observe(this, { response ->
             determineAction(false, response)
@@ -100,7 +119,7 @@ class ProfileDialog : BaseViewModelDialogFragment<DialogFragmentProfileBinding>(
     private fun restartApplicationAndClearPreference() {
 
         val intent = Intent(requireContext(), SplashScreenActivity::class.java)
-        intent.addFlags( Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
         startActivity(intent)
 
         //todo : clear the expired token that is stored under the shared preference
@@ -120,8 +139,10 @@ class ProfileDialog : BaseViewModelDialogFragment<DialogFragmentProfileBinding>(
         dismiss()
     }
 
-    private fun determineAction(isUpdateTransaction : Boolean,
-                                response: Resource<BaseAuthResponse<UserData, String>>) {
+    private fun determineAction(
+        isUpdateTransaction: Boolean,
+        response: Resource<BaseAuthResponse<UserData, String>>
+    ) {
 
         when (response) {
             is Resource.Loading -> {
@@ -139,27 +160,38 @@ class ProfileDialog : BaseViewModelDialogFragment<DialogFragmentProfileBinding>(
                         showError(false, null)
                         showContent(true)
 
-                        if(isUpdateTransaction) {
+                        if (isUpdateTransaction) {
                             closeDialogWhenUpdateSuccess()
-                        }else
-                            it.data.email?.let { it1 -> it.data.username?.let { it2 ->
-                                setProfileData(it1,
-                                    it2
-                                )
-                            }}
+                            updateUsername(it.data.username.orEmpty())
+                        } else
+                            it.data.email?.let { it1 ->
+                                it.data.username?.let { it2 ->
+                                    setProfileData(
+                                        it1,
+                                        it2
+                                    )
+                                }
+                            }
                     }
                 }
             }
             is Resource.Error -> {
-                if(response.message == "Token is expired") {
+                if (response.message == "Token is expired") {
                     restartApplicationAndClearPreference()
-                }else {
+                } else {
                     showLoading(false)
                     showError(true, response.message)
                     showContent(false)
                 }
             }
         }
+    }
+
+    private fun updateUsername(username: String) {
+        profileViewModel.updateUsername(
+            username,
+            UserPreference(requireContext()).player?.name.orEmpty()
+        )
     }
 
 }
