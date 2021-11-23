@@ -1,5 +1,6 @@
 package com.catnip.rockpaperscissorchapter6and7.ui.game.mode.dialog
 
+import android.view.WindowManager
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import com.catnip.rockpaperscissorchapter6and7.R
@@ -46,7 +47,7 @@ class PlayerMenusDialogFragment :
 
         if (players.isNotEmpty()) {
             if (players.size > 4)
-                (getViewBinding().menu.editText as? AutoCompleteTextView)?.dropDownHeight = 800
+                (getViewBinding().menu.editText as? AutoCompleteTextView)?.dropDownHeight = 400
 
             (getViewBinding().menu.editText as? AutoCompleteTextView)?.setAdapter(
                 ArrayAdapter(
