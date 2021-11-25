@@ -62,7 +62,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
     }
 
     private fun navigateToRegister() {
-        AuthActivity().setViewPager()
+        /*AuthActivity().setViewPager()*/
     }
 
     private fun saveUsername(data: UserData) {

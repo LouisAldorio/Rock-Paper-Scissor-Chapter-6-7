@@ -162,7 +162,7 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(
     }
 
     private fun navigateToLogin() {
-        AuthActivity().setViewPager()
+        /*AuthActivity().setViewPager()*/
     }
 
     private fun saveToDao(userName: String) {
