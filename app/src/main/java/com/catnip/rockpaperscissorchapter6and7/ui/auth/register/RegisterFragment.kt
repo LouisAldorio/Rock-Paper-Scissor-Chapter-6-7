@@ -128,7 +128,6 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(
                         saveToDao(response.data.data.username)
                     }
                     initView()
-                    navigateToLogin()
                 }
                 is Resource.Error -> {
                     showLoading(dialog, false)
@@ -159,10 +158,6 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(
                 }
             }
         })
-    }
-
-    private fun navigateToLogin() {
-        /*AuthActivity().setViewPager()*/
     }
 
     private fun saveToDao(userName: String) {
