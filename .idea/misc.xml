@@ -4,10 +4,22 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/MBKM/Binar Academy/Chapter 6/Challenge/App/Rock-Paper-Scissor-Chapter-6-7/app/src/main/res/layout/activity_auth.xml" value="0.1" />
+        <entry key="..\:/MBKM/Binar Academy/Chapter 6/Challenge/App/Rock-Paper-Scissor-Chapter-6-7/app/src/main/res/layout/activity_game_history.xml" value="0.25" />
+        <entry key="..\:/MBKM/Binar Academy/Chapter 6/Challenge/App/Rock-Paper-Scissor-Chapter-6-7/app/src/main/res/layout/activity_game_history_options.xml" value="0.22" />
         <entry key="..\:/MBKM/Binar Academy/Chapter 6/Challenge/App/Rock-Paper-Scissor-Chapter-6-7/app/src/main/res/layout/activity_game_mode.xml" value="0.22" />
+        <entry key="..\:/MBKM/Binar Academy/Chapter 6/Challenge/App/Rock-Paper-Scissor-Chapter-6-7/app/src/main/res/layout/activity_game_play.xml" value="0.22447916666666667" />
+        <entry key="..\:/MBKM/Binar Academy/Chapter 6/Challenge/App/Rock-Paper-Scissor-Chapter-6-7/app/src/main/res/layout/activity_intro.xml" value="0.10916919959473151" />
+        <entry key="..\:/MBKM/Binar Academy/Chapter 6/Challenge/App/Rock-Paper-Scissor-Chapter-6-7/app/src/main/res/layout/activity_menu.xml" value="0.39815880322209435" />
+        <entry key="..\:/MBKM/Binar Academy/Chapter 6/Challenge/App/Rock-Paper-Scissor-Chapter-6-7/app/src/main/res/layout/activity_splash_screen.xml" value="0.22447916666666667" />
+        <entry key="..\:/MBKM/Binar Academy/Chapter 6/Challenge/App/Rock-Paper-Scissor-Chapter-6-7/app/src/main/res/layout/card_winner_item.xml" value="0.25" />
+        <entry key="..\:/MBKM/Binar Academy/Chapter 6/Challenge/App/Rock-Paper-Scissor-Chapter-6-7/app/src/main/res/layout/dialog_fragment_profile.xml" value="0.12" />
         <entry key="..\:/MBKM/Binar Academy/Chapter 6/Challenge/App/Rock-Paper-Scissor-Chapter-6-7/app/src/main/res/layout/fragment_login.xml" value="0.2" />
+        <entry key="..\:/MBKM/Binar Academy/Chapter 6/Challenge/App/Rock-Paper-Scissor-Chapter-6-7/app/src/main/res/layout/fragment_player_menus.xml" value="0.10916919959473151" />
         <entry key="..\:/MBKM/Binar Academy/Chapter 6/Challenge/App/Rock-Paper-Scissor-Chapter-6-7/app/src/main/res/layout/fragment_register.xml" value="0.44895833333333335" />
+        <entry key="..\:/MBKM/Binar Academy/Chapter 6/Challenge/App/Rock-Paper-Scissor-Chapter-6-7/app/src/main/res/layout/fragment_result_dialog.xml" value="0.25" />
+        <entry key="..\:/MBKM/Binar Academy/Chapter 6/Challenge/App/Rock-Paper-Scissor-Chapter-6-7/app/src/main/res/layout/list_item.xml" value="0.22447916666666667" />
         <entry key="..\:/MBKM/Binar Academy/Chapter 6/Challenge/App/Rock-Paper-Scissor-Chapter-6-7/app/src/main/res/layout/loading_screen.xml" value="0.10916919959473151" />
+        <entry key="..\:/MBKM/Binar Academy/Chapter 6/Challenge/App/Rock-Paper-Scissor-Chapter-6-7/app/src/main/res/layout/team_member_item.xml" value="0.22447916666666667" />
         <entry key="..\:/Studi Independen Kampus Merdeka/Binar Academy Android Engineering/Platinum/challenge/Rock Paper Scissor Chapter 6 And 7/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.24791666666666667" />
         <entry key="..\:/Studi Independen Kampus Merdeka/Binar Academy Android Engineering/Platinum/challenge/Rock Paper Scissor Chapter 6 And 7/app/src/main/res/drawable/ic_launcher_background.xml" value="0.24791666666666667" />
         <entry key="..\:/Studi Independen Kampus Merdeka/Binar Academy Android Engineering/Platinum/challenge/Rock Paper Scissor Chapter 6 And 7/app/src/main/res/layout/activity_game_history.xml" value="0.21829710144927536" />

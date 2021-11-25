@@ -7,10 +7,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.catnip.rockpaperscissorchapter6and7.data.network.model.response.auth.GameHistoryData
 import com.catnip.rockpaperscissorchapter6and7.databinding.CardWinnerItemBinding
+
 import com.catnip.rockpaperscissorchapter6and7.utils.DateConverter
 import java.text.SimpleDateFormat
 
-class RemoteGameHistoryAdapter : RecyclerView.Adapter<RemoteGameHistoryAdapter.RemoteGameHistoryHolder>() {
+class RemoteGameHistoryAdapter :
+    RecyclerView.Adapter<RemoteGameHistoryAdapter.RemoteGameHistoryHolder>() {
 
     private var items: MutableList<GameHistoryData> = mutableListOf()
 
