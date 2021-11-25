@@ -58,6 +58,8 @@
             android:layout_width="0dp"
             android:text="@string/text_player_one"
             android:textStyle="bold"
+            android:maxLines="1"
+            android:ellipsize="end"
             android:textSize="16sp"
             android:textColor="@color/white"
             android:textAlignment="center"

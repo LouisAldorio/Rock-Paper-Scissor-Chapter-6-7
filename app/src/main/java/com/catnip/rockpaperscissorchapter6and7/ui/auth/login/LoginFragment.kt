@@ -20,6 +20,7 @@ import com.catnip.rockpaperscissorchapter6and7.data.network.model.request.auth.A
 import com.catnip.rockpaperscissorchapter6and7.data.network.model.response.auth.UserData
 import com.catnip.rockpaperscissorchapter6and7.data.network.services.AuthApiService
 import com.catnip.rockpaperscissorchapter6and7.databinding.FragmentLoginBinding
+import com.catnip.rockpaperscissorchapter6and7.ui.auth.AuthActivity
 import com.catnip.rockpaperscissorchapter6and7.ui.intro.IntroActivity
 import com.catnip.rockpaperscissorchapter6and7.utils.StringUtils
 import com.shashank.sony.fancytoastlib.FancyToast
@@ -54,9 +55,14 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
                         false,
                         getString(R.string.text_error_login_failed, msg)
                     )
+                    navigateToRegister()
                 }
             }
         })
+    }
+
+    private fun navigateToRegister() {
+        AuthActivity().setViewPager()
     }
 
     private fun saveUsername(data: UserData) {

@@ -21,6 +21,7 @@ import com.catnip.rockpaperscissorchapter6and7.data.network.datasource.auth.Auth
 import com.catnip.rockpaperscissorchapter6and7.data.network.model.request.binar.RegisterRequest
 import com.catnip.rockpaperscissorchapter6and7.data.network.services.AuthApiService
 import com.catnip.rockpaperscissorchapter6and7.databinding.FragmentRegisterBinding
+import com.catnip.rockpaperscissorchapter6and7.ui.auth.AuthActivity
 import com.catnip.rockpaperscissorchapter6and7.utils.StringUtils
 import com.shashank.sony.fancytoastlib.FancyToast
 import kotlinx.coroutines.Dispatchers
@@ -78,6 +79,11 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(
                 getViewBinding().tilName.isErrorEnabled = true
                 getViewBinding().tilName.error = getString(R.string.text_error_name_short)
             }
+            name.count() > 10 -> {
+                isFormValid = false
+                getViewBinding().tilName.isErrorEnabled = true
+                getViewBinding().tilName.error = getString(R.string.text_error_name_long)
+            }
             else -> {
                 getViewBinding().tilName.isErrorEnabled = false
             }
@@ -122,6 +128,7 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(
                         saveToDao(response.data.data.username)
                     }
                     initView()
+                    navigateToLogin()
                 }
                 is Resource.Error -> {
                     showLoading(dialog, false)
@@ -152,6 +159,10 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(
                 }
             }
         })
+    }
+
+    private fun navigateToLogin() {
+        AuthActivity().setViewPager()
     }
 
     private fun saveToDao(userName: String) {
