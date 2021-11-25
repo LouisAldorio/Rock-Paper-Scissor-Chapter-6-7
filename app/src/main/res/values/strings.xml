@@ -82,5 +82,6 @@
     <string name="text_register">REGISTER</string>
     <string name="text_login">LOGIN</string>
     <string name="text_log_out">Log Out %s</string>
+    <string name="text_error_name_long">Name is to long than maximum allowed length (10)</string>
 
 </resources>
